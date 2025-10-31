@@ -2,8 +2,26 @@
 <view class="drift-bottle-container" bindtap="onBottleClick">
   <!-- 底部波纹效果 -->
   <view class="wave-container" animation="{{waveAnimation}}">
-    <view class="wave wave-1"></view>
-    <view class="wave wave-2"></view>
+    <svg viewBox="0 0 320 96" class="wave-svg">
+      <path
+        d="M0,48 Q40,20 80,48 T160,48 T240,48 T320,48"
+        fill="none"
+        stroke="#E89B6D"
+        stroke-width="12"
+        stroke-linecap="round"
+        opacity="0.3"
+        class="wave-path wave-path-1"
+      />
+      <path
+        d="M0,64 Q40,36 80,64 T160,64 T240,64 T320,64"
+        fill="none"
+        stroke="#F8E6D0"
+        stroke-width="10"
+        stroke-linecap="round"
+        opacity="0.25"
+        class="wave-path wave-path-2"
+      />
+    </svg>
   </view>
 
   <!-- 瓶子容器 -->

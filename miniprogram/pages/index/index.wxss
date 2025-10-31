@@ -49,11 +49,7 @@ page {
   justify-content: center;
 }
 
-.icon-user,
-.icon-search {
-  font-size: 48rpx; /* w-6 = 24px × 2 */
-  line-height: 1;
-}
+/* SVG icons are handled by their width/height attributes */
 
 /* 标题区域 */
 .header-section {

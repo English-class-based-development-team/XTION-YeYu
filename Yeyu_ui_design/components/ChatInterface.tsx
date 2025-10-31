@@ -11,9 +11,10 @@ interface Message {
 interface ChatInterfaceProps {
   messages: Message[];
   onSendMessage: (message: Message) => void;
+  showMessages?: boolean;
 }
 
-export function ChatInterface({ messages, onSendMessage }: ChatInterfaceProps) {
+export function ChatInterface({ messages, onSendMessage, showMessages = true }: ChatInterfaceProps) {
   const [input, setInput] = useState("");
 
   const handleSend = () => {
@@ -34,30 +35,32 @@ export function ChatInterface({ messages, onSendMessage }: ChatInterfaceProps) {
 
   return (
     <div className="w-full max-w-2xl mx-auto px-5 pb-8">
-      {/* Messages Preview */}
-      <div className="mb-4 space-y-3 max-h-48 overflow-hidden px-1">
-        <AnimatePresence>
-          {previewMessages.map((message) => (
-            <motion.div
-              key={message.id}
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
-            >
-              <div
-                className={`max-w-[80%] px-5 py-4 text-base ${
-                  message.isUser
-                    ? "bg-[#ff9966] text-white rounded-[20px] rounded-br-md"
-                    : "bg-[#ffe8d9] text-[#2a1a4d] rounded-[20px] rounded-bl-md"
-                }`}
+      {/* Messages Preview - only show if showMessages is true and there are user messages */}
+      {showMessages && messages.some(m => m.isUser) && (
+        <div className="mb-4 space-y-3 max-h-48 overflow-hidden px-1">
+          <AnimatePresence>
+            {previewMessages.map((message) => (
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
               >
-                {message.text}
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+                <div
+                  className={`max-w-[80%] px-5 py-4 text-base ${
+                    message.isUser
+                      ? "bg-[#ff9966] text-white rounded-[20px] rounded-br-md"
+                      : "bg-[#ffe8d9] text-[#2a1a4d] rounded-[20px] rounded-bl-md"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* Input */}
       <div className="flex items-center gap-3 bg-white rounded-[24px] px-5 py-4 shadow-sm border border-gray-100">

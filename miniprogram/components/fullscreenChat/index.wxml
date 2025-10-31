@@ -12,7 +12,10 @@
         <text class="header-subtitle">Psychology Agent</text>
       </view>
       <view class="close-btn" bindtap="onClose">
-        <text class="close-icon">✕</text>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6 6 18" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m6 6 12 12" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </view>
     </view>
 
@@ -63,7 +66,10 @@
             class="send-btn {{input ? '' : 'disabled'}}"
             bindtap="onSend"
           >
-            <text class="send-icon">→</text>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="m22 2-7 20-4-9-9-4 20-7z" fill="white"/>
+              <path d="m22 2-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </view>
         </view>
       </view>

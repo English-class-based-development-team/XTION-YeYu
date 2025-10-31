@@ -5,14 +5,20 @@
     <!-- 左上角 Profile 按钮 -->
     <view class="nav-button" bindtap="onProfileClick">
       <view class="nav-icon">
-        <text class="icon-user">👤</text>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="7" r="4" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </view>
     </view>
 
     <!-- 右上角 Search 按钮 -->
     <view class="nav-button" bindtap="onSearchClick">
       <view class="nav-icon">
-        <text class="icon-search">🔍</text>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="8" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m21 21-4.35-4.35" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </view>
     </view>
   </view>
@@ -53,5 +59,12 @@
     bindmessagesupdate="onChatMessagesUpdate"
   ></fullscreen-chat>
 
-  <!-- TODO: ResonanceWall 模态框（阶段四实现） -->
+  <!-- ResonanceWall 模态框 -->
+  <resonance-wall
+    wx:if="{{showResonanceWall}}"
+    show="{{showResonanceWall}}"
+    userTag="{{userEmotion.tag}}"
+    userContent="{{userEmotion.content}}"
+    bindcomplete="onCloseResonanceWall"
+  ></resonance-wall>
 </view>

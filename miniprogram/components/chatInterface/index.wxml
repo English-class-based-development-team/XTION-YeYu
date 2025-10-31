@@ -29,7 +29,10 @@
         class="send-btn {{input ? '' : 'disabled'}}"
         bindtap="onSend"
       >
-        <text class="send-icon">→</text>
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="m22 2-7 20-4-9-9-4 20-7z" fill="white"/>
+          <path d="m22 2-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </view>
     </view>
   </view>

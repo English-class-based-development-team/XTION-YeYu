@@ -1,5 +1,8 @@
-import { motion } from "motion/react";
-import { Clock } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Clock, X } from "lucide-react";
+import { ResonanceDetail } from "./ResonanceDetail";
+import { EMOTION_TAGS_CN } from "../constants/emotions";
 
 interface ResonanceItem {
   id: string;
@@ -14,25 +17,29 @@ interface ResonanceWallProps {
   userContent: string;
 }
 
-// 生成共鸣数据
+// 生成共鸣数据 - 使用固定的情感标签
 const generateResonanceData = (userTag: string): ResonanceItem[] => {
   const resonances = [
-    { tag: "寻找平静", content: "今天感觉心里很乱，希望能找到一个安静的角落，让自己的思绪沉淀下来。", timeAgo: "2小时前" },
-    { tag: "需要倾诉", content: "有些话憋在心里太久了，真想找个人好好聊聊，把这些情绪都说出来。", timeAgo: "5小时前" },
-    { tag: "渴望理解", content: "总觉得没人能真正理解我的感受，这种孤独感让我很难受。", timeAgo: "1天前" },
-    { tag: "寻求支持", content: "最近压力好大，需要一些鼓励和支持，让我知道我不是一个人在战斗。", timeAgo: "3小时前" },
-    { tag: "情绪低落", content: "不知道为什么，就是感觉很累，什么都不想做，只想静静待着。", timeAgo: "6小时前" },
-    { tag: "焦虑不安", content: "对未来感到很迷茫，不知道自己在做什么，该往哪里去。", timeAgo: "2天前" },
-    { tag: "需要陪伴", content: "有时候真的很需要有人在身边，哪怕什么都不说，只是陪着也好。", timeAgo: "4小时前" },
-    { tag: "寻找方向", content: "感觉自己像迷失在森林里，找不到出路，希望有人能给我一些指引。", timeAgo: "1天前" },
-    { tag: "情感困惑", content: "心里有很多矛盾的感受，不知道该如何处理这些复杂的情绪。", timeAgo: "7小时前" },
-    { tag: "渴望成长", content: "虽然现在很难，但我相信这些经历会让我变得更强大。", timeAgo: "3天前" },
-    { tag: "自我怀疑", content: "总是在怀疑自己，觉得自己不够好，不够优秀。", timeAgo: "5小时前" },
-    { tag: "寻求安慰", content: "今天真的很难过，需要一些温暖的话语来治愈我的心。", timeAgo: "8小时前" },
-    { tag: "孤独感", content: "周围有很多人，但还是感觉很孤单，好像没人真正懂我。", timeAgo: "2天前" },
-    { tag: "希望改变", content: "不想再这样下去了，想要做出一些改变，让生活变得更好。", timeAgo: "4天前" },
-    { tag: "情绪释放", content: "今天终于把压抑已久的情绪都释放出来了，感觉轻松了很多。", timeAgo: "6小时前" },
-    { tag: "寻找力量", content: "虽然很累，但我还是要继续前进，为了更好的自己。", timeAgo: "1天前" },
+    { tag: EMOTION_TAGS_CN['calm'], content: "今天感觉心里很乱，希望能找到一个安静的角落，让自己的思绪沉淀下来。", timeAgo: "2小时前" },
+    { tag: EMOTION_TAGS_CN['sad'], content: "有些话憋在心里太久了，真想找个人好好聊聊，把这些情绪都说出来。", timeAgo: "5小时前" },
+    { tag: EMOTION_TAGS_CN['lonely'], content: "总觉得没人能真正理解我的感受，这种孤独感让我很难受。", timeAgo: "1天前" },
+    { tag: EMOTION_TAGS_CN['anxious'], content: "最近压力好大，需要一些鼓励和支持，让我知道我不是一个人在战斗。", timeAgo: "3小时前" },
+    { tag: EMOTION_TAGS_CN['tired'], content: "不知道为什么，就是感觉很累，什么都不想做，只想静静待着。", timeAgo: "6小时前" },
+    { tag: EMOTION_TAGS_CN['anxious'], content: "对未来感到很迷茫，不知道自己在做什么，该往哪里去。", timeAgo: "2天前" },
+    { tag: EMOTION_TAGS_CN['lonely'], content: "有时候真的很需要有人在身边，哪怕什么都不说，只是陪着也好。", timeAgo: "4小时前" },
+    { tag: EMOTION_TAGS_CN['confused'], content: "感觉自己像迷失在森林里，找不到出路，希望有人能给我一些指引。", timeAgo: "1天前" },
+    { tag: EMOTION_TAGS_CN['confused'], content: "心里有很多矛盾的感受，不知道该如何处理这些复杂的情绪。", timeAgo: "7小时前" },
+    { tag: EMOTION_TAGS_CN['hopeful'], content: "虽然现在很难，但我相信这些经历会让我变得更强大。", timeAgo: "3天前" },
+    { tag: EMOTION_TAGS_CN['sad'], content: "总是在怀疑自己，觉得自己不够好，不够优秀。", timeAgo: "5小时前" },
+    { tag: EMOTION_TAGS_CN['sad'], content: "今天真的很难过，需要一些温暖的话语来治愈我的心。", timeAgo: "8小时前" },
+    { tag: EMOTION_TAGS_CN['lonely'], content: "周围有很多人，但还是感觉很孤单，好像没人真正懂我。", timeAgo: "2天前" },
+    { tag: EMOTION_TAGS_CN['hopeful'], content: "不想再这样下去了，想要做出一些改变，让生活变得更好。", timeAgo: "4天前" },
+    { tag: EMOTION_TAGS_CN['happy'], content: "今天终于把压抑已久的情绪都释放出来了，感觉轻松了很多。", timeAgo: "6小时前" },
+    { tag: EMOTION_TAGS_CN['hopeful'], content: "虽然很累，但我还是要继续前进，为了更好的自己。", timeAgo: "1天前" },
+    { tag: EMOTION_TAGS_CN['fearful'], content: "害怕未知的事情会发生，但我知道我需要勇敢面对。", timeAgo: "9小时前" },
+    { tag: EMOTION_TAGS_CN['grateful'], content: "感谢生命中所有的遇见，让我成为更好的自己。", timeAgo: "1天前" },
+    { tag: EMOTION_TAGS_CN['angry'], content: "有些事情真的让我很生气，但我在学着控制情绪。", timeAgo: "4小时前" },
+    { tag: EMOTION_TAGS_CN['excited'], content: "对明天充满期待，感觉有很多美好的事情在等着我。", timeAgo: "3小时前" },
   ];
 
   return resonances.map((item, index) => ({
@@ -43,10 +50,16 @@ const generateResonanceData = (userTag: string): ResonanceItem[] => {
 
 export function ResonanceWall({ onComplete, userTag, userContent }: ResonanceWallProps) {
   const resonances = generateResonanceData(userTag);
+  const [selectedResonance, setSelectedResonance] = useState<ResonanceItem | null>(null);
   
   // 分成两列
   const leftColumn = resonances.filter((_, i) => i % 2 === 0);
   const rightColumn = resonances.filter((_, i) => i % 2 === 1);
+
+  const handleResonanceClick = (item: ResonanceItem, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedResonance(item);
+  };
 
   return (
     <motion.div
@@ -55,6 +68,17 @@ export function ResonanceWall({ onComplete, userTag, userContent }: ResonanceWal
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      {/* Close button */}
+      <motion.button
+        onClick={onComplete}
+        className="absolute top-5 right-5 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center z-50 hover:bg-gray-50 transition-colors active:scale-95"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.5, duration: 0.3 }}
+      >
+        <X className="w-6 h-6 text-[#2a1a4d]" strokeWidth={3} />
+      </motion.button>
+
       {/* User's bubble floating up and disappearing */}
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
@@ -96,7 +120,7 @@ export function ResonanceWall({ onComplete, userTag, userContent }: ResonanceWal
 
       {/* Scrolling resonance cards - Two columns */}
       <motion.div
-        className="absolute inset-x-0 flex gap-4 px-4"
+        className="absolute inset-x-0 flex gap-4 px-4 z-30"
         initial={{ y: window.innerHeight }}
         animate={{ y: -resonances.length * 160 }}
         transition={{
@@ -110,10 +134,11 @@ export function ResonanceWall({ onComplete, userTag, userContent }: ResonanceWal
           {leftColumn.map((item, index) => (
             <motion.div
               key={item.id}
-              className="bg-white rounded-[24px] p-5 shadow-lg"
+              className="bg-white rounded-[24px] p-5 shadow-lg cursor-pointer hover:shadow-xl transition-shadow active:scale-98"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.5 + index * 0.1 }}
+              onClick={(e) => handleResonanceClick(item, e)}
             >
               {/* Tag and time */}
               <div className="flex items-center justify-between mb-3">
@@ -139,10 +164,11 @@ export function ResonanceWall({ onComplete, userTag, userContent }: ResonanceWal
           {rightColumn.map((item, index) => (
             <motion.div
               key={item.id}
-              className="bg-white rounded-[24px] p-5 shadow-lg"
+              className="bg-white rounded-[24px] p-5 shadow-lg cursor-pointer hover:shadow-xl transition-shadow active:scale-98"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.5 + index * 0.1 + 0.05 }}
+              onClick={(e) => handleResonanceClick(item, e)}
             >
               {/* Tag and time */}
               <div className="flex items-center justify-between mb-3">
@@ -164,21 +190,19 @@ export function ResonanceWall({ onComplete, userTag, userContent }: ResonanceWal
         </div>
       </motion.div>
 
-      {/* Close hint */}
-      <motion.div
-        className="absolute bottom-8 left-0 right-0 text-center z-20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.6 }}
-      >
-        <p className="text-[#2a1a4d]/60 text-sm">轻触任意位置返回</p>
-      </motion.div>
 
-      {/* Tap to close */}
-      <div
-        className="absolute inset-0 cursor-pointer"
-        onClick={onComplete}
-      />
+
+      {/* Resonance Detail Modal */}
+      <AnimatePresence>
+        {selectedResonance && (
+          <ResonanceDetail
+            tag={selectedResonance.tag}
+            content={selectedResonance.content}
+            timeAgo={selectedResonance.timeAgo}
+            onClose={() => setSelectedResonance(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
