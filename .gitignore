@@ -12,3 +12,23 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+
+# .cursor
+.cursor
+
+# .vscode
+.vscode
+
+# LLM Backend
+llm/config.py
+llm/data/
+llm/__pycache__/
+llm/*.pyc
+llm/.pytest_cache/
+
+# FAISS 索引文件
+llm/data/faiss_indexes/
+
+# test 文件
+llm/test
+test_data
