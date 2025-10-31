@@ -1,0 +1,5 @@
+<!--pages/profile/index.wxml-->
+<view class="container">
+  <text>个人中心页面</text>
+</view>
+
