@@ -1,0 +1,43 @@
+<!--pages/test/index.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">单元测试</text>
+    <text class="subtitle">运行所有工具函数的测试</text>
+  </view>
+
+  <view class="actions">
+    <button class="btn btn-primary" bindtap="runAllTests" disabled="{{isRunning}}">
+      {{isRunning ? '测试中...' : '运行所有测试'}}
+    </button>
+    <button class="btn btn-secondary" bindtap="viewConsole">
+      查看控制台
+    </button>
+  </view>
+
+  <view class="results" wx:if="{{testResults}}">
+    <view class="result-item">
+      <text class="label">总测试数:</text>
+      <text class="value">{{testResults.totalTests}}</text>
+    </view>
+    <view class="result-item">
+      <text class="label">通过:</text>
+      <text class="value success">{{testResults.totalPassed}}</text>
+    </view>
+    <view class="result-item">
+      <text class="label">失败:</text>
+      <text class="value error">{{testResults.totalFailed}}</text>
+    </view>
+    <view class="result-item">
+      <text class="label">成功率:</text>
+      <text class="value">{{testResults.successRate}}</text>
+    </view>
+  </view>
+
+  <view class="tips">
+    <text class="tip-title">提示:</text>
+    <text class="tip-text">1. 点击"运行所有测试"执行测试</text>
+    <text class="tip-text">2. 详细的测试输出请查看控制台（Console）</text>
+    <text class="tip-text">3. 测试包括：匿名ID生成、情绪相似度计算、数据验证、错误处理</text>
+  </view>
+</view>
+

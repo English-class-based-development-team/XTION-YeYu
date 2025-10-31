@@ -4,7 +4,8 @@
     "pages/publish/index",
     "pages/profile/index",
     "pages/index/index",
-    "pages/example/index"
+    "pages/example/index",
+    "pages/test/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
