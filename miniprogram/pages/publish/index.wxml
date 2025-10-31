@@ -1,0 +1,5 @@
+<!--pages/publish/index.wxml-->
+<view class="container">
+  <text>发布页面</text>
+</view>
+

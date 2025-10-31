@@ -1,0 +1,5 @@
+<!--pages/feed/index.wxml-->
+<view class="container">
+  <text>共鸣流页面</text>
+</view>
+

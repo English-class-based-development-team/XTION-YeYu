@@ -1,0 +1,5 @@
+/* pages/publish/index.wxss */
+.container {
+  padding: 20rpx;
+}
+
