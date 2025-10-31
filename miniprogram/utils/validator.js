@@ -100,6 +100,53 @@ function validateContent(content) {
 }
 
 /**
+ * 验证标签
+ * @param {String} tag - 标签文本
+ * @returns {Object} 验证结果 {valid: boolean, message: string}
+ */
+function validateTag(tag) {
+  // 检查参数是否存在
+  if (tag === undefined || tag === null) {
+    return {
+      valid: false,
+      message: '标签不能为空',
+    };
+  }
+
+  // 检查是否为字符串
+  if (typeof tag !== 'string') {
+    return {
+      valid: false,
+      message: '标签必须是字符串',
+    };
+  }
+
+  // 去除首尾空格后检查
+  const trimmedTag = tag.trim();
+
+  // 检查是否为空
+  if (trimmedTag.length === 0) {
+    return {
+      valid: false,
+      message: '标签不能为空',
+    };
+  }
+
+  // 检查长度（按字符数）
+  if (trimmedTag.length > TEXT_LIMIT.MAX_TAG_LENGTH) {
+    return {
+      valid: false,
+      message: `标签长度不能超过${TEXT_LIMIT.MAX_TAG_LENGTH}个字符`,
+    };
+  }
+
+  return {
+    valid: true,
+    message: '验证通过',
+  };
+}
+
+/**
  * 验证帖子数据完整性
  * @param {Object} data - 帖子数据对象
  * @returns {Object} 验证结果 {valid: boolean, message: string}
@@ -191,6 +238,7 @@ function validateCommentData(data) {
 module.exports = {
   validateEmotion,
   validateContent,
+  validateTag,
   validatePostData,
   validateCommentData,
 };

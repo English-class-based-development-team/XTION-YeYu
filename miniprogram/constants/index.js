@@ -15,6 +15,7 @@ const EMOTION = {
 const TEXT_LIMIT = {
   MAX_CONTENT_LENGTH: 300,
   MIN_CONTENT_LENGTH: 1,
+  MAX_TAG_LENGTH: 10,
 };
 
 // Mock API接口常量

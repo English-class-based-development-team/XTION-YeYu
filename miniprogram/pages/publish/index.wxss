@@ -1,5 +1,168 @@
 /* pages/publish/index.wxss */
 .container {
-  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* 参考 CreateMessageCard 设计：px-5 = 20px = 40rpx（左右padding） */
+  padding: 40rpx 40rpx;
+  /* 调整最大宽度为更窄的尺寸，提升视觉效果 */
+  max-width: 650rpx;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 情绪标签气泡样式（基于 CreateMessageCard 设计） */
+/* 严格按照设计：px-5 py-2.5 → padding: 10px 20px → 20rpx 40rpx */
+/* rounded-[18px] → border-radius: 18px → 36rpx */
+/* text-sm → font-size: 14px → 28rpx */
+.tag-bubble {
+  margin-bottom: 24rpx; /* mb-3 = 12px = 24rpx */
+  padding: 20rpx 40rpx; /* py-2.5 px-5 = 10px 20px = 20rpx 40rpx */
+  background: linear-gradient(to right, #ff9966, #ff8855);
+  border-radius: 36rpx; /* rounded-[18px] = 18px = 36rpx */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+}
+
+.tag-text {
+  color: #ffffff; /* text-white */
+  font-size: 28rpx; /* text-sm = 14px = 28rpx */
+  font-weight: 600; /* font-semibold */
+  text-align: center;
+  display: block;
+}
+
+.tag-input {
+  color: #ffffff; /* text-white */
+  font-size: 28rpx; /* text-sm = 14px = 28rpx */
+  font-weight: 600; /* font-semibold */
+  text-align: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+/* 文本输入卡片样式（基于 CreateMessageCard 设计） */
+/* 严格按照设计：rounded-[32px] → border-radius: 32px → 64rpx */
+/* p-8 → padding: 32px → 64rpx */
+/* min-h-[180px] → min-height: 180px → 360rpx */
+/* text-base → font-size: 16px → 32rpx */
+/* leading-relaxed → line-height: 1.625 */
+.content-card {
+  width: 100%;
+  background-color: #ffffff; /* bg-white */
+  border-radius: 64rpx; /* rounded-[32px] = 32px × 2 = 64rpx */
+  padding: 64rpx; /* p-8 = 32px × 2 = 64rpx */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+  min-height: 360rpx; /* min-h-[180px] = 180px × 2 = 360rpx */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 文本包装器 */
+.content-text-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240rpx; /* 确保有足够的高度显示文本 */
+}
+
+/* 正常文本样式 */
+.content-text {
+  color: #2a1a4d; /* text-[#2a1a4d] */
+  font-size: 32rpx; /* text-base = 16px × 2 = 32rpx */
+  line-height: 1.625; /* leading-relaxed */
+  text-align: center; /* text-center */
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* 占位符文本样式 */
+.content-text.placeholder {
+  color: rgba(42, 26, 77, 0.4); /* text-[#2a1a4d]/40 */
+}
+
+/* 编辑模式 textarea 样式 */
+.content-textarea {
+  width: 100%;
+  min-height: 240rpx; /* 确保有足够的高度 */
+  color: #2a1a4d; /* text-[#2a1a4d] */
+  font-size: 32rpx; /* text-base = 16px × 2 = 32rpx */
+  line-height: 1.625; /* leading-relaxed */
+  text-align: center; /* text-center */
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 0;
+}
+
+/* 字数统计样式 */
+.content-length {
+  position: absolute;
+  bottom: 32rpx; /* 距离底部一定距离 */
+  right: 32rpx; /* 距离右侧一定距离 */
+  margin-top: 16rpx;
+}
+
+.length-text {
+  color: rgba(42, 26, 77, 0.4); /* text-[#2a1a4d]/40 */
+  font-size: 24rpx; /* 较小的字体 */
+}
+
+.length-text.length-warning {
+  color: #ff4757; /* 达到上限时显示警告色 */
+}
+
+/* 发布按钮样式（基于 CreateMessageCard 设计） */
+/* 严格按照设计：px-8 py-4 → padding: 16px 32px → 32rpx 64rpx */
+/* rounded-[24px] → border-radius: 24px → 48rpx */
+/* text-base → font-size: 16px → 32rpx */
+/* mt-5 → margin-top: 20px → 40rpx */
+/* Send icon: w-5 h-5 → width: 20px height: 20px → 40rpx 40rpx */
+.submit-btn {
+  margin-top: 40rpx; /* mt-5 = 20px × 2 = 40rpx */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20rpx; /* gap-2.5 = 10px × 2 = 20rpx */
+  padding: 32rpx 64rpx; /* py-4 px-8 = 16px 32px × 2 = 32rpx 64rpx */
+  background: linear-gradient(to right, #E89B6D, #F3B89A);
+  border-radius: 48rpx; /* rounded-[24px] = 24px × 2 = 48rpx */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  border: none;
+  outline: none;
+  width: auto;
+  transition: all 0.2s ease;
+}
+
+.submit-btn::after {
+  border: none; /* 移除小程序默认按钮边框 */
+}
+
+.submit-btn.button-hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* hover:shadow-xl */
+  transform: scale(0.98); /* active:scale-95 的替代方案 */
+}
+
+.submit-btn.disabled {
+  opacity: 0.5; /* disabled:opacity-50 */
+}
+
+.submit-icon {
+  color: #ffffff; /* text-white */
+  font-size: 40rpx; /* w-5 h-5 的替代方案 */
+  line-height: 1;
+}
+
+.submit-text {
+  color: #ffffff; /* text-white */
+  font-size: 32rpx; /* text-base = 16px × 2 = 32rpx */
+  font-weight: 600; /* font-semibold */
 }
 

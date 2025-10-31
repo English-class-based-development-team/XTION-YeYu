@@ -325,7 +325,7 @@ function testCodeQuality() {
     try {
       // 验证关键模块的导出
       const anonymousId = require('../utils/anonymousId.js');
-      assertTrue(typeof anonymousId.generateAnonymousId === 'function', 'generateAnonymousId应该导出');
+      assertTrue(typeof anonymousId.getAnonymousId === 'function', 'getAnonymousId应该导出');
       
       const emotionSimilarity = require('../utils/emotionSimilarity.js');
       assertTrue(typeof emotionSimilarity.calculateSimilarity === 'function', 'calculateSimilarity应该导出');
