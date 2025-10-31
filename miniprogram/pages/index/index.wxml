@@ -1,29 +1,57 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="title">快速了解云开发</view>
-  <view class="top_tip">免鉴权接口调用 免部署后台 高并发</view>
-  <view class="power" wx:key="title" wx:for="{{powerList}}" wx:for-item="power">
-    <view class="power_info" data-index="{{index}}" data-type="{{ power.type }}" bindtap="onClickPowerInfo">
-      <view class="power_info_text">
-        <view class="power_info_text_title">
-          {{power.title}}
-          <view class="power_info_text_tag" wx:if="{{power.tag}}">{{power.tag}}</view>
-        </view>
-        <view class="power_info_text_tip">{{power.tip}}</view>
+<!--pages/index/index.wxml-->
+<view class="page-container">
+  <!-- 顶部导航按钮 -->
+  <view class="top-nav" style="padding-top: {{statusBarHeight}}px;">
+    <!-- 左上角 Profile 按钮 -->
+    <view class="nav-button" bindtap="onProfileClick">
+      <view class="nav-icon">
+        <text class="icon-user">👤</text>
       </view>
-      <image wx:if="{{!power.showItem && power.item.length}}" class="power_info_more" src="../../images/arrow.svg"></image>
-      <image wx:if="{{power.showItem && power.item.length}}" class="power_info_less" src="../../images/arrow.svg"></image>
-      <image wx:if="{{!power.item.length}}" class="power_item_icon" src="../../images/arrow.svg"></image>
     </view>
-    <view wx:if="{{power.showItem}}">
-      <view wx:key="title" wx:for="{{power.item}}">
-        <view class="line"></view>
-        <view class="power_item" bindtap="jumpPage" data-type="{{ item.type }}" data-page="{{item.page}}">
-          <view class="power_item_title">{{item.title}}</view>
-          <image class="power_item_icon" src="../../images/arrow.svg"></image>
-        </view>
+
+    <!-- 右上角 Search 按钮 -->
+    <view class="nav-button" bindtap="onSearchClick">
+      <view class="nav-icon">
+        <text class="icon-search">🔍</text>
       </view>
     </view>
   </view>
-  <cloud-tip-modal showTipProps="{{showTip}}" title="{{title}}" content="{{content}}"></cloud-tip-modal>
+
+  <!-- 标题区域 -->
+  <view class="header-section">
+    <view class="main-title">夜语</view>
+    <view class="subtitle">你的情绪共鸣空间</view>
+  </view>
+
+  <!-- DriftBottle 容器（居中） -->
+  <view class="bottle-container">
+    <drift-bottle bindclick="onDriftBottleClick"></drift-bottle>
+  </view>
+
+  <!-- 底部 ChatInterface -->
+  <view class="chat-container">
+    <chat-interface 
+      messages="{{chatMessages}}"
+      bindsend="onChatSend"
+    ></chat-interface>
+  </view>
+
+  <!-- CreateMessageCard 模态框 -->
+  <create-message-card
+    wx:if="{{showCreateMessageCard}}"
+    show="{{showCreateMessageCard}}"
+    bindclose="onCloseCreateMessageCard"
+    bindsend="onCreateMessageSend"
+  ></create-message-card>
+
+  <!-- FullscreenChat 模态框 -->
+  <fullscreen-chat
+    wx:if="{{showFullscreenChat}}"
+    show="{{showFullscreenChat}}"
+    initialMessages="{{chatMessages}}"
+    bindclose="onCloseFullscreenChat"
+    bindmessagesupdate="onChatMessagesUpdate"
+  ></fullscreen-chat>
+
+  <!-- TODO: ResonanceWall 模态框（阶段四实现） -->
 </view>

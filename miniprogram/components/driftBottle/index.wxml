@@ -1,0 +1,65 @@
+<!--components/driftBottle/index.wxml-->
+<view class="drift-bottle-container" bindtap="onBottleClick">
+  <!-- 底部波纹效果 -->
+  <view class="wave-container" animation="{{waveAnimation}}">
+    <view class="wave wave-1"></view>
+    <view class="wave wave-2"></view>
+  </view>
+
+  <!-- 瓶子容器 -->
+  <view class="bottle-wrapper" animation="{{floatAnimation}}">
+    <!-- 瓶塞 -->
+    <view class="cork">
+      <view class="cork-line"></view>
+    </view>
+
+    <!-- 瓶颈 -->
+    <view class="bottle-neck">
+      <view class="neck-shine"></view>
+    </view>
+
+    <!-- 瓶身主体 -->
+    <view class="bottle-body">
+      <!-- 基础渐变 -->
+      <view class="body-gradient"></view>
+      
+      <!-- 流光效果 -->
+      <view class="flowing-light"></view>
+      
+      <!-- 左上高光 -->
+      <view class="top-shine"></view>
+      
+      <!-- 瓶内信纸 -->
+      <view class="message-paper">
+        <!-- 纸张折角 -->
+        <view class="paper-fold"></view>
+        
+        <!-- Plus图标 -->
+        <view class="plus-icon-container">
+          <text class="plus-icon">+</text>
+        </view>
+        
+        <!-- 装饰线条 -->
+        <view class="decorative-lines">
+          <view class="line line-1"></view>
+          <view class="line line-2"></view>
+          <view class="line line-3"></view>
+        </view>
+      </view>
+
+      <!-- 底部光晕 -->
+      <view class="bottom-glow"></view>
+    </view>
+
+    <!-- 瓶底 -->
+    <view class="bottle-bottom"></view>
+
+    <!-- 柔和阴影 -->
+    <view class="bottle-shadow"></view>
+  </view>
+
+  <!-- 浮光粒子 -->
+  <view class="particle particle-1"></view>
+  <view class="particle particle-2"></view>
+  <view class="particle particle-3"></view>
+</view>

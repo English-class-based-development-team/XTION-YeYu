@@ -1,0 +1,71 @@
+<!--components/createMessageCard/index.wxml-->
+<view 
+  class="create-message-modal {{animationClass}}" 
+  wx:if="{{show}}"
+  catchtouchmove="true"
+>
+  <!-- 背景遮罩 -->
+  <view class="backdrop" bindtap="onBackdropClick"></view>
+
+  <!-- 卡片容器 -->
+  <view class="card-container" catchtap="preventClose">
+    <!-- 情绪标签气泡（可编辑） -->
+    <view class="tag-bubble" wx:if="{{!isEditingTag}}" bindtap="onTagClick">
+      <text class="tag-text">{{tag}}</text>
+    </view>
+    <view class="tag-bubble tag-editing" wx:if="{{isEditingTag}}">
+      <input 
+        class="tag-input"
+        value="{{tag}}"
+        focus="{{isEditingTag}}"
+        maxlength="10"
+        bindinput="onTagInput"
+        bindblur="onTagBlur"
+        bindconfirm="onTagConfirm"
+      />
+    </view>
+
+    <!-- 内容卡片（可编辑） -->
+    <view class="content-card" bindtap="onContentClick">
+      <!-- 非编辑模式 -->
+      <view class="content-display" wx:if="{{!isEditingContent}}">
+        <text class="content-text {{content === '' || content === contentPlaceholder ? 'placeholder' : ''}}">
+          {{content === '' ? contentPlaceholder : content}}
+        </text>
+      </view>
+
+      <!-- 编辑模式 -->
+      <textarea 
+        wx:if="{{isEditingContent}}"
+        class="content-textarea"
+        value="{{content}}"
+        placeholder="{{contentPlaceholder}}"
+        placeholder-class="content-placeholder"
+        maxlength="300"
+        auto-height
+        focus="{{isEditingContent}}"
+        bindinput="onContentInput"
+        bindblur="onContentBlur"
+        bindfocus="onContentFocus"
+      ></textarea>
+
+      <!-- 字数统计（仅编辑模式显示） -->
+      <view class="character-count" wx:if="{{isEditingContent}}">
+        <text class="count-text {{contentLength >= 300 ? 'warning' : ''}}">
+          {{contentLength}}/300
+        </text>
+      </view>
+    </view>
+
+    <!-- 提交按钮 -->
+    <button
+      class="submit-btn {{canSubmit ? '' : 'disabled'}}"
+      disabled="{{!canSubmit}}"
+      loading="{{isSubmitting}}"
+      bindtap="onSubmit"
+    >
+      <text class="submit-icon" wx:if="{{!isSubmitting}}">➤</text>
+      <text class="submit-text">{{isSubmitting ? '发送中...' : '发送到漂流瓶'}}</text>
+    </button>
+  </view>
+</view>

@@ -108,99 +108,316 @@
 
 ---
 
-### 阶段二：情绪表达与发布功能
+### 阶段二：主界面与发布功能（基于 Yeyu_ui_design）
 
-#### 2.1 情绪标签选择组件开发（基于 CreateMessageCard 设计）
-- [ ] 设计情绪标签选择 UI
-  - [ ] 实现情绪标签气泡样式（参考 CreateMessageCard 中的 tag 气泡）
-  - [ ] 使用渐变背景（`from-[#ff9966] to-[#ff8855]`）
-  - [ ] 实现大圆角设计（`rounded-[18px]`）
-  - [ ] 实现阴影效果（`shadow-lg`）
-  - [ ] 实现标签文字样式（白色文字 `text-white`，`text-sm font-semibold`）
-  - [ ] 实现标签内边距（`px-5 py-2.5`）
-  - [ ] 实现标签点击编辑功能（可编辑文本，最大长度10字符）
-  - [ ] 实现标签与卡片间距（`mb-3`）
-  - [ ] 优化触摸响应性能（< 200ms）
-- [ ] 实现情绪标签到情绪值的映射逻辑
+**⚠️ 重要变更**：从本阶段开始，项目架构调整为单页面模态框架构（不使用 tabBar），主屏幕使用 DriftBottle 组件作为入口，导航通过角落按钮实现。
+
+#### 2.1 主页面布局与 DriftBottle 组件开发
+- [ ] 移除 tabBar 导航配置
+  - [ ] 更新 `app.json`，移除 tabBar 配置
+  - [ ] 创建单一主页面（`pages/index/`）作为应用入口
+  - [ ] **测试**：测试应用启动后进入主页面
+- [ ] 实现主页面布局（参考 `Yeyu_ui_design/App.tsx`）
+  - [ ] 实现背景色（`bg-[#fef8f3]`）
+  - [ ] 实现顶部导航按钮区域
+    - [ ] 左上角：Profile 按钮
+      - [ ] 尺寸：`w-14 h-14`（转换为 `width: 112rpx; height: 112rpx;`）
+      - [ ] 背景：`bg-white`
+      - [ ] 圆角：`rounded-[18px]`（转换为 `border-radius: 36rpx;`）
+      - [ ] 阴影：`shadow-sm`
+      - [ ] 图标：User 图标，`w-6 h-6`，`text-[#2a1a4d]`，strokeWidth 3
+      - [ ] 交互：点击显示 toast "功能开发中"
+    - [ ] 右上角：Search 按钮（样式同 Profile 按钮）
+      - [ ] 图标：Search 图标
+      - [ ] 交互：点击显示 toast "功能开发中"
+  - [ ] 实现页面标题区域
+    - [ ] 位置：`pt-24 pb-6 px-6 text-left`
+    - [ ] 主标题："夜语" 或 "Psychology Agent"
+      - [ ] 样式：`text-[#2a1a4d] text-4xl mb-1`（转换为 `font-size: 72rpx;`）
+    - [ ] 副标题："你的情绪共鸣空间" 或 "Your personal wellness companion"
+      - [ ] 样式：`text-[#2a1a4d]/60 text-lg`
+  - [ ] 实现 DriftBottle 容器区域
+    - [ ] 布局：`flex-1 flex items-center justify-center`
+    - [ ] 将 DriftBottle 组件居中显示
+  - [ ] **测试**：测试页面布局在不同屏幕尺寸下的显示
+- [ ] 实现 DriftBottle 组件（参考 `Yeyu_ui_design/components/DriftBottle.tsx`）
+  - [ ] **⚠️ 强制要求**：必须先阅读 `Yeyu_ui_design/components/DriftBottle.tsx` 源代码
+  - [ ] 实现瓶子容器
+    - [ ] 尺寸：`w-72 h-96`（转换为 `width: 576rpx; height: 768rpx;`）
+    - [ ] 位置：相对定位
+    - [ ] 点击：触发打开 CreateMessageCard 模态框
+  - [ ] 实现波纹效果（底部）
+    - [ ] 位置：`absolute bottom-8 left-1/2 -translate-x-1/2`
+    - [ ] 尺寸：`w-80 h-24`
+    - [ ] 使用 SVG 绘制波纹路径
+    - [ ] 动画：scaleX [1, 1.15, 1], opacity [0.4, 0.6, 0.4]
+    - [ ] 时长：3.5s infinite
+    - [ ] 颜色：`#E89B6D` 和 `#F8E6D0`
+  - [ ] 实现瓶子结构
+    - [ ] 瓶塞：`w-14 h-7`，渐变 `from-[#8B5A3C] to-[#6B4A2C]`，`rounded-t-[16px]`
+    - [ ] 瓶颈：`w-11 h-16`，渐变 `from-[#E89B6D]/70 to-[#F3B89A]/80`
+    - [ ] 瓶身：`w-36 h-40`，`rounded-[32px]`，渐变 `from-[#E89B6D]/85 via-[#F3B89A]/75 to-[#F8E6D0]/70`
+    - [ ] 瓶底：`w-36 h-10`，渐变 `from-[#E89B6D]/80 to-[#D88A5D]/70`，`rounded-b-[32px]`
+  - [ ] 实现玻璃效果
+    - [ ] 流光效果：opacity 动画 [0.4, 0.7, 0.4]
+    - [ ] 左上高光：白色渐变模糊
+    - [ ] 底部光晕：white/40 blur
+  - [ ] 实现瓶内信纸
+    - [ ] 尺寸：`w-24 h-28`
+    - [ ] 背景：渐变 `from-[#fff5eb] to-[#ffe8d5]`
+    - [ ] 圆角：`rounded-[14px]`
+    - [ ] 旋转动画：[-4deg, -2deg, -4deg]，duration 5s
+    - [ ] Plus 图标：
+      - [ ] 容器：`w-12 h-12 rounded-full bg-[#E89B6D]/20`
+      - [ ] 图标：stroke `#E89B6D`，strokeWidth 2.5
+    - [ ] 装饰线条（3条水平线，不同宽度）
+  - [ ] 实现漂浮动画
+    - [ ] 瓶子主体：y [0, -12, 0]，rotate [-1.5deg, 1.5deg, -1.5deg]
+    - [ ] 时长：5s infinite easeInOut
+    - [ ] 信纸：独立旋转动画
+  - [ ] 实现浮光粒子（3个）
+    - [ ] 位置：不同的位置分布
+    - [ ] 动画：y 向上移动，opacity [0.7→0]，scale 变化
+    - [ ] 时长：不同的时长（4s, 5s, 4.5s）和延迟
+    - [ ] 渐变颜色：`from-[#F8E6D0] to-[#E89B6D]`
+  - [ ] 实现瓶子阴影
+    - [ ] 柔和阴影效果
+  - [ ] **测试**：
+    - [ ] 测试瓶子点击打开 CreateMessageCard
+    - [ ] 测试漂浮动画流畅度（真机测试）
+    - [ ] 测试波纹动画效果
+    - [ ] 测试浮光粒子动画
+    - [ ] 测试在不同屏幕尺寸下的显示
+
+#### 2.2 ChatInterface 组件开发（底部聊天预览）
+- [ ] 创建 ChatInterface 组件（参考 `Yeyu_ui_design/components/ChatInterface.tsx`）
+  - [ ] **⚠️ 强制要求**：必须先阅读 `Yeyu_ui_design/components/ChatInterface.tsx` 源代码
+  - [ ] 实现容器布局
+    - [ ] 位置：固定在页面底部
+    - [ ] 安全区域：`pb-safe`
+    - [ ] 最大宽度：`max-w-2xl mx-auto px-5 pb-8`
+  - [ ] 实现消息预览区域
+    - [ ] 显示最后 2 条消息
+    - [ ] 最大高度：`max-h-48 overflow-hidden`
+    - [ ] 消息间距：`space-y-3`
+    - [ ] 消息动画：opacity (0→1), y (10→0), scale (0.95→1)
+    - [ ] 用户消息样式：
+      - [ ] 右对齐
+      - [ ] 背景：`bg-[#ff9966]`
+      - [ ] 文字：白色
+      - [ ] 圆角：`rounded-[20px] rounded-br-md`
+      - [ ] 内边距：`px-5 py-4`
+    - [ ] AI 消息样式：
+      - [ ] 左对齐
+      - [ ] 背景：`bg-[#ffe8d9]`
+      - [ ] 文字：`text-[#2a1a4d]`
+      - [ ] 圆角：`rounded-[20px] rounded-bl-md`
+      - [ ] 内边距：`px-5 py-4`
+  - [ ] 实现输入区域
+    - [ ] 容器：`bg-white rounded-[24px] px-5 py-4 shadow-sm border border-gray-100`
+    - [ ] 布局：flex 布局，`gap-3`
+    - [ ] 输入框：
+      - [ ] 样式：`flex-1 bg-transparent outline-none`
+      - [ ] 占位符：`placeholder:text-[#2a1a4d]/30 text-base`，"Message"
+      - [ ] Enter 键发送
+    - [ ] 发送按钮：
+      - [ ] 尺寸：`w-10 h-10 rounded-full`
+      - [ ] 背景：`bg-[#ff9966]`
+      - [ ] 图标：Send 图标，`w-5 h-5` 白色，strokeWidth 3
+      - [ ] Hover：`hover:bg-[#ff8855]`
+      - [ ] Active：`active:scale-95`
+      - [ ] 禁用：输入为空时 `opacity-30`
+  - [ ] 实现交互逻辑
+    - [ ] 发送消息添加到消息列表
+    - [ ] 打开 FullscreenChat 模态框
+    - [ ] 触发 AI 回复（使用 Mock 服务）
+  - [ ] **测试**：
+    - [ ] 测试消息发送功能
+    - [ ] 测试消息预览显示（最后 2 条）
+    - [ ] 测试输入框和发送按钮
+    - [ ] 测试打开 FullscreenChat
+    - [ ] 测试消息动画效果
+
+#### 2.3 CreateMessageCard 模态框开发
+- [ ] 实现 CreateMessageCard 模态框（参考 `Yeyu_ui_design/components/CreateMessageCard.tsx`）
+  - [ ] **⚠️ 强制要求**：必须先阅读 `Yeyu_ui_design/components/CreateMessageCard.tsx` 源代码
+  - [ ] 实现模态框容器
+    - [ ] 固定全屏：`fixed inset-0 z-[60]`
+    - [ ] 半透明背景：`bg-black/20 backdrop-blur-sm`
+    - [ ] 居中卡片：`max-w-md w-full px-5`
+    - [ ] 点击背景关闭
+    - [ ] 入场动画：scale (0.8 → 1) + y (50 → 0)，spring physics
+  - [ ] 实现情绪标签气泡（可编辑）
+    - [ ] 渐变背景：`from-[#ff9966] to-[#ff8855]`
+    - [ ] 圆角：`rounded-[18px]`（转换为 `36rpx`）
+    - [ ] 阴影：`shadow-lg`
+    - [ ] 内边距：`px-5 py-2.5`（转换为 `40rpx 20rpx`）
+    - [ ] 文字：白色，`text-sm font-semibold`（转换为 `28rpx`）
+    - [ ] 点击编辑功能：
+      - [ ] 点击变为输入框
+      - [ ] 最大长度：10 字符
+      - [ ] 默认值："我的心情"
+      - [ ] Enter 或 blur 完成编辑
+    - [ ] 入场动画：y (20 → 0)，延迟 0.2s
+  - [ ] 实现内容卡片（可编辑）
+    - [ ] 白色背景：`bg-white`
+    - [ ] 圆角：`rounded-[32px]`（转换为 `64rpx`）
+    - [ ] 内边距：`p-8`（转换为 `64rpx`）
+    - [ ] 阴影：`shadow-2xl`
+    - [ ] 最小高度：`min-h-[180px]`（转换为 `360rpx`）
+    - [ ] 点击编辑功能：
+      - [ ] 点击变为 textarea
+      - [ ] 文字：`text-[#2a1a4d] text-base leading-relaxed text-center`
+      - [ ] 占位符：`text-[#2a1a4d]/40`，"点击编辑你想分享的内容..."
+      - [ ] 最大长度：300 字符
+      - [ ] 自动聚焦和选中
+    - [ ] 入场动画：y (30 → 0)，延迟 0.3s
+  - [ ] 实现提交按钮
+    - [ ] 渐变：`from-[#E89B6D] to-[#F3B89A]`
+    - [ ] 圆角：`rounded-[24px]`（转换为 `48rpx`）
+    - [ ] 阴影：`shadow-lg`
+    - [ ] 内边距：`px-8 py-4`（转换为 `64rpx 32rpx`）
+    - [ ] 图标和文字间距：`gap-2.5`
+    - [ ] 图标：Send 图标，`w-5 h-5` 白色，strokeWidth 2.5
+    - [ ] 文字："发送到漂流瓶"，`text-white text-base font-semibold`
+    - [ ] 禁用状态：标签或内容无效时 `opacity-50`
+    - [ ] Hover：`hover:shadow-xl`
+    - [ ] Active：`active:scale-95`
+    - [ ] 入场动画：y (20 → 0)，延迟 0.4s
+  - [ ] 实现验证逻辑
+    - [ ] 标签不能为空
+    - [ ] 内容不能为空或等于占位符
+    - [ ] 无效时禁用按钮
+  - [ ] 实现提交逻辑
+    - [ ] 调用 `onStartResonance(tag, content)` 回调
+    - [ ] 关闭模态框
+    - [ ] 触发 ResonanceWall 显示
+  - [ ] **测试**：
+    - [ ] 测试模态框打开/关闭动画
+    - [ ] 测试背景点击关闭
+    - [ ] 测试标签编辑（点击、输入、最大长度、blur/enter 保存）
+    - [ ] 测试内容编辑（点击、textarea、占位符、最大长度）
+    - [ ] 测试按钮禁用状态逻辑
+    - [ ] 测试提交流程（验证 → 提交 → 关闭 → 触发 ResonanceWall）
+
+#### 2.4 FullscreenChat 模态框开发
+- [ ] 实现 FullscreenChat 模态框（参考 `Yeyu_ui_design/components/FullscreenChat.tsx`）
+  - [ ] **⚠️ 强制要求**：必须先阅读 `Yeyu_ui_design/components/FullscreenChat.tsx` 源代码
+  - [ ] 实现模态框容器
+    - [ ] 固定全屏：`fixed inset-0 z-50`
+    - [ ] 背景：`bg-white/40 backdrop-blur-3xl`
+    - [ ] 淡入淡出动画
+  - [ ] 实现头部
+    - [ ] 内边距：`px-6 py-5`
+    - [ ] 边框：`border-b border-[#2a1a4d]/10`
+    - [ ] 布局：flex space-between
+    - [ ] 标题："Conversation"，`text-[#2a1a4d] text-2xl`
+    - [ ] 副标题："Psychology Agent"，`text-[#2a1a4d]/50 text-sm`
+    - [ ] 关闭按钮：
+      - [ ] 位置：右上角
+      - [ ] 尺寸：`w-12 h-12 rounded-full`
+      - [ ] 背景：`bg-white shadow-sm`
+      - [ ] 图标：X 图标，`w-6 h-6 text-[#2a1a4d]`，strokeWidth 3
+      - [ ] Hover：`hover:bg-gray-50`
+      - [ ] Active：`active:scale-95`
+  - [ ] 实现消息区域
+    - [ ] 布局：`flex-1 overflow-y-auto px-5 py-6`
+    - [ ] 最大宽度：`max-w-2xl mx-auto`
+    - [ ] 消息间距：`space-y-4`
+    - [ ] 消息动画：opacity (0→1), y (20→0), scale (0.95→1), 0.4s
+    - [ ] 用户消息：
+      - [ ] 背景：`bg-[#ff9966]`
+      - [ ] 文字：白色
+      - [ ] 圆角：`rounded-[24px] rounded-br-lg`
+      - [ ] 阴影：`shadow-md`
+      - [ ] 最大宽度：75%
+      - [ ] 内边距：`px-6 py-4`
+    - [ ] AI 消息：
+      - [ ] 背景：`bg-[#ffe8d9]`
+      - [ ] 文字：`text-[#2a1a4d]`
+      - [ ] 圆角：`rounded-[24px] rounded-bl-lg`
+      - [ ] 阴影：`shadow-sm`
+      - [ ] 同样的尺寸配置
+  - [ ] 实现输入区域
+    - [ ] 位置：`px-5 py-6`
+    - [ ] 边框：`border-t border-[#2a1a4d]/10`
+    - [ ] 背景：`bg-white/50 backdrop-blur-xl`
+    - [ ] 最大宽度：`max-w-2xl mx-auto`
+  - [ ] 实现 SharePrompt 按钮（消息 > 3 时显示）
+    - [ ] 位置：输入框上方居中
+    - [ ] 渐变：`from-[#E89B6D] to-[#F3B89A]`
+    - [ ] 圆角：`rounded-[20px]`
+    - [ ] 阴影：`shadow-lg`
+    - [ ] 内边距：`px-6 py-3.5`
+    - [ ] 间距：`gap-3`
+    - [ ] 瓶子图标（SVG）
+    - [ ] 文字："传播你的共鸣!"，`text-white text-base font-semibold`
+    - [ ] 入场动画：opacity (0→1), y (20→0), scale (0.9→1), 延迟 0.3s
+    - [ ] Hover：`hover:shadow-xl`
+    - [ ] Active：`active:scale-95`
+    - [ ] 点击：打开 EmotionSummaryCard
+  - [ ] 实现输入框
+    - [ ] 容器：`bg-white rounded-[26px] px-6 py-4 shadow-md border border-gray-100`
+    - [ ] 自动聚焦
+    - [ ] 发送按钮：`w-11 h-11`
+  - [ ] 实现交互逻辑
+    - [ ] 消息自动滚动到底部
+    - [ ] 发送消息 → 添加到列表 → AI 回复（1.5s 延迟）
+    - [ ] 点击 SharePrompt → 打开 EmotionSummaryCard
+  - [ ] **测试**：
+    - [ ] 测试模态框打开/关闭
+    - [ ] 测试消息发送和 AI 回复
+    - [ ] 测试自动滚动到底部
+    - [ ] 测试 SharePrompt 出现（3 条消息后）
+    - [ ] 测试打开 EmotionSummaryCard
+
+#### 2.5 EmotionSummaryCard 模态框开发
+- [ ] 实现 EmotionSummaryCard 模态框（参考 `Yeyu_ui_design/components/EmotionSummaryCard.tsx`）
+  - [ ] **⚠️ 强制要求**：必须先阅读源代码
+  - [ ] 实现模态框结构（同 CreateMessageCard）
+    - [ ] 同样的背景、容器、动画
+    - [ ] z-index：`z-[60]`
+  - [ ] 实现情绪标签气泡（只读）
+    - [ ] 同 CreateMessageCard 样式
+    - [ ] 内容："寻求理解与支持"（或从 AI 生成）
+    - [ ] 不可编辑
+  - [ ] 实现摘要内容卡片（只读）
+    - [ ] 同 CreateMessageCard 样式
+    - [ ] 内容：AI 生成的情绪摘要
+    - [ ] 文字：`text-[#2a1a4d] text-base leading-relaxed text-center`
+    - [ ] 不可编辑
+  - [ ] 实现分享按钮
+    - [ ] 图标：Share2 图标（不是 Send）
+    - [ ] 文字："传播这份情感"
+    - [ ] 同 CreateMessageCard 按钮样式
+    - [ ] 点击动作：
+      - [ ] 调用 onShare 回调
+      - [ ] 调用 onStartResonance(tag, content)
+      - [ ] 关闭 FullscreenChat
+      - [ ] 打开 ResonanceWall
+  - [ ] 实现 AI 摘要生成（MVP 使用 Mock）
+    - [ ] 从聊天记录提取情绪关键词
+    - [ ] 生成标签和摘要文本
+    - [ ] MVP：使用预定义模板或简单关键词匹配
+  - [ ] **测试**：
+    - [ ] 测试从 FullscreenChat 显示
+    - [ ] 测试分享按钮动作
+    - [ ] 测试转换到 ResonanceWall
+    - [ ] 测试 AI 摘要生成（Mock）
+
+#### 2.6 情绪标签到情绪值映射工具
+- [ ] 创建 emotionTagMapper 工具（`utils/emotionTagMapper.js`）
   - [ ] 设计标签到价度（valence）的映射规则（0-10）
   - [ ] 设计标签到唤醒度（arousal）的映射规则（0-10）
   - [ ] 实现默认标签"我的心情"对应的默认情绪值
   - [ ] 实现自定义标签的情绪值推断逻辑（基于标签文本）
   - [ ] 实现情绪值范围校验
-- [ ] 性能优化
-  - [ ] 使用防抖优化标签输入事件
-  - [ ] 优化 setData 调用频率
-- [ ] **测试情绪标签组件**
-  - [ ] 测试标签编辑功能（点击编辑、输入、保存）
-  - [ ] 测试标签长度限制（最大10字符）
-  - [ ] 测试标签到情绪值的映射准确性
-  - [ ] 测试交互响应时间（< 200ms）
-  - [ ] 测试触摸交互流畅度（真机测试）
-  - [ ] 测试性能优化效果（setData 调用频率）
+  - [ ] **测试**：
+    - [ ] 测试标签映射准确性
+    - [ ] 测试默认值处理
+    - [ ] 测试边界情况
 
-#### 2.2 文本输入组件开发（基于 CreateMessageCard 设计）
-- [ ] 创建文本输入卡片组件
-  - [ ] 实现大圆角白色卡片（`rounded-[32px]`）
-  - [ ] 实现阴影效果（`shadow-2xl`）
-  - [ ] 实现卡片内边距（`p-8`）
-  - [ ] 实现最小高度（`min-h-[180px]`）
-  - [ ] 实现点击编辑功能（点击卡片进入编辑模式）
-  - [ ] 实现多行文本输入（textarea）
-  - [ ] 实现文本居中显示（`text-center`）
-  - [ ] 实现文本样式（`text-base leading-relaxed`，颜色 `text-[#2a1a4d]`）
-  - [ ] 实现占位符样式（`text-[#2a1a4d]/40`，占位符文本："点击编辑你想分享的内容..."）
-  - [ ] 实现字数统计和限制（≤300字）
-  - [ ] 优化输入体验（自动聚焦、选中文本）
-- [ ] 实现输入验证
-  - [ ] 验证文本长度（≤300字）
-  - [ ] 验证内容非空（不能是占位符文本）
-  - [ ] 实时提示验证结果
-- [ ] **测试文本输入组件**
-  - [ ] 测试文本输入功能（正常输入、换行、复制粘贴）
-  - [ ] 测试点击编辑模式切换（点击卡片进入编辑、失焦退出编辑）
-  - [ ] 测试字数统计（实时更新、达到上限提示）
-  - [ ] 测试字数限制（300字限制生效）
-  - [ ] 测试输入验证（空内容提示、超长内容提示）
-  - [ ] 测试输入体验（占位符显示、文本居中、提示信息）
-
-#### 2.3 发布功能开发（基于 CreateMessageCard 设计）
-- [ ] 实现发布卡片模态框
-  - [ ] 实现全屏半透明背景（`bg-black/20 backdrop-blur-sm`）
-  - [ ] 实现卡片容器居中显示（`max-w-md`）
-  - [ ] 实现卡片入场动画（scale + y 位移动画）
-  - [ ] 实现点击背景关闭功能
-- [ ] 实现发布按钮和交互
-  - [ ] 创建渐变发布按钮（`from-[#E89B6D] to-[#F3B89A]`）
-  - [ ] 实现大圆角按钮（`rounded-[24px]`）
-  - [ ] 实现按钮阴影效果（`shadow-lg`）
-  - [ ] 实现按钮内边距（`px-8 py-4`）
-  - [ ] 实现按钮文字样式（白色文字 `text-white`，`text-base font-semibold`）
-  - [ ] 实现按钮图标（Send 图标，`w-5 h-5`）
-  - [ ] 实现按钮文字内容（"发送到漂流瓶"）
-  - [ ] 实现按钮与卡片间距（`mt-5`）
-  - [ ] 实现按钮禁用状态（禁用时 `opacity-50`）
-  - [ ] 实现发布流程（≤ 3 步：选择标签 → 输入内容 → 发布）
-- [ ] 实现发布逻辑
-  - [ ] 收集情绪标签、情绪值（valence, arousal）和文本内容
-  - [ ] 调用Mock API发布帖子（`publishPost`）
-  - [ ] 处理发布成功/失败反馈
-  - [ ] 实现发布状态提示（loading/成功/失败）
-- [ ] 实现发布后处理
-  - [ ] 发布成功后清空输入
-  - [ ] 发布成功后关闭模态框
-  - [ ] 发布成功后触发共鸣流展示（调用 `onStartResonance`）
-  - [ ] 实现错误处理和重试机制
-- [ ] **测试发布功能**
-  - [ ] 测试模态框显示和关闭（打开、点击背景关闭、动画效果）
-  - [ ] 测试发布按钮状态（禁用/启用逻辑）
-  - [ ] 测试发布流程步骤数（≤ 3 步）
-  - [ ] 测试数据收集（情绪标签、情绪值、文本内容正确收集）
-  - [ ] 测试发布状态提示（loading、成功、失败提示）
-  - [ ] 测试发布后处理（清空输入、关闭模态框、触发共鸣流）
-  - [ ] 测试错误处理（网络错误、验证失败、重试机制）
-  - [ ] 测试边界条件（空内容、超长内容、标签为空）
-
-#### 2.4 阶段二综合测试
+#### 2.7 阶段二综合测试
 - [ ] 集成测试
   - [ ] 测试完整发布流程（标签选择 → 文本输入 → 发布）
   - [ ] 测试组件间交互（标签 + 输入 + 按钮联动）

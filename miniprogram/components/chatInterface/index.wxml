@@ -1,0 +1,36 @@
+<!--components/chatInterface/index.wxml-->
+<view class="chat-interface">
+  <!-- 消息预览区域 - 只显示最后 2 条消息 -->
+  <view class="messages-preview" bindtap="onMessagesClick">
+    <view 
+      class="message-item message-{{item.role}}"
+      wx:for="{{messages.slice(-2)}}" 
+      wx:key="index"
+    >
+      <view class="message-bubble">
+        <text class="message-text">{{item.content}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <view class="input-box">
+      <input
+        class="input-field"
+        type="text"
+        value="{{input}}"
+        placeholder="Message"
+        placeholder-class="input-placeholder"
+        bindinput="onInput"
+        bindconfirm="onConfirm"
+      />
+      <view 
+        class="send-btn {{input ? '' : 'disabled'}}"
+        bindtap="onSend"
+      >
+        <text class="send-icon">→</text>
+      </view>
+    </view>
+  </view>
+</view>

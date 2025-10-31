@@ -1,0 +1,24 @@
+<!--components/emotionSummaryCard/index.wxml-->
+<view class="emotion-summary-container" wx:if="{{show}}" catchtouchmove="true">
+  <!-- 背景遮罩 -->
+  <view class="backdrop" bindtap="onClose"></view>
+
+  <!-- 卡片容器 -->
+  <view class="card-container" catchtap="preventClose">
+    <!-- 情绪标签气泡 -->
+    <view class="tag-bubble">
+      <text class="tag-text">{{tag}}</text>
+    </view>
+
+    <!-- 摘要内容卡片 -->
+    <view class="content-card">
+      <text class="content-text">{{content}}</text>
+    </view>
+
+    <!-- 分享按钮 -->
+    <view class="share-btn" bindtap="onShare">
+      <text class="share-icon">↗</text>
+      <text class="share-text">传播这份情感</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,333 @@
+/* components/driftBottle/index.wxss */
+
+.drift-bottle-container {
+  position: relative;
+  width: 576rpx; /* w-72 = 288px × 2 = 576rpx */
+  height: 768rpx; /* h-96 = 384px × 2 = 768rpx */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* 底部波纹效果 */
+.wave-container {
+  position: absolute;
+  bottom: 64rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 640rpx; /* w-80 = 320px × 2 */
+  height: 192rpx; /* h-24 = 96px × 2 */
+  z-index: 0;
+}
+
+.wave {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.wave-1 {
+  background: radial-gradient(ellipse at center, #E89B6D 0%, transparent 70%);
+  animation: wave-pulse 3.5s ease-in-out infinite;
+}
+
+.wave-2 {
+  background: radial-gradient(ellipse at center, #F8E6D0 0%, transparent 70%);
+  animation: wave-pulse 3.5s ease-in-out infinite 0.3s;
+}
+
+@keyframes wave-pulse {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleX(1.15);
+    opacity: 0.6;
+  }
+}
+
+/* 瓶子容器 */
+.bottle-wrapper {
+  position: relative;
+  width: 384rpx; /* w-48 = 192px × 2 */
+  height: 576rpx; /* h-72 = 288px × 2 */
+  z-index: 1;
+}
+
+/* 瓶塞 */
+.cork {
+  position: absolute;
+  top: 48rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 112rpx; /* w-14 = 56px × 2 */
+  height: 56rpx; /* h-7 = 28px × 2 */
+  background: linear-gradient(to bottom, #8B5A3C, #6B4A2C);
+  border-radius: 32rpx 32rpx 0 0;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.cork-line {
+  position: absolute;
+  top: 12rpx;
+  left: 24rpx;
+  right: 24rpx;
+  height: 12rpx;
+  background: rgba(160, 99, 61, 0.4);
+  border-radius: 999rpx;
+}
+
+/* 瓶颈 */
+.bottle-neck {
+  position: absolute;
+  top: 104rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88rpx; /* w-11 = 44px × 2 */
+  height: 128rpx; /* h-16 = 64px × 2 */
+  background: linear-gradient(to bottom, rgba(232, 155, 109, 0.7), rgba(243, 184, 154, 0.8));
+  border-radius: 36rpx 36rpx 0 0;
+}
+
+.neck-shine {
+  position: absolute;
+  inset: 8rpx;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5), transparent);
+  border-radius: 32rpx 32rpx 0 0;
+}
+
+/* 瓶身主体 */
+.bottle-body {
+  position: absolute;
+  top: 224rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 288rpx; /* w-36 = 144px × 2 */
+  height: 320rpx; /* h-40 = 160px × 2 */
+  border-radius: 64rpx;
+  overflow: hidden;
+}
+
+.body-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, 
+    rgba(232, 155, 109, 0.85), 
+    rgba(243, 184, 154, 0.75) 50%, 
+    rgba(248, 230, 208, 0.7));
+}
+
+.flowing-light {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3), transparent);
+  animation: flow-light 3s ease-in-out infinite;
+}
+
+@keyframes flow-light {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.top-shine {
+  position: absolute;
+  top: 24rpx;
+  left: 24rpx;
+  width: 128rpx;
+  height: 160rpx;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.7), transparent);
+  border-radius: 999rpx;
+  filter: blur(40rpx);
+}
+
+/* 瓶内信纸 */
+.message-paper {
+  position: absolute;
+  top: 80rpx;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 192rpx; /* w-24 = 96px × 2 */
+  height: 224rpx; /* h-28 = 112px × 2 */
+  background: linear-gradient(to bottom right, #fff5eb, #ffe8d5);
+  border-radius: 28rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+  animation: paper-rotate 5s ease-in-out infinite;
+}
+
+@keyframes paper-rotate {
+  0%, 100% {
+    transform: translateX(-50%) rotate(-4deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(-2deg);
+  }
+}
+
+.paper-fold {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48rpx;
+  height: 48rpx;
+  background: linear-gradient(to bottom left, #f5d5b8, transparent);
+  border-radius: 999rpx 0 0 0;
+}
+
+.plus-icon-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 96rpx; /* w-12 = 48px × 2 */
+  height: 96rpx;
+  border-radius: 999rpx;
+  background: rgba(232, 155, 109, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus-icon {
+  color: #E89B6D;
+  font-size: 64rpx;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.decorative-lines {
+  position: absolute;
+  bottom: 40rpx;
+  left: 24rpx;
+  right: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.line {
+  height: 4rpx;
+  background: linear-gradient(to right, transparent, rgba(232, 155, 109, 0.25), transparent);
+  border-radius: 999rpx;
+}
+
+.line-1 {
+  width: 75%;
+  margin: 0 auto;
+}
+
+.line-2 {
+  width: 100%;
+}
+
+.line-3 {
+  width: 66%;
+  margin: 0 auto;
+}
+
+.bottom-glow {
+  position: absolute;
+  bottom: 16rpx;
+  left: 24rpx;
+  right: 24rpx;
+  height: 80rpx;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 999rpx;
+  filter: blur(32rpx);
+}
+
+/* 瓶底 */
+.bottle-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 288rpx;
+  height: 80rpx;
+  background: linear-gradient(to bottom, rgba(232, 155, 109, 0.8), rgba(216, 138, 93, 0.7));
+  border-radius: 0 0 64rpx 64rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.15);
+}
+
+/* 柔和阴影 */
+.bottle-shadow {
+  position: absolute;
+  bottom: -16rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 256rpx;
+  height: 24rpx;
+  background: rgba(232, 155, 109, 0.2);
+  border-radius: 999rpx;
+  filter: blur(16rpx);
+}
+
+/* 浮光粒子 */
+.particle {
+  position: absolute;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(to bottom right, #F8E6D0, rgba(232, 155, 109, 0.5));
+  box-shadow: 0 0 16rpx rgba(248, 230, 208, 0.6);
+}
+
+.particle-1 {
+  top: 33%;
+  left: 25%;
+  animation: particle-float-1 4s ease-out infinite;
+}
+
+.particle-2 {
+  top: 50%;
+  right: 25%;
+  animation: particle-float-2 5s ease-out infinite 1.5s;
+}
+
+.particle-3 {
+  top: 66%;
+  left: 33%;
+  animation: particle-float-3 4.5s ease-out infinite 3s;
+}
+
+@keyframes particle-float-1 {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-160rpx) translateX(16rpx) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-2 {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-200rpx) translateX(-12rpx) scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-float-3 {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-140rpx) translateX(16rpx) scale(0.6);
+    opacity: 0;
+  }
+}

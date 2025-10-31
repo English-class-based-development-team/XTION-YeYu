@@ -1,187 +1,167 @@
-// index.js
+// pages/index/index.js
 Page({
   data: {
-    showTip: false,
-    powerList: [
+    // 模态框状态
+    showCreateMessageCard: false,
+    showFullscreenChat: false,
+    showResonanceWall: false,
+    
+    // ChatInterface 消息
+    chatMessages: [
       {
-        title: '云托管',
-        tip: '不限语言的全托管容器服务',
-        showItem: false,
-        item: [
-          {
-            type: 'cloudbaserun',
-            title: '云托管调用',
-          },
-        ],
-      },
-      {
-        title: '云函数',
-        tip: '安全、免鉴权运行业务代码',
-        showItem: false,
-        item: [
-          {
-            type: 'getOpenId',
-            title: '获取OpenId',
-          },
-          {
-            type: 'getMiniProgramCode',
-            title: '生成小程序码',
-          },
-        ],
-      },
-      {
-        title: '数据库',
-        tip: '安全稳定的文档型数据库',
-        showItem: false,
-        item: [
-          {
-            type: 'createCollection',
-            title: '创建集合',
-          },
-          {
-            type: 'selectRecord',
-            title: '增删改查记录',
-          },
-          // {
-          //   title: '聚合操作',
-          //   page: 'sumRecord',
-          // },
-        ],
-      },
-      {
-        title: '云存储',
-        tip: '自带CDN加速文件存储',
-        showItem: false,
-        item: [
-          {
-            type: 'uploadFile',
-            title: '上传文件',
-          },
-        ],
-      },
-      // {
-      //   type: 'singleTemplate',
-      //   title: '云模板',
-      //   tip: '基于页面模板，快速配置、搭建小程序页面',
-      //   tag: 'new',
-      // },
-      // {
-      //   type: 'cloudBackend',
-      //   title: '云后台',
-      //   tip: '开箱即用的小程序后台管理系统',
-      // },
-      {
-        title: '拓展能力-AI',
-        tip: '云开发 AI 拓展能力',
-        showItem: false,
-        item: [
-          {
-            type: 'model-guide',
-            title: '大模型对话指引'
-          },
-        ],
-      },
+        role: 'ai',
+        content: 'Hi! I\'m your personal psychology agent. How can I help you today?'
+      }
     ],
-    haveCreateCollection: false,
-    title: "",
-    content: ""
-  },
-  onClickPowerInfo(e) {
-    const app = getApp()
-    if(!app.globalData.env) {
-      wx.showModal({
-        title: '提示',
-        content: '请在 `miniprogram/app.js` 中正确配置 `env` 参数'
-      })
-      return 
-    }
-    console.log("click e", e)
-    const index = e.currentTarget.dataset.index;
-    const powerList = this.data.powerList;
-    const selectedItem = powerList[index];
-    console.log("selectedItem", selectedItem)
-    if (selectedItem.link) {
-      wx.navigateTo({
-        url: `../web/index?url=${selectedItem.link}&title=${selectedItem.title}`,
-      });
-    } else if (selectedItem.type) {
-      console.log("selectedItem", selectedItem)
-      wx.navigateTo({
-        url: `/pages/example/index?envId=${this.data.selectedEnv?.envId}&type=${selectedItem.type}`,
-      });
-    } else if (selectedItem.page) {
-      wx.navigateTo({
-        url: `/pages/${selectedItem.page}/index`,
-      });
-    } else if (
-      selectedItem.title === '数据库' &&
-      !this.data.haveCreateCollection
-    ) {
-      this.onClickDatabase(powerList,selectedItem);
-    } else {
-      selectedItem.showItem = !selectedItem.showItem;
-      this.setData({
-        powerList,
-      });
-    }
+    
+    // 用户数据（用于发布）
+    userEmotion: {
+      tag: '我的心情',
+      valence: 5,
+      arousal: 5,
+      content: ''
+    },
+
+    // 系统状态栏高度
+    statusBarHeight: 0
   },
 
-  jumpPage(e) {
-    const { type, page } = e.currentTarget.dataset;
-    console.log("jump page", type, page)
-    if (type) {
-      wx.navigateTo({
-        url: `/pages/example/index?envId=${this.data.selectedEnv?.envId}&type=${type}`,
-      });
-    } else {
-      wx.navigateTo({
-        url: `/pages/${page}/index?envId=${this.data.selectedEnv?.envId}`,
-      });
-    }
-  },
-
-  onClickDatabase(powerList,selectedItem) {
-    wx.showLoading({
-      title: '',
+  onLoad() {
+    // 获取系统信息
+    const systemInfo = wx.getSystemInfoSync();
+    this.setData({
+      statusBarHeight: systemInfo.statusBarHeight || 0
     });
-    wx.cloud
-      .callFunction({
-        name: 'quickstartFunctions',
-        data: {
-          type: 'createCollection',
-        },
-      })
-      .then((resp) => {
-        if (resp.result.success) {
-          this.setData({
-            haveCreateCollection: true,
-          });
-        }
-        selectedItem.showItem = !selectedItem.showItem;
-        this.setData({
-          powerList,
-        });
-        wx.hideLoading();
-      })
-      .catch((e) => {
-        wx.hideLoading();
-        const { errCode, errMsg } = e
-        if (errMsg.includes('Environment not found')) {
-          this.setData({
-            showTip: true,
-            title: "云开发环境未找到",
-            content: "如果已经开通云开发，请检查环境ID与 `miniprogram/app.js` 中的 `env` 参数是否一致。"
-          });
-          return
-        }
-        if (errMsg.includes('FunctionName parameter could not be found')) {
-          this.setData({
-            showTip: true,
-            title: "请上传云函数",
-            content: "在'cloudfunctions/quickstartFunctions'目录右键，选择【上传并部署-云端安装依赖】，等待云函数上传完成后重试。"
-          });
-          return
-        }
-      });
   },
+
+  /**
+   * 点击漂流瓶，打开 CreateMessageCard 模态框
+   */
+  onDriftBottleClick() {
+    console.log('DriftBottle clicked');
+    this.setData({
+      showCreateMessageCard: true
+    });
+  },
+
+  /**
+   * 关闭 CreateMessageCard 模态框
+   */
+  onCloseCreateMessageCard() {
+    this.setData({
+      showCreateMessageCard: false
+    });
+  },
+
+  /**
+   * CreateMessageCard 发送消息
+   */
+  onCreateMessageSend(e) {
+    const { tag, content, valence, arousal } = e.detail;
+    
+    console.log('Create message send:', { tag, content, valence, arousal });
+
+    // 保存用户情绪数据
+    this.setData({
+      userEmotion: {
+        tag,
+        valence,
+        arousal,
+        content
+      },
+      showCreateMessageCard: false
+    });
+
+    // TODO: 调用 publishPost API
+    // 然后打开 ResonanceWall
+    setTimeout(() => {
+      this.setData({
+        showResonanceWall: true
+      });
+    }, 300);
+  },
+
+  /**
+   * 关闭 ResonanceWall
+   */
+  onCloseResonanceWall() {
+    this.setData({
+      showResonanceWall: false
+    });
+  },
+
+  /**
+   * ChatInterface 发送消息
+   */
+  onChatSend(e) {
+    const { message } = e.detail;
+    
+    // 添加用户消息
+    const newMessages = [...this.data.chatMessages, {
+      role: 'user',
+      content: message
+    }];
+
+    this.setData({
+      chatMessages: newMessages
+    });
+
+    // 打开 FullscreenChat
+    this.setData({
+      showFullscreenChat: true
+    });
+
+    // 模拟 AI 回复
+    setTimeout(() => {
+      const aiMessage = {
+        role: 'ai',
+        content: 'I understand. Let me help you with that. How are you feeling about this situation?'
+      };
+      
+      this.setData({
+        chatMessages: [...this.data.chatMessages, aiMessage]
+      });
+    }, 1500);
+  },
+
+  /**
+   * 关闭 FullscreenChat
+   */
+  onCloseFullscreenChat() {
+    this.setData({
+      showFullscreenChat: false
+    });
+  },
+
+  /**
+   * FullscreenChat 消息更新
+   */
+  onChatMessagesUpdate(e) {
+    const { messages } = e.detail;
+    this.setData({
+      chatMessages: messages
+    });
+  },
+
+  /**
+   * Profile 按钮点击
+   */
+  onProfileClick() {
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none',
+      duration: 2000
+    });
+  },
+
+  /**
+   * Search 按钮点击
+   */
+  onSearchClick() {
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none',
+      duration: 2000
+    });
+  }
 });

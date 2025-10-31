@@ -1,0 +1,128 @@
+/* components/chatInterface/index.wxss */
+
+.chat-interface {
+  width: 100%;
+  max-width: 1000rpx;
+  margin: 0 auto;
+  padding: 0 40rpx;
+  padding-bottom: calc(64rpx + env(safe-area-inset-bottom));
+}
+
+/* 消息预览区域 */
+.messages-preview {
+  margin-bottom: 32rpx;
+  max-height: 384rpx;
+  overflow: hidden;
+  padding: 0 8rpx;
+}
+
+.message-item {
+  display: flex;
+  margin-bottom: 24rpx;
+  animation: messageFadeIn 0.3s ease-out;
+}
+
+.message-item.message-user {
+  justify-content: flex-end;
+}
+
+.message-item.message-ai {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 32rpx 40rpx;
+  border-radius: 40rpx;
+}
+
+.message-user .message-bubble {
+  background: #ff9966;
+  border-radius: 40rpx 40rpx 8rpx 40rpx;
+}
+
+.message-ai .message-bubble {
+  background: #ffe8d9;
+  border-radius: 40rpx 40rpx 40rpx 8rpx;
+}
+
+.message-text {
+  font-size: 32rpx;
+  line-height: 1.6;
+}
+
+.message-user .message-text {
+  color: white;
+}
+
+.message-ai .message-text {
+  color: #2a1a4d;
+}
+
+/* 输入区域 */
+.input-area {
+  margin-top: 0;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  background: white;
+  border-radius: 48rpx;
+  padding: 40rpx 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 32rpx;
+  color: #2a1a4d;
+}
+
+.input-placeholder {
+  color: rgba(42, 26, 77, 0.3);
+}
+
+.send-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: #ff9966;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.send-btn:active {
+  background: #ff8855;
+  transform: scale(0.95);
+}
+
+.send-btn.disabled {
+  opacity: 0.3;
+}
+
+.send-icon {
+  color: white;
+  font-size: 40rpx;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* 动画 */
+@keyframes messageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
