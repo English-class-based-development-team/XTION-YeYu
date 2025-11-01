@@ -13,36 +13,51 @@
 /* 底部波纹效果 */
 .wave-container {
   position: absolute;
-  bottom: 64rpx;
+  bottom: 64rpx; /* bottom-8 = 32px × 2 = 64rpx */
   left: 50%;
   transform: translateX(-50%);
   width: 640rpx; /* w-80 = 320px × 2 */
   height: 192rpx; /* h-24 = 96px × 2 */
-  z-index: 0;
+  z-index: 0; /* 确保在瓶子后面 */
+  overflow: visible;
 }
 
-.wave-svg {
-  width: 100%;
-  height: 100%;
-  animation: wave-pulse 3.5s ease-in-out infinite;
+.wave-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 640rpx;
+  height: 192rpx;
+  display: block;
 }
 
-.wave-path {
-  animation: wave-pulse 3.5s ease-in-out infinite;
+.wave-canvas-1 {
+  animation: wave-pulse-1 3.5s ease-in-out infinite;
 }
 
-.wave-path-2 {
-  animation-delay: 0.3s;
+.wave-canvas-2 {
+  animation: wave-pulse-2 3.5s ease-in-out infinite;
 }
 
-@keyframes wave-pulse {
+@keyframes wave-pulse-1 {
   0%, 100% {
     transform: scaleX(1);
-    opacity: 0.4;
+    opacity: 0.3;
   }
   50% {
     transform: scaleX(1.15);
-    opacity: 0.6;
+    opacity: 0.5;
+  }
+}
+
+@keyframes wave-pulse-2 {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scaleX(1.15);
+    opacity: 0.4;
   }
 }
 
@@ -85,7 +100,7 @@
   transform: translateX(-50%);
   width: 88rpx; /* w-11 = 44px × 2 */
   height: 128rpx; /* h-16 = 64px × 2 */
-  background: linear-gradient(to bottom, rgba(232, 155, 109, 0.7), rgba(243, 184, 154, 0.8));
+  background: linear-gradient(to bottom, rgba(232, 155, 109, 0.6), rgba(243, 184, 154, 0.7));
   border-radius: 36rpx 36rpx 0 0;
 }
 
@@ -112,16 +127,18 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom right, 
-    rgba(232, 155, 109, 0.85), 
-    rgba(243, 184, 154, 0.75) 50%, 
-    rgba(248, 230, 208, 0.7));
+    rgba(232, 155, 109, 0.65), 
+    rgba(243, 184, 154, 0.55) 50%, 
+    rgba(248, 230, 208, 0.50));
+  z-index: 1;
 }
 
 .flowing-light {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2), transparent);
   animation: flow-light 3s ease-in-out infinite;
+  z-index: 10;
 }
 
 @keyframes flow-light {
@@ -141,49 +158,49 @@
   left: 24rpx;
   width: 128rpx;
   height: 160rpx;
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.7), transparent);
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5), transparent);
   border-radius: 999rpx;
   filter: blur(40rpx);
+  z-index: 11;
 }
 
 /* 瓶内信纸 */
 .message-paper {
   position: absolute;
-  top: 80rpx;
+  top: 80rpx; /* top-10 = 40px × 2 = 80rpx */
   left: 50%;
-  transform: translateX(-50%) rotate(-4deg);
   width: 192rpx; /* w-24 = 96px × 2 */
   height: 224rpx; /* h-28 = 112px × 2 */
+  margin-left: -96rpx; /* 向左偏移自身宽度的一半，实现居中 */
+  transform: rotate(-4deg);
+  transform-origin: center center; /* 确保旋转以中心为基准 */
   background: linear-gradient(to bottom right, #fff5eb, #ffe8d5);
-  border-radius: 28rpx;
-  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.1);
-  animation: paper-rotate 5s ease-in-out infinite;
-}
-
-@keyframes paper-rotate {
-  0%, 100% {
-    transform: translateX(-50%) rotate(-4deg);
-  }
-  50% {
-    transform: translateX(-50%) rotate(-2deg);
-  }
+  border-radius: 28rpx; /* rounded-[14px] = 14px × 2 = 28rpx */
+  box-shadow: 0 16rpx 32rpx rgba(0, 0, 0, 0.15); /* shadow-lg - 增强阴影 */
+  z-index: 5; /* 提高 z-index */
 }
 
 .paper-fold {
   position: absolute;
   top: 0;
   right: 0;
-  width: 48rpx;
-  height: 48rpx;
+  width: 48rpx; /* w-6 = 24px × 2 = 48rpx */
+  height: 48rpx; /* h-6 = 24px × 2 = 48rpx */
   background: linear-gradient(to bottom left, #f5d5b8, transparent);
-  border-radius: 999rpx 0 0 0;
+  border-radius: 0 28rpx 0 999rpx; /* rounded-tl-full */
+}
+
+.paper-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
 }
 
 .plus-icon-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 96rpx; /* w-12 = 48px × 2 */
   height: 96rpx;
   border-radius: 999rpx;
@@ -191,20 +208,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 16rpx;
 }
 
-.plus-icon {
-  color: #E89B6D;
-  font-size: 64rpx;
-  font-weight: 300;
-  line-height: 1;
+.plus-icon-svg {
+  width: 48rpx; /* 24px × 2 */
+  height: 48rpx;
 }
 
 .decorative-lines {
-  position: absolute;
-  bottom: 40rpx;
-  left: 24rpx;
-  right: 24rpx;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12rpx;
@@ -239,6 +252,7 @@
   background: rgba(255, 255, 255, 0.4);
   border-radius: 999rpx;
   filter: blur(32rpx);
+  z-index: 12;
 }
 
 /* 瓶底 */
@@ -249,7 +263,7 @@
   transform: translateX(-50%);
   width: 288rpx;
   height: 80rpx;
-  background: linear-gradient(to bottom, rgba(232, 155, 109, 0.8), rgba(216, 138, 93, 0.7));
+  background: linear-gradient(to bottom, rgba(232, 155, 109, 0.7), rgba(216, 138, 93, 0.6));
   border-radius: 0 0 64rpx 64rpx;
   box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.15);
 }
@@ -270,28 +284,38 @@
 /* 浮光粒子 */
 .particle {
   position: absolute;
-  width: 20rpx;
-  height: 20rpx;
   border-radius: 999rpx;
-  background: linear-gradient(to bottom right, #F8E6D0, rgba(232, 155, 109, 0.5));
-  box-shadow: 0 0 16rpx rgba(248, 230, 208, 0.6);
 }
 
+/* 粒子1 */
 .particle-1 {
   top: 33%;
   left: 25%;
+  width: 20rpx; /* w-2.5 = 10px × 2 = 20rpx */
+  height: 20rpx;
+  background: linear-gradient(to bottom right, #F8E6D0, rgba(232, 155, 109, 0.5));
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.15); /* shadow-lg */
   animation: particle-float-1 4s ease-out infinite;
 }
 
+/* 粒子2 */
 .particle-2 {
   top: 50%;
   right: 25%;
+  width: 16rpx; /* w-2 = 8px × 2 = 16rpx */
+  height: 16rpx;
+  background: linear-gradient(to bottom right, #FFE8D5, rgba(232, 155, 109, 0.4));
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1); /* shadow-md */
   animation: particle-float-2 5s ease-out infinite 1.5s;
 }
 
+/* 粒子3 */
 .particle-3 {
   top: 66%;
   left: 33%;
+  width: 12rpx; /* w-1.5 = 6px × 2 = 12rpx */
+  height: 12rpx;
+  background: linear-gradient(to bottom right, #ffffff, rgba(243, 184, 154, 0.5));
   animation: particle-float-3 4.5s ease-out infinite 3s;
 }
 
@@ -300,8 +324,12 @@
     transform: translateY(0) translateX(0) scale(1);
     opacity: 0.7;
   }
+  50% {
+    transform: translateY(-80rpx) translateX(16rpx) scale(1.3);
+    opacity: 0.3;
+  }
   100% {
-    transform: translateY(-160rpx) translateX(16rpx) scale(0.7);
+    transform: translateY(-160rpx) translateX(-8rpx) scale(0.7);
     opacity: 0;
   }
 }
@@ -311,8 +339,12 @@
     transform: translateY(0) translateX(0) scale(1);
     opacity: 0.6;
   }
+  50% {
+    transform: translateY(-100rpx) translateX(-12rpx) scale(1.4);
+    opacity: 0.2;
+  }
   100% {
-    transform: translateY(-200rpx) translateX(-12rpx) scale(1.4);
+    transform: translateY(-200rpx) translateX(12rpx) scale(0.6);
     opacity: 0;
   }
 }
@@ -322,8 +354,12 @@
     transform: translateY(0) translateX(0) scale(1);
     opacity: 0.5;
   }
+  50% {
+    transform: translateY(-70rpx) translateX(-8rpx) scale(1.2);
+    opacity: 0.15;
+  }
   100% {
-    transform: translateY(-140rpx) translateX(16rpx) scale(0.6);
+    transform: translateY(-140rpx) translateX(16rpx) scale(0.5);
     opacity: 0;
   }
 }

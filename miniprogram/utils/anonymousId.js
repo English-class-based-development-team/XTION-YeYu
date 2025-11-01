@@ -30,12 +30,12 @@ function simpleHash(str) {
  */
 function generateUniqueId() {
   try {
-    const systemInfo = wx.getSystemInfoSync();
+    const deviceInfo = wx.getDeviceInfo();
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 15);
     
     // 组合设备信息和时间戳
-    const uniqueString = `${systemInfo.brand}_${systemInfo.model}_${systemInfo.system}_${timestamp}_${random}`;
+    const uniqueString = `${deviceInfo.brand}_${deviceInfo.model}_${deviceInfo.system}_${timestamp}_${random}`;
     
     // 使用哈希函数生成数字ID
     const hashValue = simpleHash(uniqueString);
