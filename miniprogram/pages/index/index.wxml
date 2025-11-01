@@ -81,4 +81,21 @@
     userContent="{{userEmotion.content}}"
     bindcomplete="onCloseResonanceWall"
   ></resonance-wall>
+
+  <!-- SearchModal 模态框 -->
+  <search-modal
+    wx:if="{{showSearchModal}}"
+    show="{{showSearchModal}}"
+    bindclose="onSearchModalClose"
+    bindsearch="onSearch"
+  ></search-modal>
+
+  <!-- SearchResultsWall 模态框 -->
+  <search-results-wall
+    wx:if="{{showSearchResults}}"
+    show="{{showSearchResults}}"
+    searchQuery="{{searchQuery}}"
+    results="{{searchResults}}"
+    bindclose="onSearchResultsClose"
+  ></search-results-wall>
 </view>

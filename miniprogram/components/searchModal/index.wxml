@@ -1,0 +1,71 @@
+<!--components/searchModal/index.wxml-->
+<view class="modal-container" wx:if="{{show}}">
+  <!-- 背景遮罩 -->
+  <view 
+    class="backdrop" 
+    animation="{{backdropAnimation}}"
+    bindtap="onBackdropTap"
+  ></view>
+
+  <!-- 搜索框内容 -->
+  <view 
+    class="modal-content" 
+    animation="{{animation}}"
+    catchtap="onContentTap"
+  >
+    <view class="search-box">
+      <!-- Header -->
+      <view class="header">
+        <text class="title">搜索情绪共鸣</text>
+        <view class="close-btn" bindtap="onCloseTap">
+          <image class="close-icon" src="/images/icons/close.svg" mode="aspectFit"></image>
+        </view>
+      </view>
+
+      <!-- 输入区域 -->
+      <view class="input-section">
+        <!-- 搜索输入框 -->
+        <view class="search-input-wrapper">
+          <image class="search-icon" src="/images/icons/search.svg" mode="aspectFit"></image>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="描述你的情绪..."
+            placeholder-class="input-placeholder"
+            value="{{query}}"
+            bindinput="onInput"
+            bindconfirm="onConfirm"
+            focus="{{show}}"
+            confirm-type="search"
+          />
+        </view>
+
+        <!-- 搜索按钮 -->
+        <button 
+          class="search-btn {{query ? '' : 'disabled'}}" 
+          bindtap="onSearchTap"
+          disabled="{{!query}}"
+        >
+          <text class="search-btn-text">搜索共鸣</text>
+        </button>
+
+        <!-- 示例搜索 -->
+        <view class="examples-section">
+          <text class="examples-title">试试这些：</text>
+          <view class="examples-tags">
+            <view 
+              wx:for="{{exampleTags}}" 
+              wx:key="index"
+              class="example-tag"
+              data-example="{{item}}"
+              bindtap="onExampleTap"
+            >
+              <text class="example-tag-text">{{item}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+

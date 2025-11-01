@@ -48,6 +48,19 @@ class ChatResponse(BaseModel):
     emotion_detected: Optional[EmotionInfo] = Field(None, description="检测到的情绪信息")
 
 
+class ChatMessage(BaseModel):
+    """对话消息"""
+    role: str = Field(..., description="角色：user 或 assistant")
+    content: str = Field(..., description="消息内容")
+    timestamp: Optional[str] = Field(None, description="时间戳（ISO 格式）")
+
+
+class ChatHistoryResponse(BaseModel):
+    """对话历史响应"""
+    messages: List[ChatMessage] = Field(..., description="消息列表")
+    total: int = Field(..., description="消息总数")
+
+
 # ==================== 情绪分析相关 ====================
 
 class EmotionAnalyzeRequest(BaseModel):

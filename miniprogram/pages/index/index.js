@@ -1,5 +1,7 @@
 // pages/index/index.js
 const anonymousId = require('../../utils/anonymousId.js');
+const api = require('../../services/api.js');
+const llmApi = require('../../services/llmApi.js');
 
 Page({
   data: {
@@ -7,6 +9,8 @@ Page({
     showCreateMessageCard: false,
     showFullscreenChat: false,
     showResonanceWall: false,
+    showSearchModal: false,
+    showSearchResults: false,
     
     // ChatInterface 消息
     chatMessages: [
@@ -23,6 +27,10 @@ Page({
       arousal: 5,
       content: ''
     },
+
+    // 搜索相关
+    searchQuery: '',
+    searchResults: [],
 
     // 系统状态栏高度
     statusBarHeight: 0,
@@ -43,8 +51,11 @@ Page({
       statusBarHeight: windowInfo.statusBarHeight || 0
     });
     
-    // 获取用户 ID
-    const userId = anonymousId.getAnonymousId();
+    // 获取用户 ID（统一格式：添加 user_ 前缀，与个人中心保持一致）
+    let userId = anonymousId.getAnonymousId();
+    if (!userId.startsWith('user_')) {
+      userId = `user_${userId}`;
+    }
     const userInfo = anonymousId.getUserInfo();
     const username = userInfo ? userInfo.username : '朋友';
     
@@ -52,6 +63,9 @@ Page({
       userId: userId,
       username: username
     });
+    
+    // 加载历史对话记录（让用户默认显示为老用户，带有历史数据）
+    this.loadChatHistory(userId);
     
     // 延迟加载关怀消息，确保组件已渲染
     setTimeout(() => {
@@ -321,10 +335,8 @@ Page({
    * Profile 按钮点击
    */
   onProfileClick() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none',
-      duration: 2000
+    wx.navigateTo({
+      url: '/pages/profile/index'
     });
   },
 
@@ -332,11 +344,120 @@ Page({
    * Search 按钮点击
    */
   onSearchClick() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none',
-      duration: 2000
+    this.setData({
+      showSearchModal: true
     });
+  },
+
+  /**
+   * 关闭搜索模态框
+   */
+  onSearchModalClose() {
+    this.setData({
+      showSearchModal: false
+    });
+  },
+
+  /**
+   * 执行搜索
+   */
+  async onSearch(e) {
+    const { query } = e.detail;
+    
+    if (!query || !query.trim()) {
+      return;
+    }
+
+    // 显示加载状态
+    wx.showLoading({
+      title: '搜索中...',
+      mask: true
+    });
+
+    try {
+      // 调用搜索 API
+      const response = await api.searchPosts(query.trim(), 20, 0);
+      
+      wx.hideLoading();
+
+      if (response && response.posts) {
+        // 处理搜索结果，转换时间格式
+        const results = response.posts.map(post => ({
+          id: post.id || post._id,
+          tag: post.emotion_tag || post.tag || '未知情绪',
+          content: post.content || '',
+          timeAgo: this.formatTimeAgo(post.created_at),
+          anonymousId: post.anonymous_id || ''
+        }));
+
+        // 更新搜索结果并显示
+        this.setData({
+          searchQuery: query,
+          searchResults: results,
+          showSearchModal: false,
+          showSearchResults: true
+        });
+      } else {
+        // 没有结果
+        this.setData({
+          searchQuery: query,
+          searchResults: [],
+          showSearchModal: false,
+          showSearchResults: true
+        });
+      }
+    } catch (error) {
+      wx.hideLoading();
+      console.error('搜索失败:', error);
+      
+      // 显示错误提示
+      wx.showToast({
+        title: error.message || '搜索失败，请稍后重试',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+  },
+
+  /**
+   * 关闭搜索结果
+   */
+  onSearchResultsClose() {
+    this.setData({
+      showSearchResults: false,
+      searchQuery: '',
+      searchResults: []
+    });
+  },
+
+  /**
+   * 格式化时间为相对时间
+   */
+  formatTimeAgo(dateString) {
+    if (!dateString) return '未知时间';
+    
+    const now = new Date();
+    const past = new Date(dateString);
+    const diffMs = now - past;
+    
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffMinutes < 1) {
+      return '刚刚';
+    } else if (diffMinutes < 60) {
+      return `${diffMinutes}分钟前`;
+    } else if (diffHours < 24) {
+      return `${diffHours}小时前`;
+    } else if (diffDays < 7) {
+      return `${diffDays}天前`;
+    } else {
+      // 超过7天显示具体日期
+      const month = past.getMonth() + 1;
+      const day = past.getDate();
+      return `${month}月${day}日`;
+    }
   },
 
   // 防抖定时器
@@ -429,6 +550,60 @@ Page({
     if (this.loadProactiveCareTimer) {
       clearTimeout(this.loadProactiveCareTimer);
       this.loadProactiveCareTimer = null;
+    }
+  },
+
+  /**
+   * 加载用户历史对话记录
+   * 让用户默认显示为老用户，带有历史数据
+   * @param {String} userId - 用户ID
+   */
+  async loadChatHistory(userId) {
+    try {
+      console.log('加载历史对话记录，userId:', userId);
+      
+      // 调用 API 获取历史对话
+      const result = await llmApi.getChatHistory(userId, 50);
+      
+      if (result && result.success && result.messages && result.messages.length > 0) {
+        // 转换消息格式，确保与小程序期望的格式一致
+        const formattedMessages = result.messages.map(msg => {
+          // 统一格式：role 可能为 'ai', 'assistant', 'user'
+          let role = msg.role;
+          if (role === 'assistant') {
+            role = 'ai';
+          }
+          
+          return {
+            role: role,
+            content: msg.content || msg.text || '',
+            timestamp: msg.timestamp
+          };
+        });
+        
+        console.log('历史对话记录加载成功，消息数量:', formattedMessages.length);
+        
+        // 更新聊天消息列表（用历史记录替换默认的欢迎消息）
+        this.setData({
+          chatMessages: formattedMessages
+        });
+        
+        // 如果历史记录中有用户消息，则显示聊天预览
+        if (formattedMessages.some(m => m.role === 'user')) {
+          // 延迟一下确保界面更新
+          setTimeout(() => {
+            // 不强制显示 ProactiveCare，因为有历史对话时应该显示聊天预览
+            // 但也不阻止 ProactiveCare 的显示逻辑
+          }, 100);
+        }
+      } else {
+        console.log('没有历史对话记录，使用默认欢迎消息');
+        // 如果没有历史记录，保持默认的欢迎消息（已在 data 中初始化）
+      }
+    } catch (error) {
+      console.warn('加载历史对话记录失败，使用默认欢迎消息:', error);
+      // 加载失败时，保持默认的欢迎消息（已在 data 中初始化）
+      // 不显示错误提示，避免影响用户体验
     }
   }
 });

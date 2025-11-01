@@ -139,6 +139,62 @@ async def chat(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"对话失败: {str(e)}")
 
 
+@app.get("/chat/history/{user_id}", response_model=ChatHistoryResponse)
+async def get_chat_history(user_id: str, limit: int = 50):
+    """
+    获取用户对话历史
+    
+    Args:
+        user_id: 用户 ID
+        limit: 返回消息数量限制（默认 50）
+    
+    Returns:
+        对话历史响应
+    """
+    try:
+        # 获取对话历史
+        history = conversation_manager.get_history(user_id)
+        
+        # 转换格式并添加时间戳
+        messages = []
+        for msg in history[-limit:]:  # 只返回最近 limit 条消息
+            messages.append(ChatMessage(
+                role=msg.get("role", "user"),
+                content=msg.get("content", ""),
+                timestamp=datetime.now().isoformat()  # 由于历史消息没有保存时间戳，使用当前时间
+            ))
+        
+        return ChatHistoryResponse(
+            messages=messages,
+            total=len(history)
+        )
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"获取对话历史失败: {str(e)}")
+
+
+@app.delete("/chat/history/{user_id}")
+async def clear_chat_history(user_id: str):
+    """
+    清除用户对话历史
+    
+    Args:
+        user_id: 用户 ID
+    
+    Returns:
+        清除结果
+    """
+    try:
+        conversation_manager.clear_history(user_id)
+        return {
+            "success": True,
+            "message": "聊天历史已清除"
+        }
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"清除对话历史失败: {str(e)}")
+
+
 # ==================== 情绪分析端点 ====================
 
 @app.post("/analyze_emotion", response_model=EmotionAnalyzeResponse)
@@ -228,6 +284,7 @@ async def publish_post(request: PublishPostRequest):
     发布情绪帖子到全局和用户私有数据库，并生成跟进消息
     """
     try:
+        print(f"[DEBUG] API publish_post: 接收到的 user_id={request.user_id}, username={request.username}")
         # 如果未提供情绪信息，自动分析
         emotion_tag = request.emotion_tag
         emotion_intensity = request.emotion_intensity
@@ -260,6 +317,7 @@ async def publish_post(request: PublishPostRequest):
             db.close()
         
         # 添加到用户私有表
+        print(f"[DEBUG] API publish_post: 准备保存到用户私有表, user_id={request.user_id}")
         PostCRUD.create_post_in_user_table(
             user_id=request.user_id,
             username=request.username,
@@ -268,6 +326,7 @@ async def publish_post(request: PublishPostRequest):
             emotion_intensity=emotion_intensity,
             content=request.content
         )
+        print(f"[DEBUG] API publish_post: 已保存到用户私有表")
         
         # 添加到向量数据库
         try:

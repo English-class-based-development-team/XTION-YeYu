@@ -30,7 +30,8 @@ Component({
       userBubble: '',
       title: '',
       scrollList: '',
-      closeHint: ''
+      closeHint: '',
+      closeButton: ''
     },
     // 是否显示详情页
     showDetail: false,
@@ -108,6 +109,11 @@ Component({
         this.createTitleAnimation();
       }, 1200);
 
+      // 关闭按钮动画 (延迟 1.5s)
+      setTimeout(() => {
+        this.createCloseButtonAnimation();
+      }, 1500);
+
       // 滚动列表动画 (延迟 1.5s)
       setTimeout(() => {
         this.createScrollListAnimation();
@@ -169,6 +175,22 @@ Component({
     },
 
     /**
+     * 创建关闭按钮动画
+     */
+    createCloseButtonAnimation() {
+      const animation = wx.createAnimation({
+        duration: 300,
+        timingFunction: 'ease-out'
+      });
+
+      animation.opacity(1).scale(1).step();
+      
+      this.setData({
+        'animationStates.closeButton': animation.export()
+      });
+    },
+
+    /**
      * 创建底部提示动画
      */
     createCloseHintAnimation() {
@@ -182,6 +204,13 @@ Component({
       this.setData({
         'animationStates.closeHint': animation.export()
       });
+    },
+
+    /**
+     * 点击关闭按钮
+     */
+    onCloseButtonClick() {
+      this.triggerEvent('complete');
     },
 
     /**

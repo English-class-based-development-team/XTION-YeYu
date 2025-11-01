@@ -128,8 +128,10 @@ async def get_user_bottles(
     db = main_db.get_session()
     
     try:
+        print(f"[DEBUG] API get_user_bottles: 接收到的 user_id={user_id}")
         # 从用户私有表获取帖子
         posts = PostCRUD.get_user_posts_from_private_table(user_id, limit, offset)
+        print(f"[DEBUG] API get_user_bottles: 查询到 {len(posts)} 条帖子")
         
         # 转换为响应格式
         bottles = []

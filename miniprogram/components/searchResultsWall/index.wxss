@@ -1,0 +1,172 @@
+/* components/searchResultsWall/index.wxss */
+
+.wall-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  background: linear-gradient(to bottom, #fef8f3, #f5e6dc);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+}
+
+/* Header */
+.header-section {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(to bottom, #fef8f3, transparent);
+  padding-bottom: 32rpx;
+}
+
+.header-content {
+  padding-top: 40rpx;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.back-btn {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+  background-color: #f9fafb;
+}
+
+.back-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.title-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  color: #2a1a4d;
+  font-size: 40rpx;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: rgba(42, 26, 77, 0.6);
+  font-size: 28rpx;
+  margin-top: 8rpx;
+}
+
+.spacer {
+  width: 96rpx;
+}
+
+/* 搜索结果列表 */
+.results-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 32rpx 64rpx;
+}
+
+.results-container {
+  display: flex;
+  gap: 32rpx;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+.right-column {
+  padding-top: 64rpx;
+}
+
+/* 共鸣卡片 */
+.resonance-card {
+  background-color: #ffffff;
+  border-radius: 48rpx;
+  padding: 40rpx;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+}
+
+.resonance-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 15px 20px -3px rgba(0, 0, 0, 0.15), 0 6px 8px -2px rgba(0, 0, 0, 0.08);
+}
+
+/* 卡片入场动画初始状态 */
+.card-enter {
+  opacity: 0;
+  transform: translateY(40rpx);
+}
+
+/* 卡片显示状态 */
+.card-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 卡片头部 */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.tag-bubble {
+  padding: 12rpx 24rpx;
+  background: linear-gradient(to right, rgba(255, 153, 102, 0.2), rgba(255, 136, 85, 0.2));
+  border-radius: 999rpx;
+}
+
+.tag-text {
+  color: #E89B6D;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.time-info {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.clock-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.time-text {
+  color: rgba(42, 26, 77, 0.4);
+  font-size: 24rpx;
+}
+
+/* 卡片内容 */
+.card-content {
+  color: #2a1a4d;
+  font-size: 28rpx;
+  line-height: 1.6;
+  display: block;
+}
+
