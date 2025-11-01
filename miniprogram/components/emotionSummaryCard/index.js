@@ -30,7 +30,10 @@ Component({
 
     preventClose(e) {
       // 阻止事件冒泡
-      e.stopPropagation();
+      // 使用 catchtap 已经会阻止冒泡，这里只需检查事件对象是否存在
+      if (e && e.stopPropagation) {
+        e.stopPropagation();
+      }
     }
   }
 });

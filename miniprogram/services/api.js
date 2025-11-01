@@ -18,46 +18,6 @@
 // 3. 微信开发者工具 -> 设置 -> 项目设置 -> 本地设置 -> 不校验合法域名（开发环境）
 const LOCAL_IP = '172.16.23.57'; // 本机 IP 地址
 const API_BASE = `http://${LOCAL_IP}:8000`;
-// 快速健康检查（用于验证 API_BASE 是否可达）
-function healthCheck(timeout = 3000) {
-  return new Promise((resolve, reject) => {
-    const base = getApiBase();
-    wx.request({
-      url: `${base}/health`,
-      method: 'GET',
-      timeout,
-      success: (res) => {
-        if (res.statusCode === 200) {
-          resolve(res.data);
-        } else {
-          reject(new Error(`健康检查失败: ${res.statusCode}`));
-        }
-      },
-      fail: (err) => {
-        reject(new Error(`健康检查不可达（当前地址：${base}）: ${err.errMsg || '未知错误'}`));
-      }
-    });
-  });
-}
-
-// 允许通过本地存储覆盖后端地址：wx.setStorageSync('API_BASE', 'http://<IP>:8000')
-function getApiBase() {
-  try {
-    const override = wx.getStorageSync && wx.getStorageSync('API_BASE');
-    if (override && typeof override === 'string' && override.startsWith('http')) {
-      return override.replace(/\/$/, ''); // 去掉末尾斜杠
-    }
-  } catch (e) {}
-  return API_BASE;
-}
-
-function setApiBase(newBase) {
-  try {
-    if (typeof newBase === 'string' && newBase.startsWith('http')) {
-      wx.setStorageSync('API_BASE', newBase.replace(/\/$/, ''));
-    }
-  } catch (e) {}
-}
 
 // 如果需要使用 localhost（仅在某些环境下可用）
 // const API_BASE = 'http://localhost:8000';
@@ -69,16 +29,11 @@ function setApiBase(newBase) {
  * @returns {Promise} Promise 对象
  */
 function request(url, options = {}) {
-  // 对于 proactive_care 这种可能需要调用大模型的接口，使用更长的超时时间
-  const defaultTimeout = url.includes('proactive_care') || url.includes('generate_summary') 
-    ? 60000  // 60秒（大模型生成可能需要较长时间）
-    : 30000; // 30秒（其他接口）
-  const { method = 'POST', data = {}, timeout = options.timeout || defaultTimeout } = options;
+  const { method = 'POST', data = {}, timeout = 30000 } = options;
   
   return new Promise((resolve, reject) => {
-    const base = getApiBase();
     wx.request({
-      url: `${base}${url}`,
+      url: `${API_BASE}${url}`,
       method: method,
       header: {
         'Content-Type': 'application/json'
@@ -97,7 +52,7 @@ function request(url, options = {}) {
         
         // 处理常见的网络错误
         if (errorMsg.includes('timeout')) {
-          errorMsg = `请求超时，请检查后端服务是否正常运行（当前地址：${base}）`;
+          errorMsg = '请求超时，请检查后端服务是否正常运行';
         } else if (errorMsg.includes('localhost') || errorMsg.includes('127.0.0.1')) {
           errorMsg = '无法连接后端服务，请确保使用本机 IP 地址而不是 localhost';
         }
@@ -109,20 +64,22 @@ function request(url, options = {}) {
 }
 
 /**
- * 获取主动关怀消息列表（无重试，失败立即报错）
+ * 获取主动关怀消息列表
  * @param {String} userId - 用户 ID
  * @param {String} username - 用户名（可选）
+ * @param {Number} maxMessages - 每批请求的消息数量（默认 3）
+ * @param {Number} offset - 历史记录读取偏移量（默认 0）
  * @returns {Promise} Promise 对象，返回 {messages: [], context_posts: []}
  */
-function getProactiveCareMessages(userId, username = '朋友') {
+function getProactiveCareMessages(userId, username = '朋友', maxMessages = 3, offset = 0) {
   return request('/proactive_care', {
     method: 'POST',
     data: {
       user_id: userId,
       username: username,
-      max_messages: 8
-    },
-    timeout: 60000 // 60秒超时（大模型生成需要时间）
+      max_messages: maxMessages,
+      offset: offset
+    }
   });
 }
 
@@ -214,11 +171,6 @@ module.exports = {
   publishPost,
   getResonancePosts,
   getGreeting,
-  generateSummary,
-  // 便于在开发者工具控制台动态切换后端地址：
-  // wx.setStorageSync('API_BASE', 'http://192.168.x.x:8000');
-  setApiBase,
-  getApiBase,
-  healthCheck
+  generateSummary
 };
 

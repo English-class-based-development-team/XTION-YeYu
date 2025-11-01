@@ -10,11 +10,7 @@
     
     <!-- 消息气泡 -->
     <view class="message-bubble">
-      <!-- 显示消息内容，如果包含 [proactive] 标签则高亮显示 -->
-      <text class="message-text">
-        <text wx:if="{{hasProactiveTag}}" class="proactive-tag">[proactive]</text>
-        <text>{{displayMessage}}</text>
-      </text>
+      <text class="message-text">{{currentMessage}}</text>
     </view>
     
     <!-- 进度指示器 -->

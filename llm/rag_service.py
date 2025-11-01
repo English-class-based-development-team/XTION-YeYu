@@ -125,7 +125,8 @@ class RAGService:
         emotion_tag: str = None,
         emotion_intensity: int = None,
         content: str = None,
-        limit: int = 5
+        limit: int = 5,
+        offset: int = 0
     ) -> List[Dict]:
         """
         查找用户历史记忆（从用户私有索引搜索）
@@ -136,6 +137,7 @@ class RAGService:
             emotion_intensity: 情绪强度（可选）
             content: 查询内容（可选）
             limit: 返回数量
+            offset: 偏移量，用于顺序访问历史记录
         
         Returns:
             用户历史帖子列表
@@ -150,10 +152,10 @@ class RAGService:
                 )
                 return results
             else:
-                # 否则从数据库获取最近的帖子
+                # 否则从数据库获取指定范围的帖子（支持 offset）
                 db = self.db_manager.get_session()
                 try:
-                    posts = PostCRUD.get_posts_by_user(db, user_id, limit=limit)
+                    posts = PostCRUD.get_posts_by_user(db, user_id, limit=limit, offset=offset)
                     return [post.to_dict() for post in posts]
                 finally:
                     db.close()
