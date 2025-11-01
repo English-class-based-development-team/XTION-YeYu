@@ -129,16 +129,22 @@ class DatabaseManager:
         获取用户私有表名
         
         Args:
-            user_id: 用户 ID
+            user_id: 用户 ID（可能带或不带 user_ 前缀）
             
         Returns:
-            清理后的表名
+            清理后的表名（格式：user_{sanitized_user_id}_posts）
             
         Raises:
             ValueError: 如果 user_id 包含非法字符
         """
         # 清理 user_id 防止 SQL 注入
         sanitized_user_id = self._sanitize_user_id(user_id)
+        
+        # 如果用户ID已经以 user_ 开头，去掉这个前缀（因为我们会在后面统一添加）
+        # 这样可以确保无论前端传入什么格式，生成的表名都一致
+        if sanitized_user_id.startswith('user_'):
+            sanitized_user_id = sanitized_user_id[5:]  # 去掉 'user_' 前缀
+        
         return f'user_{sanitized_user_id}_posts'
     
     def table_exists(self, table_name: str) -> bool:
