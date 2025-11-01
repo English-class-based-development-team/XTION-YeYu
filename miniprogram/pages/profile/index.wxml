@@ -1,5 +1,192 @@
 <!--pages/profile/index.wxml-->
-<view class="container">
-  <text>个人中心页面</text>
-</view>
+<view class="profile-page">
+  <!-- 加载遮罩 -->
+  <view wx:if="{{isLoading}}" class="loading-mask">
+    <view class="loading-content">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">{{loadingText}}</text>
+    </view>
+  </view>
 
+  <!-- 头部导航栏 -->
+  <view class="profile-header">
+    <view class="header-content">
+      <view class="close-btn" bindtap="onClose">
+        <text class="close-icon">✕</text>
+      </view>
+      <text class="header-title">个人中心</text>
+      <view class="header-spacer"></view>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <scroll-view class="profile-content" scroll-y enable-back-to-top refresher-enabled="{{false}}" refresher-triggered="{{false}}">
+    <view class="content-container">
+      <!-- 个人信息卡片 -->
+      <view class="info-card">
+        <view class="info-header">
+          <view class="info-left">
+            <!-- 头像 -->
+            <view class="avatar-container">
+              <view class="avatar {{isEditingProfile ? 'editing' : ''}}">{{profile.avatar || '👤'}}</view>
+              <button wx:if="{{isEditingProfile}}" class="avatar-change-btn" bindtap="onAvatarChange">
+                <text class="camera-icon">📷</text>
+              </button>
+            </view>
+
+            <!-- 用户信息 -->
+            <view class="user-info">
+              <block wx:if="{{isEditingProfile}}">
+                <input class="nickname-input" value="{{editingProfile.nickname}}" placeholder="昵称" bindinput="onNicknameInput" maxlength="20"/>
+                <input class="greeting-input" value="{{editingProfile.greeting}}" placeholder="个性化问候" bindinput="onGreetingInput" maxlength="30"/>
+              </block>
+              <block wx:else>
+                <text class="nickname">{{profile.nickname}}，{{timeGreeting}}好</text>
+                <text class="greeting">{{profile.greeting}}</text>
+              </block>
+            </view>
+          </view>
+
+          <!-- 编辑按钮 -->
+          <view class="edit-actions">
+            <block wx:if="{{!isEditingProfile}}">
+              <view class="edit-btn" bindtap="onEditProfile">
+                <text class="edit-icon">✏️</text>
+              </view>
+            </block>
+            <block wx:else>
+              <view class="save-actions">
+                <button class="cancel-btn" bindtap="onCancelEdit">取消</button>
+                <button class="save-btn" bindtap="onSaveProfile">保存</button>
+              </view>
+            </block>
+          </view>
+        </view>
+
+        <!-- 陪伴天数 -->
+        <view class="companion-days">
+          <text class="clock-icon">🕐</text>
+          <text class="companion-text">已陪伴你 <text class="days-number">{{profile.companionDays}}</text> 天</text>
+        </view>
+      </view>
+
+      <!-- 情绪曲线 -->
+      <view class="emotion-card">
+        <view class="card-title">
+          <text class="title-icon">😊</text>
+          <text class="title-text">情绪曲线</text>
+        </view>
+
+        <!-- 图表容器 -->
+        <view class="chart-container">
+          <canvas id="emotionChart" type="2d" class="chart-canvas"></canvas>
+        </view>
+
+        <!-- 图例 -->
+        <view class="chart-legend">
+          <view class="legend-item" wx:for="{{chartLegend}}" wx:key="emotion">
+            <view class="legend-dot" style="background-color: {{item.color}};"></view>
+            <text class="legend-text">{{item.emotion}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 我的内容 -->
+      <view class="content-card">
+        <view class="card-title">
+          <text class="title-icon">💬</text>
+          <text class="title-text">我的内容</text>
+        </view>
+
+        <view class="content-list">
+          <!-- 我的漂流瓶 -->
+          <view class="content-section bottles-section">
+            <view class="section-header">
+              <view class="section-left">
+                <text class="section-icon">🍾</text>
+                <text class="section-title">我的漂流瓶</text>
+              </view>
+              <text class="section-count">{{stats.bottlesCount}}</text>
+            </view>
+            <scroll-view class="section-content" scroll-y>
+              <view class="section-item" wx:for="{{bottles}}" wx:key="id">
+                <view class="item-header">
+                  <text class="item-tag bottle-tag">{{item.emotion_tag}}</text>
+                  <text class="item-time">{{item.relativeTime}}</text>
+                </view>
+                <text class="item-content">{{item.content}}</text>
+              </view>
+              <view wx:if="{{bottles.length === 0}}" class="empty-state">
+                <text>暂无漂流瓶</text>
+              </view>
+            </scroll-view>
+          </view>
+
+          <!-- 查看的共鸣 -->
+          <view class="content-section resonances-section">
+            <view class="section-header">
+              <view class="section-left">
+                <text class="section-icon">💫</text>
+                <text class="section-title">查看的共鸣</text>
+              </view>
+              <text class="section-count">{{stats.resonancesCount}}</text>
+            </view>
+            <scroll-view class="section-content" scroll-y>
+              <view class="section-item" wx:for="{{resonances}}" wx:key="id">
+                <view class="item-header">
+                  <text class="item-tag resonance-tag">{{item.tag}}</text>
+                  <text class="item-time">{{item.relativeTime}}</text>
+                </view>
+                <text class="item-content">{{item.content}}</text>
+              </view>
+              <view wx:if="{{resonances.length === 0}}" class="empty-state">
+                <text>暂无共鸣记录</text>
+              </view>
+            </scroll-view>
+          </view>
+
+          <!-- 保存的对话 -->
+          <view class="content-section conversations-section">
+            <view class="section-header">
+              <view class="section-left">
+                <text class="section-icon">💬</text>
+                <text class="section-title">保存的对话</text>
+              </view>
+              <text class="section-count">{{stats.conversationsCount}}</text>
+            </view>
+            <view class="section-content conversations-content">
+              <view class="section-item conversation-item" wx:for="{{conversations}}" wx:key="id">
+                <view class="item-header">
+                  <text class="item-title">{{item.title}}</text>
+                  <text class="item-time">{{item.relativeTime}}</text>
+                </view>
+                <text class="item-preview">{{item.preview}}</text>
+              </view>
+              <view wx:if="{{conversations.length === 0}}" class="empty-state">
+                <text>暂无保存的对话</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 设置 -->
+      <view class="settings-card">
+        <view class="card-title">
+          <text class="title-icon">⚙️</text>
+          <text class="title-text">设置</text>
+        </view>
+
+        <view class="settings-list">
+          <view class="setting-item" wx:for="{{settingsList}}" wx:key="label" bindtap="onSettingTap" data-index="{{index}}">
+            <view class="setting-left">
+              <text class="setting-icon">{{item.icon}}</text>
+              <text class="setting-label">{{item.label}}</text>
+            </view>
+            <text class="setting-arrow">›</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

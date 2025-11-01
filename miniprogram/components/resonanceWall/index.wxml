@@ -3,6 +3,11 @@
   <!-- 背景遮罩 -->
   <view class="backdrop" bindtap="onBackdropClick"></view>
 
+  <!-- 关闭按钮 -->
+  <view class="close-button" animation="{{animationStates.closeButton}}" catchtap="onCloseButtonClick">
+    <view class="close-icon-x"></view>
+  </view>
+
   <!-- 用户帖子气泡上升动画 -->
   <view class="user-bubble" animation="{{animationStates.userBubble}}">
     <view class="user-post">
