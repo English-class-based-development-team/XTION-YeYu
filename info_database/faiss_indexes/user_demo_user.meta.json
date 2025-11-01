@@ -1,0 +1,11 @@
+[
+  {
+    "id": 0,
+    "user_id": "demo_user",
+    "username": "演示用户",
+    "timestamp": "2025-11-01T09:55:20.737524",
+    "emotion_tag": "sad",
+    "emotion_intensity": 5,
+    "content": "昨天发烧了，今天好多了"
+  }
+]

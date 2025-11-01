@@ -36,6 +36,15 @@
 
   <!-- 底部 ChatInterface -->
   <view class="chat-container">
+    <!-- ProactiveCare 组件 - 显示在聊天界面上方 -->
+    <proactive-care
+      id="proactiveCare"
+      wx:if="{{showProactiveCare}}"
+      show="{{showProactiveCare}}"
+      userId="{{userId}}"
+      username="{{username}}"
+    ></proactive-care>
+    
     <chat-interface 
       messages="{{chatMessages}}"
       bindsend="onChatSend"
@@ -55,8 +64,11 @@
     wx:if="{{showFullscreenChat}}"
     show="{{showFullscreenChat}}"
     initialMessages="{{chatMessages}}"
+    userId="{{userId}}"
+    username="{{username}}"
     bindclose="onCloseFullscreenChat"
     bindmessagesupdate="onChatMessagesUpdate"
+    bindpostpublished="onPostPublished"
   ></fullscreen-chat>
 
   <!-- ResonanceWall 模态框 -->

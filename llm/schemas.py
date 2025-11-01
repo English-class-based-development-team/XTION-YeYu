@@ -149,6 +149,21 @@ class FollowUpResponse(BaseModel):
     post_info: PostInfo = Field(..., description="帖子信息")
 
 
+# ==================== 主动关怀相关 ====================
+
+class ProactiveCareRequest(BaseModel):
+    """主动关怀请求"""
+    user_id: str = Field(..., description="用户 ID")
+    username: Optional[str] = Field(None, description="用户名（可选）")
+    max_messages: int = Field(8, ge=1, le=10, description="最多生成的关怀消息数量")
+
+
+class ProactiveCareResponse(BaseModel):
+    """主动关怀响应"""
+    messages: List[str] = Field(..., description="关怀消息列表")
+    context_posts: List[PostInfo] = Field(..., description="参考的历史帖子")
+
+
 # ==================== 通用响应 ====================
 
 class HealthResponse(BaseModel):

@@ -468,6 +468,55 @@ async def generate_follow_up(request: FollowUpRequest):
         raise HTTPException(status_code=500, detail=f"跟进消息生成失败: {str(e)}")
 
 
+# ==================== 主动关怀端点 ====================
+
+@app.post("/proactive_care", response_model=ProactiveCareResponse)
+async def generate_proactive_care(request: ProactiveCareRequest):
+    """
+    主动关怀接口
+    基于用户历史生成关怀消息列表
+    """
+    try:
+        # 获取用户历史帖子（从 info_database 目录）
+        user_history = rag_service.find_user_memories(
+            user_id=request.user_id,
+            limit=10  # 获取最近10条帖子用于生成关怀消息
+        )
+        
+        # 生成关怀消息列表
+        care_result = greeting_generator.generate_proactive_care_messages(
+            user_history=user_history,
+            username=request.username or "朋友",
+            max_messages=request.max_messages
+        )
+        
+        if not care_result.get('success'):
+            raise HTTPException(status_code=400, detail="关怀消息生成失败")
+        
+        # 转换历史帖子格式
+        context_posts = [
+            PostInfo(
+                user_id=post.get('user_id', request.user_id),
+                username=post.get('username', ''),
+                timestamp=post.get('timestamp', ''),
+                emotion_tag=post.get('emotion_tag', ''),
+                emotion_intensity=post.get('emotion_intensity', 5),
+                content=post.get('content', '')
+            )
+            for post in user_history[:5]  # 只返回最近5条作为上下文
+        ]
+        
+        return ProactiveCareResponse(
+            messages=care_result.get('messages', []),
+            context_posts=context_posts
+        )
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"主动关怀生成失败: {str(e)}")
+
+
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
