@@ -29,9 +29,6 @@
 
 /* 头部 */
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 40rpx 48rpx;
   border-bottom: 1px solid rgba(42, 26, 77, 0.1);
   background: rgba(255, 255, 255, 0.5);
@@ -40,9 +37,39 @@
   width: 100%;
 }
 
-.header-left {
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 32rpx;
+}
+
+.back-btn {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 48rpx;
+  background: white;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.back-btn:active {
+  background: #f5f5f5;
+  transform: scale(0.95);
+}
+
+.back-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.header-text {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .header-title {
@@ -56,30 +83,6 @@
   color: rgba(42, 26, 77, 0.5);
   font-size: 28rpx;
   margin-top: 8rpx;
-}
-
-.close-btn {
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 48rpx;
-  background: white;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-}
-
-.close-btn:active {
-  background: #f5f5f5;
-  transform: scale(0.95);
-}
-
-.close-icon {
-  color: #2a1a4d;
-  font-size: 48rpx;
-  font-weight: 300;
-  line-height: 1;
 }
 
 /* 消息区域 */
@@ -222,10 +225,8 @@
 }
 
 .send-icon {
-  color: white;
-  font-size: 40rpx;
-  font-weight: 300;
-  line-height: 1;
+  width: 40rpx;
+  height: 40rpx;
 }
 
 /* 加载动画 */

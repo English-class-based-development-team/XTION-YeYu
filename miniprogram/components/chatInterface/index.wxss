@@ -117,10 +117,8 @@
 }
 
 .send-icon {
-  color: white;
-  font-size: 40rpx;
-  font-weight: 300;
-  line-height: 1;
+  width: 40rpx;
+  height: 40rpx;
 }
 
 /* 加载动画 */

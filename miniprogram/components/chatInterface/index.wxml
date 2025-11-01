@@ -37,10 +37,8 @@
       >
         <!-- 加载状态显示 -->
         <view wx:if="{{isLoading}}" class="loading-spinner"></view>
-        <!-- 发送图标 w-5 h-5 = 20px × 2 = 40rpx，使用 lucide-react Send 图标样式 -->
-        <svg wx:else width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="m22 2-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <!-- 发送图标：折纸飞机图标 -->
+        <image wx:else class="send-icon" src="/images/icons/send.svg" mode="aspectFit"></image>
       </view>
     </view>
   </view>
