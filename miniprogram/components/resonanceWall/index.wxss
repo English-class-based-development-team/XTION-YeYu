@@ -22,6 +22,57 @@
   z-index: 1;
 }
 
+/* 关闭按钮 */
+.close-button {
+  position: absolute;
+  top: 40rpx; /* top-5 = 20px × 2 */
+  left: 40rpx; /* left-5 = 20px × 2 */
+  width: 96rpx; /* w-12 = 48px × 2 */
+  height: 96rpx; /* h-12 = 48px × 2 */
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 16rpx 48rpx rgba(0, 0, 0, 0.15); /* shadow-lg */
+  z-index: 50;
+  opacity: 0;
+  transform: scale(0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:active {
+  transform: scale(0.95);
+  background-color: #f9f9f9;
+}
+
+/* X 图标 - 使用CSS绘制 */
+.close-icon-x {
+  width: 48rpx;  /* w-6 = 24px × 2 */
+  height: 48rpx; /* h-6 = 24px × 2 */
+  position: relative;
+}
+
+.close-icon-x::before,
+.close-icon-x::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48rpx;   /* 线条长度 */
+  height: 6rpx;   /* strokeWidth 3 = 3px × 2 */
+  background-color: #2a1a4d;
+  border-radius: 3rpx; /* 圆角 */
+}
+
+.close-icon-x::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-icon-x::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 /* 用户帖子气泡 */
 .user-bubble {
   position: absolute;

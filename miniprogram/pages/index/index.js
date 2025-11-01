@@ -321,10 +321,8 @@ Page({
    * Profile 按钮点击
    */
   onProfileClick() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none',
-      duration: 2000
+    wx.navigateTo({
+      url: '/pages/profile/index'
     });
   },
 
