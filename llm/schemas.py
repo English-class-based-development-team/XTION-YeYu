@@ -52,7 +52,7 @@ class ChatResponse(BaseModel):
 
 class EmotionAnalyzeRequest(BaseModel):
     """情绪分析请求"""
-    text: str = Field(..., description="待分析文本")
+    text: Optional[str] = Field(None, description="待分析文本（可选，用于分析单独文本）")
     conversation_id: Optional[str] = Field(None, description="对话 ID（可选，用于分析整个对话）")
 
 

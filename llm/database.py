@@ -4,6 +4,7 @@
 """
 
 import os
+import re
 from sqlalchemy import create_engine, Table, MetaData, inspect
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
@@ -18,6 +19,36 @@ except ImportError:
 
 class DatabaseManager:
     """数据库管理器"""
+    
+    @staticmethod
+    def _sanitize_user_id(user_id: str) -> str:
+        """
+        清理和验证 user_id，防止 SQL 注入
+        只允许字母、数字和下划线
+        
+        Args:
+            user_id: 原始用户 ID
+            
+        Returns:
+            清理后的 user_id
+            
+        Raises:
+            ValueError: 如果 user_id 包含非法字符
+        """
+        if not user_id:
+            raise ValueError("user_id 不能为空")
+        
+        # 只允许字母、数字和下划线
+        if not re.match(r'^[A-Za-z0-9_]+$', user_id):
+            raise ValueError(
+                f"user_id 包含非法字符，只允许字母、数字和下划线: {user_id}"
+            )
+        
+        # 限制长度以防止过长的表名
+        if len(user_id) > 100:
+            raise ValueError(f"user_id 过长（最大 100 字符）: {len(user_id)}")
+        
+        return user_id
     
     def __init__(self, database_path: str = None):
         """
@@ -69,8 +100,13 @@ class DatabaseManager:
         
         Args:
             user_id: 用户 ID
+            
+        Raises:
+            ValueError: 如果 user_id 包含非法字符
         """
-        table_name = f'user_{user_id}_posts'
+        # 清理 user_id 防止 SQL 注入
+        sanitized_user_id = self._sanitize_user_id(user_id)
+        table_name = f'user_{sanitized_user_id}_posts'
         
         # 检查表是否已存在
         inspector = inspect(self.engine)
@@ -89,8 +125,21 @@ class DatabaseManager:
         print(f"✓ 创建用户私有表: {table_name}")
     
     def get_user_table_name(self, user_id: str) -> str:
-        """获取用户私有表名"""
-        return f'user_{user_id}_posts'
+        """
+        获取用户私有表名
+        
+        Args:
+            user_id: 用户 ID
+            
+        Returns:
+            清理后的表名
+            
+        Raises:
+            ValueError: 如果 user_id 包含非法字符
+        """
+        # 清理 user_id 防止 SQL 注入
+        sanitized_user_id = self._sanitize_user_id(user_id)
+        return f'user_{sanitized_user_id}_posts'
     
     def table_exists(self, table_name: str) -> bool:
         """检查表是否存在"""

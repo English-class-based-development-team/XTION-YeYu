@@ -91,9 +91,11 @@ class PostCRUD:
         db_manager = get_db_manager()
         db_manager.create_user_table(user_id)
         
+        # 获取清理后的表名（已通过 _sanitize_user_id 验证，防止 SQL 注入）
         table_name = db_manager.get_user_table_name(user_id)
         
         # 使用原生 SQL 插入（因为是动态表）
+        # 注意：table_name 已在 get_user_table_name 中经过清理，只包含安全字符
         db = db_manager.get_session()
         try:
             query = text(f"""
@@ -171,6 +173,7 @@ class PostCRUD:
             帖子字典列表
         """
         db_manager = get_db_manager()
+        # 获取清理后的表名（已通过 _sanitize_user_id 验证，防止 SQL 注入）
         table_name = db_manager.get_user_table_name(user_id)
         
         # 检查表是否存在
@@ -179,6 +182,7 @@ class PostCRUD:
         
         db = db_manager.get_session()
         try:
+            # 注意：table_name 已在 get_user_table_name 中经过清理，只包含安全字符
             query = text(f"""
                 SELECT user_id, username, timestamp, emotion_tag, emotion_intensity, content
                 FROM {table_name}
