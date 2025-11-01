@@ -1,0 +1,142 @@
+/* components/emotionSummaryCard/index.wxss */
+
+.emotion-summary-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40rpx;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  /* backdrop-filter: blur(8rpx); */ /* 微信不支持 */
+}
+
+.card-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  animation: cardFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 情绪标签气泡 */
+.tag-bubble {
+  margin-bottom: 24rpx;
+  padding: 40rpx 20rpx;
+  background: linear-gradient(to right, #ff9966, #ff8855);
+  border-radius: 36rpx;
+  box-shadow: 0 8rpx 24rpx rgba(255, 153, 102, 0.3);
+  animation: tagFadeIn 0.3s ease-out 0.2s both;
+}
+
+.tag-text {
+  color: white;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+/* 摘要内容卡片 */
+.content-card {
+  width: 100%;
+  background: white;
+  border-radius: 64rpx;
+  padding: 64rpx;
+  box-shadow: 0 24rpx 64rpx rgba(0, 0, 0, 0.08);
+  animation: contentFadeIn 0.3s ease-out 0.3s both;
+}
+
+.content-text {
+  color: #2a1a4d;
+  font-size: 32rpx;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* 分享按钮 */
+.share-btn {
+  margin-top: 40rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 64rpx 32rpx;
+  background: linear-gradient(to right, #E89B6D, #F3B89A);
+  border-radius: 48rpx;
+  box-shadow: 0 8rpx 24rpx rgba(232, 155, 109, 0.3);
+  transition: box-shadow 0.2s;
+  animation: buttonFadeIn 0.3s ease-out 0.4s both;
+}
+
+.share-btn:active {
+  box-shadow: 0 12rpx 32rpx rgba(232, 155, 109, 0.4);
+  transform: scale(0.95);
+}
+
+.share-icon {
+  color: white;
+  font-size: 40rpx;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.share-text {
+  color: white;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+/* 动画 */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(100rpx);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes tagFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

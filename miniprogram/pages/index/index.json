@@ -1,6 +1,10 @@
 {
-  "navigationBarTitleText": "基础能力",
+  "navigationStyle": "custom",
   "usingComponents": {
-    "cloud-tip-modal": "/components/cloudTipModal/index"
+    "drift-bottle": "../../components/driftBottle/index",
+    "chat-interface": "../../components/chatInterface/index",
+    "create-message-card": "../../components/createMessageCard/index",
+    "fullscreen-chat": "../../components/fullscreenChat/index",
+    "resonance-wall": "../../components/resonanceWall/index"
   }
 }

@@ -1,44 +1,19 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/feed/index",
     "pages/publish/index",
     "pages/profile/index",
-    "pages/index/index",
     "pages/example/index",
     "pages/test/index"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#fef8f3",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#fef8f3",
     "navigationBarTitleText": "夜语",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "color": "#7A7E83",
-    "selectedColor": "#3cc51f",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
-    "list": [
-      {
-        "pagePath": "pages/feed/index",
-        "iconPath": "images/icons/home.png",
-        "selectedIconPath": "images/icons/home-active.png",
-        "text": "共鸣流"
-      },
-      {
-        "pagePath": "pages/publish/index",
-        "iconPath": "images/icons/goods.png",
-        "selectedIconPath": "images/icons/goods-active.png",
-        "text": "发布"
-      },
-      {
-        "pagePath": "pages/profile/index",
-        "iconPath": "images/icons/usercenter.png",
-        "selectedIconPath": "images/icons/usercenter-active.png",
-        "text": "我的"
-      }
-    ]
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2",

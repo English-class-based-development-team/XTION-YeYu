@@ -1,0 +1,205 @@
+/* components/resonanceWall/index.wxss */
+
+/* 模态框容器 */
+.resonance-wall-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  background: linear-gradient(to bottom, #fef8f3, #f5e6dc);
+  overflow: hidden;
+}
+
+/* 背景遮罩 */
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+/* 用户帖子气泡 */
+.user-bubble {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 10;
+  width: 90%;
+  max-width: 640rpx; /* max-w-md = 28rem = 448px × 1.4 ≈ 640rpx */
+}
+
+.user-post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 40rpx;
+}
+
+/* 用户标签气泡 */
+.user-tag-bubble {
+  margin-bottom: 24rpx; /* mb-3 = 12px × 2 */
+  padding: 20rpx 40rpx; /* py-2.5 px-5 = 10px 20px × 2 */
+  background: linear-gradient(to right, #ff9966, #ff8855);
+  border-radius: 36rpx; /* rounded-[18px] = 18px × 2 */
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+.user-tag-text {
+  color: #ffffff;
+  font-size: 28rpx; /* text-sm = 14px × 2 */
+  font-weight: 600; /* font-semibold */
+}
+
+/* 用户内容卡片 */
+.user-content-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 64rpx; /* rounded-[32px] = 32px × 2 */
+  padding: 64rpx; /* p-8 = 32px × 2 */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+}
+
+.user-content-text {
+  color: #2a1a4d;
+  font-size: 32rpx; /* text-base = 16px × 2 */
+  line-height: 1.625; /* leading-relaxed */
+  text-align: center;
+  word-break: break-word;
+}
+
+/* 标题区域 */
+.title-section {
+  position: absolute;
+  top: 64rpx; /* top-8 = 32px × 2 */
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 20;
+  opacity: 0;
+  transform: translateY(-40rpx);
+}
+
+.main-title {
+  display: block;
+  color: #2a1a4d;
+  font-size: 48rpx; /* text-2xl = 24px × 2 */
+  font-weight: 600; /* font-semibold */
+  margin-bottom: 16rpx; /* mb-2 = 8px × 2 */
+}
+
+.subtitle {
+  display: block;
+  color: rgba(42, 26, 77, 0.6); /* text-[#2a1a4d]/60 */
+  font-size: 32rpx; /* text-base = 16px × 2 */
+}
+
+/* 滚动容器 */
+.scroll-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100vh;
+  display: flex;
+  gap: 32rpx; /* gap-4 = 16px × 2 */
+  padding: 0 32rpx; /* px-4 = 16px × 2 */
+}
+
+/* 列布局 */
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx; /* space-y-4 = 16px × 2 */
+}
+
+.right-column {
+  padding-top: 96rpx; /* pt-12 = 48px × 2 */
+}
+
+/* 共鸣卡片 */
+.resonance-card {
+  background: #ffffff;
+  border-radius: 48rpx; /* rounded-[24px] = 24px × 2 */
+  padding: 40rpx; /* p-5 = 20px × 2 */
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15); /* shadow-lg */
+  animation: cardFadeIn 0.4s ease-out;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 卡片头部 */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx; /* mb-3 = 12px × 2 */
+}
+
+/* 标签气泡 */
+.tag-bubble {
+  padding: 12rpx 24rpx; /* px-3 py-1.5 = 12px 6px × 2 */
+  background: linear-gradient(to right, rgba(255, 153, 102, 0.2), rgba(255, 136, 85, 0.2)); /* from-[#ff9966]/20 to-[#ff8855]/20 */
+  border-radius: 999rpx; /* rounded-full */
+}
+
+.tag-text {
+  color: #E89B6D;
+  font-size: 24rpx; /* text-xs = 12px × 2 */
+  font-weight: 600; /* font-semibold */
+}
+
+/* 时间信息 */
+.time-info {
+  display: flex;
+  align-items: center;
+  gap: 8rpx; /* gap-1 = 4px × 2 */
+}
+
+.clock-icon {
+  width: 24rpx; /* w-3 = 12px × 2 */
+  height: 24rpx; /* h-3 = 12px × 2 */
+}
+
+.time-text {
+  color: rgba(42, 26, 77, 0.4); /* text-[#2a1a4d]/40 */
+  font-size: 24rpx; /* text-xs = 12px × 2 */
+}
+
+/* 卡片内容 */
+.card-content {
+  color: #2a1a4d;
+  font-size: 28rpx; /* text-sm = 14px × 2 */
+  line-height: 1.625; /* leading-relaxed */
+  word-break: break-word;
+}
+
+/* 底部提示 */
+.close-hint {
+  position: absolute;
+  bottom: 64rpx; /* bottom-8 = 32px × 2 */
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 20;
+  opacity: 0;
+}
+
+.hint-text {
+  color: rgba(42, 26, 77, 0.6); /* text-[#2a1a4d]/60 */
+  font-size: 28rpx; /* text-sm = 14px × 2 */
+}

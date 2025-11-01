@@ -1,0 +1,96 @@
+<!--components/resonanceWall/index.wxml-->
+<view class="resonance-wall-container" wx:if="{{show}}" catchtouchmove="true">
+  <!-- 背景遮罩 -->
+  <view class="backdrop" bindtap="onBackdropClick"></view>
+
+  <!-- 用户帖子气泡上升动画 -->
+  <view class="user-bubble" animation="{{animationStates.userBubble}}">
+    <view class="user-post">
+      <!-- 用户标签气泡 -->
+      <view class="user-tag-bubble">
+        <text class="user-tag-text">{{userTag}}</text>
+      </view>
+      
+      <!-- 用户内容卡片 -->
+      <view class="user-content-card">
+        <text class="user-content-text">{{userContent}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 标题区域 -->
+  <view class="title-section" animation="{{animationStates.title}}">
+    <text class="main-title">找到了 {{resonances.length}} 个共鸣</text>
+    <text class="subtitle">你的感受被看见了</text>
+  </view>
+
+  <!-- 双列滚动列表 -->
+  <view class="scroll-container" animation="{{animationStates.scrollList}}">
+    <!-- 左列 -->
+    <view class="column left-column">
+      <view 
+        class="resonance-card" 
+        wx:for="{{leftColumn}}" 
+        wx:key="id"
+        wx:for-item="item"
+        wx:for-index="index"
+      >
+        <!-- 标签和时间 -->
+        <view class="card-header">
+          <view class="tag-bubble">
+            <text class="tag-text">{{item.tag}}</text>
+          </view>
+          <view class="time-info">
+            <!-- Clock 图标 -->
+            <view class="clock-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="rgba(42,26,77,0.4)" stroke-width="2"/>
+                <polyline points="12,6 12,12 16,14" stroke="rgba(42,26,77,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </view>
+            <text class="time-text">{{item.timeAgo}}</text>
+          </view>
+        </view>
+        
+        <!-- 内容 -->
+        <text class="card-content">{{item.content}}</text>
+      </view>
+    </view>
+
+    <!-- 右列 -->
+    <view class="column right-column">
+      <view 
+        class="resonance-card" 
+        wx:for="{{rightColumn}}" 
+        wx:key="id"
+        wx:for-item="item"
+        wx:for-index="index"
+      >
+        <!-- 标签和时间 -->
+        <view class="card-header">
+          <view class="tag-bubble">
+            <text class="tag-text">{{item.tag}}</text>
+          </view>
+          <view class="time-info">
+            <!-- Clock 图标 -->
+            <view class="clock-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="rgba(42,26,77,0.4)" stroke-width="2"/>
+                <polyline points="12,6 12,12 16,14" stroke="rgba(42,26,77,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </view>
+            <text class="time-text">{{item.timeAgo}}</text>
+          </view>
+        </view>
+        
+        <!-- 内容 -->
+        <text class="card-content">{{item.content}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="close-hint" animation="{{animationStates.closeHint}}">
+    <text class="hint-text">轻触任意位置返回</text>
+  </view>
+</view>

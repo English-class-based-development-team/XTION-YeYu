@@ -1,0 +1,45 @@
+/* components/sharePrompt/index.wxss */
+
+.share-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx 48rpx;
+  background: linear-gradient(to right, #E89B6D, #F3B89A);
+  border-radius: 40rpx;
+  box-shadow: 0 8rpx 24rpx rgba(232, 155, 109, 0.3);
+  transition: box-shadow 0.2s;
+  animation: sharePromptFadeIn 0.5s ease-out 0.3s both;
+}
+
+.share-prompt:active {
+  box-shadow: 0 12rpx 32rpx rgba(232, 155, 109, 0.4);
+  transform: scale(0.95);
+}
+
+.bottle-icon {
+  width: 56rpx;
+  height: 56rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.share-text {
+  color: white;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: 0.5rpx;
+}
+
+@keyframes sharePromptFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

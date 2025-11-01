@@ -1,5 +1,57 @@
 <!--pages/publish/index.wxml-->
 <view class="container">
-  <text>发布页面</text>
+  <!-- 情绪标签气泡 -->
+  <view class="tag-bubble" bindtap="onTagClick">
+    <text wx:if="{{!isEditingTag}}" class="tag-text">{{tag}}</text>
+    <input 
+      wx:else
+      class="tag-input"
+      value="{{tag}}"
+      bindinput="onTagInput"
+      bindblur="onTagBlur"
+      bindconfirm="onTagConfirm"
+      maxlength="10"
+      confirm-type="done"
+      auto-focus
+    />
+  </view>
+
+  <!-- 文本输入卡片 -->
+  <view class="content-card" bindtap="onContentClick">
+    <!-- 非编辑模式：显示文本 -->
+    <view wx:if="{{!isEditingContent}}" class="content-text-wrapper">
+      <text class="content-text {{content === '点击编辑你想分享的内容...' ? 'placeholder' : ''}}">{{content}}</text>
+    </view>
+    
+    <!-- 编辑模式：显示 textarea -->
+    <textarea
+      wx:else
+      class="content-textarea"
+      value="{{content}}"
+      bindinput="onContentInput"
+      bindblur="onContentBlur"
+      bindfocus="onContentFocus"
+      maxlength="300"
+      placeholder="写下你的感受..."
+      auto-focus
+      show-confirm-bar="{{false}}"
+    />
+    
+    <!-- 字数统计 -->
+    <view wx:if="{{isEditingContent}}" class="content-length">
+      <text class="length-text {{contentLength >= 300 ? 'length-warning' : ''}}">{{contentLength}}/300</text>
+    </view>
+  </view>
+
+  <!-- 发布按钮 -->
+  <button 
+    class="submit-btn {{canSubmit ? '' : 'disabled'}}" 
+    disabled="{{!canSubmit}}"
+    loading="{{isSubmitting}}"
+    bindtap="onSubmit"
+  >
+    <text class="submit-icon" wx:if="{{!isSubmitting}}">➤</text>
+    <text class="submit-text">{{isSubmitting ? '发送中...' : '发送到漂流瓶'}}</text>
+  </button>
 </view>
 

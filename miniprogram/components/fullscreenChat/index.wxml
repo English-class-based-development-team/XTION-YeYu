@@ -1,0 +1,86 @@
+<!--components/fullscreenChat/index.wxml-->
+<view class="fullscreen-chat-container" wx:if="{{show}}" catchtouchmove="true">
+  <!-- 背景遮罩 -->
+  <view class="backdrop" bindtap="onClose"></view>
+  
+  <!-- 内容区域 -->
+  <view class="content">
+    <!-- 头部 -->
+    <view class="header">
+      <view class="header-left">
+        <text class="header-title">Conversation</text>
+        <text class="header-subtitle">Psychology Agent</text>
+      </view>
+      <view class="close-btn" bindtap="onClose">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6 6 18" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m6 6 12 12" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </view>
+    </view>
+
+    <!-- 消息区域 -->
+    <scroll-view 
+      class="messages-container" 
+      scroll-y="true"
+      scroll-top="{{scrollTop}}"
+      scroll-with-animation="true"
+      scroll-into-view="{{scrollToView}}"
+    >
+      <view class="messages-wrapper">
+        <view 
+          class="message-item {{item.isUser ? 'message-user' : 'message-ai'}}"
+          wx:for="{{messages}}" 
+          wx:key="id"
+        >
+          <view class="message-bubble">
+            <text class="message-text">{{item.text}}</text>
+          </view>
+        </view>
+        <view class="messages-end" id="messages-end"></view>
+        <view id="scroll-end"></view>
+      </view>
+    </scroll-view>
+
+    <!-- 输入区域 -->
+    <view class="input-area">
+      <view class="input-wrapper">
+        <!-- SharePrompt 按钮 - 消息 > 3 时显示 -->
+        <view class="share-prompt-wrapper" wx:if="{{messages.length > 3}}">
+          <share-prompt bindclick="onSharePromptClick"></share-prompt>
+        </view>
+
+        <!-- 输入框 -->
+        <view class="input-box">
+          <input
+            class="input-field"
+            type="text"
+            value="{{input}}"
+            placeholder="Type your message..."
+            placeholder-class="input-placeholder"
+            bindinput="onInput"
+            bindconfirm="onConfirm"
+            focus="{{show && messages.length > 0}}"
+          />
+          <view 
+            class="send-btn {{input ? '' : 'disabled'}}"
+            bindtap="onSend"
+          >
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="m22 2-7 20-4-9-9-4 20-7z" fill="white"/>
+              <path d="m22 2-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- EmotionSummaryCard 模态框 -->
+  <emotion-summary-card
+    show="{{showEmotionCard}}"
+    bindclose="onEmotionCardClose"
+    bindshare="onEmotionCardShare"
+    bindstartresonance="onEmotionCardShare"
+  ></emotion-summary-card>
+</view>
