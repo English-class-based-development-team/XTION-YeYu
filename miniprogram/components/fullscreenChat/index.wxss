@@ -9,6 +9,9 @@
   z-index: 50;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; /* 禁止左右滑动 */
+  width: 100%;
+  max-width: 100vw;
 }
 
 .backdrop {
@@ -25,6 +28,8 @@
   flex-direction: column;
   height: 100%;
   background: rgba(255, 255, 255, 0.4);
+  overflow-x: hidden; /* 禁止左右滑动 */
+  width: 100%;
 }
 
 /* 头部 */
