@@ -1,0 +1,119 @@
+/* components/proactiveCare/index.wxss */
+
+.proactive-care {
+  width: 100%;
+  max-width: 1000rpx;
+  margin: 0 auto;
+  padding: 0 40rpx;
+  margin-bottom: 32rpx;
+}
+
+.care-message-container {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 8rpx;
+}
+
+/* 小红心图标 */
+.heart-icon {
+  position: absolute;
+  top: -12rpx;
+  left: -12rpx;
+  width: 48rpx;
+  height: 48rpx;
+  background: linear-gradient(135deg, #ff9966 0%, #ff8855 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(255, 153, 102, 0.3);
+  z-index: 10;
+}
+
+/* 消息气泡 */
+.message-bubble {
+  max-width: 85%;
+  padding: 32rpx 40rpx;
+  background: linear-gradient(135deg, #ffe8d9 0%, #ffd4c0 100%);
+  border-radius: 40rpx 40rpx 40rpx 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.message-text {
+  font-size: 32rpx;
+  line-height: 1.6;
+  color: #2a1a4d;
+}
+
+/* [proactive] 标签样式 */
+.proactive-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff9966 0%, #ff8855 100%);
+  color: white;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  margin-right: 8rpx;
+  font-weight: 600;
+  vertical-align: middle;
+  line-height: 1.2;
+}
+
+/* 进度指示器 */
+.progress-dots {
+  position: absolute;
+  bottom: -32rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12rpx;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 6rpx;
+  background: rgba(255, 153, 102, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  width: 48rpx;
+  background: #ff9966;
+}
+
+/* 动画效果 */
+.care-message-container {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.care-message-container.fade-out {
+  animation: fadeOutDown 0.4s ease-in;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20rpx) scale(0.95);
+  }
+}
+

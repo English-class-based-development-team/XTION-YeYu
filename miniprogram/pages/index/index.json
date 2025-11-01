@@ -5,6 +5,7 @@
     "chat-interface": "../../components/chatInterface/index",
     "create-message-card": "../../components/createMessageCard/index",
     "fullscreen-chat": "../../components/fullscreenChat/index",
-    "resonance-wall": "../../components/resonanceWall/index"
+    "resonance-wall": "../../components/resonanceWall/index",
+    "proactive-care": "../../components/proactiveCare/index"
   }
 }
