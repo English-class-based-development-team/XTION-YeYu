@@ -1,0 +1,110 @@
+<!--components/resonanceDetail/index.wxml-->
+<view class="detail-container" wx:if="{{show}}" catchtouchmove="true">
+  <!-- 关闭按钮 -->
+  <view class="close-btn" bindtap="onClose">
+    <view class="close-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="18" y1="6" x2="6" y2="18" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round"/>
+        <line x1="6" y1="6" x2="18" y2="18" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </view>
+  </view>
+
+  <!-- 可滚动内容 -->
+  <scroll-view class="scroll-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content-wrapper">
+      <!-- 标签气泡 -->
+      <view class="tag-bubble" animation="{{animationStates.tag}}">
+        <text class="tag-text">{{tag}}</text>
+      </view>
+
+      <!-- 主内容气泡 -->
+      <view class="main-content-card" animation="{{animationStates.content}}">
+        <text class="content-text">{{content}}</text>
+        
+        <!-- 时间指示器 -->
+        <view class="time-indicator">
+          <view class="clock-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="rgba(42,26,77,0.4)" stroke-width="2"/>
+              <polyline points="12,6 12,12 16,14" stroke="rgba(42,26,77,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </view>
+          <text class="time-text">{{timeAgo}}</text>
+        </view>
+      </view>
+
+      <!-- 共情按钮 -->
+      <view class="empathy-container" animation="{{animationStates.empathy}}">
+        <button class="empathy-btn {{hasEmpathized ? 'empathized' : ''}}" bindtap="handleEmpathy">
+          <view class="empathy-left">
+            <view class="heart-icon-wrapper {{hasEmpathized ? 'empathized' : ''}}">
+              <view class="heart-icon">
+                <!-- 未共情状态 -->
+                <svg wx:if="{{!hasEmpathized}}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+                    stroke="rgba(42,26,77,0.4)" 
+                    fill="none" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"/>
+                </svg>
+                <!-- 已共情状态 -->
+                <svg wx:else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+                    stroke="#ffffff" 
+                    fill="#ffffff" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"/>
+                </svg>
+              </view>
+            </view>
+            <text class="empathy-text {{hasEmpathized ? 'empathized-text' : ''}}">共情</text>
+          </view>
+          <text class="empathy-count {{hasEmpathized ? 'empathized-count' : ''}}">{{empathyCount}}</text>
+        </button>
+      </view>
+
+      <!-- 评论区域 -->
+      <view class="comments-section" animation="{{animationStates.comments}}">
+        <!-- 评论标题 -->
+        <view class="comments-header">
+          <text class="comments-title">评论 {{comments.length}}</text>
+        </view>
+
+        <!-- 评论输入框 -->
+        <view class="comment-input-wrapper">
+          <input 
+            class="comment-input" 
+            value="{{commentInput}}" 
+            bindinput="onCommentInput"
+            placeholder="写下你的评论..."
+            placeholder-class="comment-placeholder"
+            confirm-type="send"
+            bindconfirm="handleSendComment"
+          />
+          <button 
+            class="send-btn {{!commentInput.trim() ? 'disabled' : ''}}" 
+            bindtap="handleSendComment"
+            disabled="{{!commentInput.trim()}}"
+          >
+            <image class="send-icon" src="/images/icons/send.svg" mode="aspectFit"/>
+          </button>
+        </view>
+
+        <!-- 评论列表 -->
+        <view class="comments-list">
+          <view wx:for="{{comments}}" wx:key="id" class="comment-item">
+            <view class="comment-header">
+              <text class="comment-author">{{item.author}}</text>
+              <text class="comment-time">{{item.timeAgo}}</text>
+            </view>
+            <text class="comment-content">{{item.content}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+

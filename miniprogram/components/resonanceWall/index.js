@@ -31,6 +31,14 @@ Component({
       title: '',
       scrollList: '',
       closeHint: ''
+    },
+    // 是否显示详情页
+    showDetail: false,
+    // 选中的共鸣
+    selectedResonance: {
+      tag: '',
+      content: '',
+      timeAgo: ''
     }
   },
 
@@ -147,15 +155,13 @@ Component({
      * 创建滚动列表动画
      */
     createScrollListAnimation() {
-      const scrollDistance = this.data.resonances.length * 320; // 每个卡片约160rpx高度 × 2
-      const duration = this.data.resonances.length * 2000; // 每个共鸣2秒
-
+      // 只做淡入动画，不再做位移
       const animation = wx.createAnimation({
-        duration: duration,
-        timingFunction: 'linear'
+        duration: 600,
+        timingFunction: 'ease-out'
       });
 
-      animation.translateY(-scrollDistance).step();
+      animation.opacity(1).step();
       
       this.setData({
         'animationStates.scrollList': animation.export()
@@ -194,6 +200,37 @@ Component({
       if (e && e.stopPropagation) {
         e.stopPropagation();
       }
+    },
+
+    /**
+     * 点击共鸣卡片
+     */
+    onResonanceClick(e) {
+      console.log('卡片被点击', e);
+      const item = e.currentTarget.dataset.item;
+      console.log('点击的卡片数据:', item);
+      if (item) {
+        this.setData({
+          selectedResonance: item,
+          showDetail: true
+        }, () => {
+          console.log('详情页状态已更新:', this.data.showDetail, this.data.selectedResonance);
+        });
+      }
+    },
+
+    /**
+     * 关闭详情页
+     */
+    onDetailClose() {
+      this.setData({
+        showDetail: false,
+        selectedResonance: {
+          tag: '',
+          content: '',
+          timeAgo: ''
+        }
+      });
     }
   }
 });
