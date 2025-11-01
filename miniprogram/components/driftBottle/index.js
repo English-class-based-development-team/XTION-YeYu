@@ -11,7 +11,10 @@ Component({
     // 动画相关
     floatAnimation: null,
     waveAnimation: null,
-    particleAnimations: []
+    particleAnimations: [],
+    // 定时器ID存储
+    bottleTimerId: null,
+    waveTimerId: null
   },
 
   lifetimes: {
@@ -19,7 +22,15 @@ Component({
       this.createAnimations();
     },
     detached() {
-      // 清理动画
+      // 清理动画定时器
+      if (this.data.bottleTimerId) {
+        clearTimeout(this.data.bottleTimerId);
+        this.data.bottleTimerId = null;
+      }
+      if (this.data.waveTimerId) {
+        clearTimeout(this.data.waveTimerId);
+        this.data.waveTimerId = null;
+      }
     }
   },
 
@@ -62,7 +73,7 @@ Component({
       });
 
       // 循环动画
-      setTimeout(() => {
+      this.data.bottleTimerId = setTimeout(() => {
         this.animateBottle();
       }, 10000);
     },
@@ -82,7 +93,7 @@ Component({
       });
 
       // 循环动画
-      setTimeout(() => {
+      this.data.waveTimerId = setTimeout(() => {
         this.animateWave();
       }, 7000);
     },
