@@ -47,7 +47,10 @@
     
     <chat-interface 
       messages="{{chatMessages}}"
+      showMessages="{{true}}"
       bindsend="onChatSend"
+      bindmessageupdate="onChatMessageUpdate"
+      bindopenfullscreen="onOpenFullscreenChat"
     ></chat-interface>
   </view>
 
@@ -68,6 +71,7 @@
     username="{{username}}"
     bindclose="onCloseFullscreenChat"
     bindmessagesupdate="onChatMessagesUpdate"
+    bindstartresonance="onStartResonance"
     bindpostpublished="onPostPublished"
   ></fullscreen-chat>
 

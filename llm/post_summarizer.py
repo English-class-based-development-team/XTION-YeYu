@@ -10,8 +10,6 @@ try:
     from .llm_service import LLMService
     from .prompts import (
         SUMMARY_FROM_CONVERSATION_PROMPT,
-        get_summary_from_text_prompt,
-        get_enhance_post_prompt,
         get_greeting_prompt,
         get_proactive_care_prompt,
         FOLLOW_UP_POSITIVE_AFTER_CHAT,
@@ -23,8 +21,6 @@ except ImportError:
     from llm_service import LLMService
     from prompts import (
         SUMMARY_FROM_CONVERSATION_PROMPT,
-        get_summary_from_text_prompt,
-        get_enhance_post_prompt,
         get_greeting_prompt,
         get_proactive_care_prompt,
         FOLLOW_UP_POSITIVE_AFTER_CHAT,
@@ -103,7 +99,7 @@ class PostSummarizer:
     
     def generate_summary_from_text(self, text: str) -> Dict:
         """
-        直接从文本生成总结
+        直接从文本生成总结（现已简化为直接返回原文）
         
         策略：所有文本都经过 LLM 总结，确保生成有意义的摘要
         
@@ -113,83 +109,30 @@ class PostSummarizer:
         Returns:
             包含总结内容的字典
         """
-        # 如果文本太短（少于20字），可能不是完整对话
-        if len(text) < 20:
-            return {
-                'success': True,
-                'summary': text.strip(),
-                'word_count': len(text),
-                'is_original': True,
-                'note': '文本过短，直接返回'
-            }
-        
-        # 所有对话文本都使用 LLM 总结，生成有意义的摘要
-        prompt = get_summary_from_text_prompt(text, max_length=200)
-        
-        print(f"生成总结：文本长度 {len(text)} 字，开始调用 LLM...")
-        
-        response = self.llm.chat(
-            prompt,
-            conversation_history=[],
-            temperature=0.4,
-            max_tokens=250
-        )
-        
-        if not response['success']:
-            # 如果 LLM 失败，截取前 200 字作为降级方案
-            print(f"LLM 总结失败，使用降级方案")
-            return {
-                'success': True,
-                'summary': text[:200].strip(),
-                'word_count': min(len(text), 200),
-                'is_truncated': True,
-                'is_fallback': True
-            }
-        
-        summary = self._clean_summary(response['message'])
-        
-        print(f"LLM 总结成功：{summary[:50]}...")
-        
+        # 直接返回用户输入的文本，不做精炼压缩
         return {
             'success': True,
-            'summary': summary,
-            'word_count': len(summary),
-            'original_length': len(text)
+            'summary': text.strip(),
+            'word_count': len(text),
+            'is_original': True
         }
     
     def enhance_post(self, text: str) -> Dict:
         """
-        优化帖子表达
+        优化帖子表达（已废弃，直接返回原文）
         
         Args:
             text: 原始帖子文本
         
         Returns:
-            优化后的帖子
+            原始帖子（不做优化）
         """
-        prompt = get_enhance_post_prompt(text)
-        
-        response = self.llm.chat(
-            prompt,
-            conversation_history=[],
-            temperature=0.6,
-            max_tokens=250
-        )
-        
-        if not response['success']:
-            return {
-                'success': False,
-                'enhanced_text': text,
-                'is_enhanced': False
-            }
-        
-        enhanced = self._clean_summary(response['message'])
-        
+        # 不再进行优化润色，直接返回原文
         return {
             'success': True,
-            'enhanced_text': enhanced,
+            'enhanced_text': text,
             'original_text': text,
-            'is_enhanced': True
+            'is_enhanced': False
         }
     
     def _format_conversation(self, conversation_history: List[Dict[str, str]]) -> str:
