@@ -131,6 +131,13 @@ async def analyze_emotion(request: EmotionAnalyzeRequest):
     分析文本或对话的情绪信息
     """
     try:
+        # 验证至少提供了 text 或 conversation_id 之一
+        if not request.text and not request.conversation_id:
+            raise HTTPException(
+                status_code=400,
+                detail="必须提供 text 或 conversation_id 参数之一"
+            )
+        
         # 如果提供了对话 ID，分析整个对话
         if request.conversation_id:
             result = emotion_analyzer.analyze_conversation(
@@ -373,20 +380,32 @@ async def generate_greeting(request: GreetingRequest):
         )
         
         if not context:
-            # 没有历史记录，返回通用问候
+            # 没有历史记录，返回通用问候（根据 max_greetings 生成多条）
+            default_greetings = [
+                "你好！很高兴见到你。有什么想聊的吗？",
+                "嗨！今天过得怎么样？",
+                "你好呀！有什么想分享的吗？",
+                "很高兴见到你！最近有什么新鲜事吗？",
+                "你好！我在这里陪你聊天～",
+                "嗨！想聊些什么呢？",
+                "你好呀！今天心情如何？",
+                "很开心见到你！有什么想说的吗？",
+                "你好！随时可以和我聊天哦～",
+                "嗨！我一直在这里等你～"
+            ]
             return GreetingResponse(
-                greetings=["你好！很高兴见到你。有什么想聊的吗？"],
+                greetings=default_greetings[:request.max_greetings],
                 context_posts=[]
             )
         
-        # 生成个性化问候
-        greeting_result = greeting_generator.generate_greeting(
-            user_history=context,
-            username=request.username or "朋友"
-        )
-        
-        # 提取问候语（可能需要多次生成以满足 max_greetings）
-        greetings = [greeting_result['greeting']]
+        # 生成个性化问候（根据 max_greetings 生成多条）
+        greetings = []
+        for _ in range(request.max_greetings):
+            greeting_result = greeting_generator.generate_greeting(
+                user_history=context,
+                username=request.username or "朋友"
+            )
+            greetings.append(greeting_result['greeting'])
         
         # 转换上下文帖子格式
         context_posts = [

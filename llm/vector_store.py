@@ -6,6 +6,7 @@ FAISS 向量存储管理
 
 import os
 import json
+import re
 from typing import List, Dict, Optional, Tuple
 from datetime import datetime
 
@@ -18,6 +19,34 @@ try:
 except ImportError:
     import config
     from embedding_service import get_embedding_service
+
+
+def sanitize_user_id(user_id: str) -> str:
+    """
+    清理和验证 user_id，防止路径遍历攻击
+    
+    只允许字母、数字、下划线和连字符，移除所有其他字符
+    如果清理后为空，则抛出异常
+    
+    Args:
+        user_id: 用户ID字符串
+        
+    Returns:
+        清理后的安全 user_id
+        
+    Raises:
+        ValueError: 如果 user_id 为空或清理后为空
+    """
+    if not user_id:
+        raise ValueError("user_id 不能为空")
+    
+    # 只保留字母、数字、下划线和连字符
+    sanitized = re.sub(r'[^\w\-]', '', user_id)
+    
+    if not sanitized:
+        raise ValueError(f"user_id '{user_id}' 包含非法字符")
+    
+    return sanitized
 
 
 class VectorStore:
@@ -167,9 +196,17 @@ class VectorStoreManager:
         self.embedding_service = get_embedding_service()
 
     def get_user_store(self, user_id: str) -> VectorStore:
-        if user_id not in self.user_stores:
-            self.user_stores[user_id] = VectorStore(os.path.join(self.base_path, f"user_{user_id}"), self.dimension)
-        return self.user_stores[user_id]
+        # 清理 user_id 以防止路径遍历攻击
+        safe_user_id = sanitize_user_id(user_id)
+        
+        if safe_user_id not in self.user_stores:
+            # 使用清理后的 user_id 构建安全的路径
+            user_path = os.path.join(self.base_path, f"user_{safe_user_id}")
+            # 额外验证：确保最终路径在 base_path 下
+            if not os.path.abspath(user_path).startswith(os.path.abspath(self.base_path)):
+                raise ValueError(f"检测到路径遍历攻击: user_id='{user_id}'")
+            self.user_stores[safe_user_id] = VectorStore(user_path, self.dimension)
+        return self.user_stores[safe_user_id]
 
     def add_post_to_global(self, user_id: str, username: str, emotion_tag: str, emotion_intensity: int, content: str, timestamp: str = None) -> int:
         if timestamp is None:
