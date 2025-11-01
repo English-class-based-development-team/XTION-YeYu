@@ -37,6 +37,7 @@
       show="{{showProactiveCare}}"
       userId="{{userId}}"
       username="{{username}}"
+      bindmessageclick="onProactiveCareMessageClick"
     ></proactive-care>
     
     <chat-interface 
@@ -52,8 +53,11 @@
   <create-message-card
     wx:if="{{showCreateMessageCard}}"
     show="{{showCreateMessageCard}}"
+    userId="{{userId}}"
+    username="{{username}}"
     bindclose="onCloseCreateMessageCard"
     bindsend="onCreateMessageSend"
+    bindpostpublished="onPostPublished"
   ></create-message-card>
 
   <!-- FullscreenChat 模态框 -->

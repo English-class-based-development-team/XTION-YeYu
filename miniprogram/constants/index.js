@@ -62,6 +62,38 @@ const CACHE = {
   CACHE_EXPIRE_TIME: 24 * 60 * 60 * 1000, // 24小时
 };
 
+// 情感标签枚举（英文）
+const EMOTION_TAGS = [
+  'happy',      // 快乐
+  'sad',        // 悲伤
+  'anxious',    // 焦虑
+  'angry',      // 愤怒
+  'calm',       // 平静
+  'excited',    // 兴奋
+  'tired',      // 疲惫
+  'confused',   // 困惑
+  'grateful',   // 感恩
+  'lonely',     // 孤独
+  'hopeful',    // 希望
+  'fearful',    // 恐惧
+];
+
+// 情感标签中英文映射
+const EMOTION_TAGS_CN = {
+  'happy': '快乐',
+  'sad': '悲伤',
+  'anxious': '焦虑',
+  'angry': '愤怒',
+  'calm': '平静',
+  'excited': '兴奋',
+  'tired': '疲惫',
+  'confused': '困惑',
+  'grateful': '感恩',
+  'lonely': '孤独',
+  'hopeful': '希望',
+  'fearful': '恐惧',
+};
+
 module.exports = {
   EMOTION,
   TEXT_LIMIT,
@@ -70,5 +102,7 @@ module.exports = {
   ERROR_MESSAGE,
   PAGINATION,
   CACHE,
+  EMOTION_TAGS,
+  EMOTION_TAGS_CN,
 };
 

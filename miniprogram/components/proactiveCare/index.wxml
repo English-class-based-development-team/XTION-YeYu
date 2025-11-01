@@ -9,7 +9,7 @@
     </view>
     
     <!-- 消息气泡 -->
-    <view class="message-bubble">
+    <view class="message-bubble" bindtap="onMessageClick">
       <text class="message-text">{{currentMessage}}</text>
     </view>
     

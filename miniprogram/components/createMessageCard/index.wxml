@@ -9,20 +9,26 @@
 
   <!-- 卡片容器 -->
   <view class="card-container" catchtap="preventClose">
-    <!-- 情绪标签气泡（可编辑） -->
-    <view class="tag-bubble" wx:if="{{!isEditingTag}}" bindtap="onTagClick">
-      <text class="tag-text">{{tag}}</text>
-    </view>
-    <view class="tag-bubble tag-editing" wx:if="{{isEditingTag}}">
-      <input 
-        class="tag-input"
-        value="{{tag}}"
-        focus="{{isEditingTag}}"
-        maxlength="10"
-        bindinput="onTagInput"
-        bindblur="onTagBlur"
-        bindconfirm="onTagConfirm"
-      />
+    <!-- 情绪标签选择器容器 -->
+    <view class="tag-selector-container">
+      <!-- 当前选中的标签气泡 -->
+      <view class="tag-bubble {{isTagSelectorExpanded ? 'expanded' : ''}}" bindtap="onTagBubbleClick">
+        <text class="tag-text">{{tag}}</text>
+        <text class="tag-icon {{isTagSelectorExpanded ? 'rotated' : ''}}">▼</text>
+      </view>
+
+      <!-- 展开的标签列表 -->
+      <view class="tag-options {{isTagSelectorExpanded ? 'show' : ''}}" wx:if="{{isTagSelectorExpanded}}">
+        <view 
+          class="tag-option {{selectedTagIndex === index ? 'selected' : ''}}"
+          wx:for="{{emotionTagsArray}}"
+          wx:key="index"
+          data-index="{{index}}"
+          bindtap="onSelectTag"
+        >
+          <text class="tag-option-text">{{item}}</text>
+        </view>
+      </view>
     </view>
 
     <!-- 内容卡片（可编辑） -->

@@ -323,6 +323,25 @@ Component({
           intervalId: null
         });
       }
+    },
+
+    /**
+     * 点击消息气泡，打开聊天界面
+     */
+    onMessageClick() {
+      const { currentMessage } = this.data;
+      
+      if (!currentMessage) {
+        console.warn('ProactiveCare: 当前没有消息');
+        return;
+      }
+
+      console.log('ProactiveCare: 点击消息气泡，打开聊天界面:', currentMessage);
+
+      // 触发事件，通知父组件打开聊天界面，并传递当前消息
+      this.triggerEvent('messageclick', {
+        message: currentMessage
+      });
     }
   }
 });

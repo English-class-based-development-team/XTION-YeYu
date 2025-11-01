@@ -106,5 +106,14 @@
     "emotion_tag": "happy",
     "emotion_intensity": 6,
     "content": "上周参加了黑客松，整个过程体验很棒，让我感到充实又开心。虽然现在具体细节还没完全理清，但这种投入创造的状态让我很有成就感。"
+  },
+  {
+    "id": 12,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T14:38:24.495827",
+    "emotion_tag": "excited",
+    "emotion_intensity": 4,
+    "content": "我刚刚参加了一场马拉松，十分兴奋！"
   }
 ]

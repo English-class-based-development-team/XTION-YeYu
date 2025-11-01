@@ -17,30 +17,52 @@ page {
 .top-nav {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 32rpx; /* 固定在左侧 */
   z-index: 10;
   display: flex;
-  justify-content: space-between;
-  padding: 48rpx;
+  flex-direction: row; /* 横向排列 */
+  align-items: center; /* 垂直中线对齐 */
+  gap: 16rpx; /* 减小按钮之间的间距，让搜索按钮左移 */
   padding-top: 48rpx;
 }
 
 .nav-button {
-  width: 112rpx; /* w-14 = 56px × 2 */
-  height: 112rpx; /* h-14 = 56px × 2 */
-  background: white;
-  border-radius: 36rpx; /* rounded-[18px] = 18px × 2 */
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  width: 96rpx; /* 圆形按钮默认大小 */
+  height: 96rpx;
+  border-radius: 50%; /* 完全圆形 */
+  box-shadow: 0 4rpx 12rpx rgba(42, 26, 77, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 第一个按钮（Profile）- 深紫灰色，更小 */
+.nav-button:first-child {
+  width: 80rpx; /* 调小个人信息按钮 */
+  height: 80rpx;
+  background: linear-gradient(135deg, #5B5F7E 0%, #4A4E6D 100%);
+}
+
+.nav-button:first-child .nav-icon-image {
+  width: 32rpx; /* 相应调小图标 */
+  height: 32rpx;
+  filter: brightness(0) invert(1); /* 白色图标 */
+}
+
+/* 第二个按钮（Search）- 白色背景 */
+.nav-button:last-child {
+  background: white;
+}
+
+.nav-button:last-child .nav-icon-image {
+  filter: none; /* 保持原色或使用深色 */
+  opacity: 0.7;
 }
 
 .nav-button:active {
-  transform: scale(0.95);
-  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.08);
+  transform: scale(0.92);
+  box-shadow: 0 2rpx 8rpx rgba(42, 26, 77, 0.12);
 }
 
 .nav-icon {
@@ -50,27 +72,29 @@ page {
 }
 
 .nav-icon-image {
-  width: 48rpx; /* 24px × 2 */
-  height: 48rpx; /* 24px × 2 */
+  width: 40rpx; /* 调整图标大小 */
+  height: 40rpx;
 }
 
 /* 标题区域 */
 .header-section {
-  padding: 192rpx 48rpx 48rpx 48rpx; /* pt-24 = 96px × 2 = 192rpx, pb-6 = 24px × 2 = 48rpx, px-6 = 24px × 2 = 48rpx */
+  padding: 240rpx 48rpx 48rpx 48rpx; /* 恢复标准padding */
   text-align: left;
 }
 
 .main-title {
   color: #2a1a4d;
-  font-size: 72rpx; /* text-4xl = 36px × 2 */
+  font-size: 88rpx; /* 增大主标题字号 */
   font-weight: 700;
-  margin-bottom: 8rpx; /* mb-1 = 4px × 2 */
+  margin-bottom: 16rpx; /* 增加间距 */
+  letter-spacing: 2rpx; /* 字间距 */
 }
 
 .subtitle {
-  color: rgba(42, 26, 77, 0.6);
-  font-size: 36rpx; /* text-lg = 18px × 2 */
+  color: rgba(42, 26, 77, 0.5);
+  font-size: 28rpx; /* 减小副标题字号，形成对比 */
   font-weight: 400;
+  letter-spacing: 1rpx;
 }
 
 /* DriftBottle 容器（居中） */

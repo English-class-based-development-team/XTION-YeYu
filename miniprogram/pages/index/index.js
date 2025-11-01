@@ -284,6 +284,40 @@ Page({
   },
 
   /**
+   * ProactiveCare 消息气泡点击
+   * 打开聊天界面，将气泡内容作为第一条AI消息
+   */
+  onProactiveCareMessageClick(e) {
+    const { message } = e.detail;
+    
+    console.log('ProactiveCare 消息被点击:', message);
+    
+    // 隐藏 ProactiveCare
+    this.setData({
+      showProactiveCare: false
+    });
+
+    // 创建 AI 消息（将关怀消息作为第一条AI消息）
+    const aiMessage = {
+      id: Date.now().toString(),
+      role: 'assistant',
+      content: message,
+      isUser: false,
+      text: message
+    };
+
+    // 更新聊天消息列表
+    this.setData({
+      chatMessages: [aiMessage]
+    });
+
+    // 打开全屏聊天
+    this.setData({
+      showFullscreenChat: true
+    });
+  },
+
+  /**
    * Profile 按钮点击
    */
   onProfileClick() {
