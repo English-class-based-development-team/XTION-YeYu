@@ -538,8 +538,8 @@ PORT = 8000
 - `SYSTEM_PROMPT_EMOTION_COMPANION`: 情绪伙伴系统提示词
 - `get_emotion_analysis_prompt()`: 情绪分析提示词
 - `SUMMARY_FROM_CONVERSATION_PROMPT`: 对话总结提示词
-- `get_summary_from_text_prompt()`: 文本总结提示词
 - `get_greeting_prompt()`: 问候语生成提示词
+- `get_proactive_care_prompt()`: 主动关怀消息生成提示词
 - `FOLLOW_UP_*`: 跟进消息模板
 
 ---

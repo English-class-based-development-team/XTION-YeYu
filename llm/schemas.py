@@ -156,6 +156,7 @@ class ProactiveCareRequest(BaseModel):
     user_id: str = Field(..., description="用户 ID")
     username: Optional[str] = Field(None, description="用户名（可选）")
     max_messages: int = Field(8, ge=1, le=10, description="最多生成的关怀消息数量")
+    offset: int = Field(0, ge=0, description="历史记录读取偏移量，用于顺序访问所有历史")
 
 
 class ProactiveCareResponse(BaseModel):

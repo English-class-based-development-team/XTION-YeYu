@@ -492,12 +492,14 @@ async def generate_proactive_care(request: ProactiveCareRequest):
     """
     主动关怀接口
     基于用户历史生成关怀消息列表
+    支持 offset 参数实现顺序访问所有历史记录
     """
     try:
-        # 获取用户历史帖子（从 info_database 目录）
+        # 获取用户历史帖子（从 info_database 目录），使用 offset 顺序访问
         user_history = rag_service.find_user_memories(
             user_id=request.user_id,
-            limit=10  # 获取最近10条帖子用于生成关怀消息
+            limit=10,  # 每次获取10条帖子用于生成关怀消息
+            offset=request.offset  # 使用 offset 顺序读取历史
         )
         
         # 生成关怀消息列表
