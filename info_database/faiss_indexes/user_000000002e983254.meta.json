@@ -1,0 +1,56 @@
+[
+  {
+    "id": 0,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T10:05:26.763305",
+    "emotion_tag": "confused",
+    "emotion_intensity": 6,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 我昨天打篮球了\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  },
+  {
+    "id": 1,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T10:05:27.476382",
+    "emotion_tag": "confused",
+    "emotion_intensity": 6,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 我昨天打篮球了\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  },
+  {
+    "id": 2,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T10:16:14.714220",
+    "emotion_tag": "lonely",
+    "emotion_intensity": 7,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 想听听你的安慰\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  },
+  {
+    "id": 3,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T10:16:15.486158",
+    "emotion_tag": "lonely",
+    "emotion_intensity": 7,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 想听听你的安慰\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  },
+  {
+    "id": 4,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T10:30:27.150169",
+    "emotion_tag": "confused",
+    "emotion_intensity": 7,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 怎么办呢\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  },
+  {
+    "id": 5,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T10:30:37.072652",
+    "emotion_tag": "confused",
+    "emotion_intensity": 7,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 怎么办呢\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  }
+]

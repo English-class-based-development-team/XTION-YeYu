@@ -30,6 +30,18 @@ except ImportError:
     from crud import PostCRUD
     from rag_service import RAGService
 
+# 导入个人信息模块
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+    from info_database.info_api import router as info_router
+    from info_database.scheduler import start_scheduler, get_scheduler
+    INFO_MODULE_AVAILABLE = True
+except ImportError as e:
+    print(f"警告：个人信息模块导入失败: {e}")
+    INFO_MODULE_AVAILABLE = False
+
 app = FastAPI(
     title="情绪记录与共鸣社区 LLM API",
     description="提供对话、情绪分析、共鸣推荐和长期记忆功能",
@@ -44,6 +56,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 挂载个人信息路由
+if INFO_MODULE_AVAILABLE:
+    app.include_router(info_router)
+    print("✓ 个人信息 API 路由已挂载")
 
 # 初始化服务
 llm_service = LLMService()
@@ -466,6 +483,91 @@ async def generate_follow_up(request: FollowUpRequest):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"跟进消息生成失败: {str(e)}")
+
+
+# ==================== 主动关怀端点 ====================
+
+@app.post("/proactive_care", response_model=ProactiveCareResponse)
+async def generate_proactive_care(request: ProactiveCareRequest):
+    """
+    主动关怀接口
+    基于用户历史生成关怀消息列表
+    """
+    try:
+        # 获取用户历史帖子（从 info_database 目录）
+        user_history = rag_service.find_user_memories(
+            user_id=request.user_id,
+            limit=10  # 获取最近10条帖子用于生成关怀消息
+        )
+        
+        # 生成关怀消息列表
+        care_result = greeting_generator.generate_proactive_care_messages(
+            user_history=user_history,
+            username=request.username or "朋友",
+            max_messages=request.max_messages
+        )
+        
+        if not care_result.get('success'):
+            raise HTTPException(status_code=400, detail="关怀消息生成失败")
+        
+        # 转换历史帖子格式
+        context_posts = [
+            PostInfo(
+                user_id=post.get('user_id', request.user_id),
+                username=post.get('username', ''),
+                timestamp=post.get('timestamp', ''),
+                emotion_tag=post.get('emotion_tag', ''),
+                emotion_intensity=post.get('emotion_intensity', 5),
+                content=post.get('content', '')
+            )
+            for post in user_history[:5]  # 只返回最近5条作为上下文
+        ]
+        
+        return ProactiveCareResponse(
+            messages=care_result.get('messages', []),
+            context_posts=context_posts
+        )
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"主动关怀生成失败: {str(e)}")
+@app.on_event("startup")
+async def startup_event():
+    """应用启动时执行"""
+    print("🚀 应用启动中...")
+    
+    # 启动情绪统计定时任务
+    if INFO_MODULE_AVAILABLE:
+        try:
+            start_scheduler()
+            scheduler = get_scheduler()
+            status = scheduler.get_status()
+            print(f"✓ 情绪统计调度器已启动")
+            print(f"  - 任务数: {len(status['jobs'])}")
+            for job in status['jobs']:
+                print(f"    · {job['name']}: 下次运行 {job['next_run_time']}")
+        except Exception as e:
+            print(f"⚠ 情绪统计调度器启动失败: {e}")
+    
+    print("✓ 应用启动完成")
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """应用关闭时执行"""
+    print("🛑 应用关闭中...")
+    
+    # 停止定时任务
+    if INFO_MODULE_AVAILABLE:
+        try:
+            from info_database.scheduler import stop_scheduler
+            stop_scheduler()
+            print("✓ 情绪统计调度器已停止")
+        except Exception as e:
+            print(f"⚠ 情绪统计调度器停止失败: {e}")
+    
+    print("✓ 应用已关闭")
 
 
 if __name__ == "__main__":

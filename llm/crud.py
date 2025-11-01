@@ -184,7 +184,7 @@ class PostCRUD:
         try:
             # 注意：table_name 已在 get_user_table_name 中经过清理，只包含安全字符
             query = text(f"""
-                SELECT user_id, username, timestamp, emotion_tag, emotion_intensity, content
+                SELECT id, user_id, username, timestamp, emotion_tag, emotion_intensity, content
                 FROM {table_name}
                 ORDER BY timestamp DESC
                 LIMIT :limit OFFSET :offset
@@ -195,12 +195,13 @@ class PostCRUD:
             
             for row in result:
                 posts.append({
-                    'user_id': row[0],
-                    'username': row[1],
-                    'timestamp': row[2],
-                    'emotion_tag': row[3],
-                    'emotion_intensity': row[4],
-                    'content': row[5]
+                    'id': row[0],
+                    'user_id': row[1],
+                    'username': row[2],
+                    'timestamp': row[3],
+                    'emotion_tag': row[4],
+                    'emotion_intensity': row[5],
+                    'content': row[6]
                 })
             
             return posts
