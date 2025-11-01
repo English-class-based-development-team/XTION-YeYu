@@ -129,6 +129,7 @@
   padding: 40rpx; /* p-5 = 20px × 2 */
   box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15); /* shadow-lg */
   animation: cardFadeIn 0.4s ease-out;
+  cursor: pointer;
 }
 
 @keyframes cardFadeIn {

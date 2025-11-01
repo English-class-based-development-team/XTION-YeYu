@@ -49,7 +49,10 @@ page {
   justify-content: center;
 }
 
-/* SVG icons are handled by their width/height attributes */
+.nav-icon-image {
+  width: 48rpx; /* 24px × 2 */
+  height: 48rpx; /* 24px × 2 */
+}
 
 /* 标题区域 */
 .header-section {

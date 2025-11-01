@@ -31,6 +31,14 @@ Component({
       title: '',
       scrollList: '',
       closeHint: ''
+    },
+    // 是否显示详情页
+    showDetail: false,
+    // 选中的共鸣
+    selectedResonance: {
+      tag: '',
+      content: '',
+      timeAgo: ''
     }
   },
 
@@ -190,6 +198,33 @@ Component({
      */
     preventClose(e) {
       // 阻止事件冒泡，防止点击内容区域时关闭
+    },
+
+    /**
+     * 点击共鸣卡片
+     */
+    onResonanceClick(e) {
+      const item = e.currentTarget.dataset.item;
+      if (item) {
+        this.setData({
+          selectedResonance: item,
+          showDetail: true
+        });
+      }
+    },
+
+    /**
+     * 关闭详情页
+     */
+    onDetailClose() {
+      this.setData({
+        showDetail: false,
+        selectedResonance: {
+          tag: '',
+          content: '',
+          timeAgo: ''
+        }
+      });
     }
   }
 });
