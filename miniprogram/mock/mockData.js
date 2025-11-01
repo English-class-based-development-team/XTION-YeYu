@@ -36,6 +36,36 @@ function generateMockUsername(index) {
   return `用户${userNumber}`;
 }
 
+// 从 Yeyu_ui_design 导入的真实用户数据
+const realUserData = [
+  { tag: '平静', content: '今天感觉心里很乱，希望能找到一个安静的角落，让自己的思绪沉淀下来。' },
+  { tag: '悲伤', content: '有些话憋在心里太久了，真想找个人好好聊聊，把这些情绪都说出来。' },
+  { tag: '孤独', content: '总觉得没人能真正理解我的感受，这种孤独感让我很难受。' },
+  { tag: '焦虑', content: '最近压力好大，需要一些鼓励和支持，让我知道我不是一个人在战斗。' },
+  { tag: '疲惫', content: '不知道为什么，就是感觉很累，什么都不想做，只想静静待着。' },
+  { tag: '焦虑', content: '对未来感到很迷茫，不知道自己在做什么，该往哪里去。' },
+  { tag: '孤独', content: '有时候真的很需要有人在身边，哪怕什么都不说，只是陪着也好。' },
+  { tag: '困惑', content: '感觉自己像迷失在森林里，找不到出路，希望有人能给我一些指引。' },
+  { tag: '困惑', content: '心里有很多矛盾的感受，不知道该如何处理这些复杂的情绪。' },
+  { tag: '希望', content: '虽然现在很难，但我相信这些经历会让我变得更强大。' },
+  { tag: '悲伤', content: '总是在怀疑自己，觉得自己不够好，不够优秀。' },
+  { tag: '悲伤', content: '今天真的很难过，需要一些温暖的话语来治愈我的心。' },
+  { tag: '孤独', content: '周围有很多人，但还是感觉很孤单，好像没人真正懂我。' },
+  { tag: '希望', content: '不想再这样下去了，想要做出一些改变，让生活变得更好。' },
+  { tag: '快乐', content: '今天终于把压抑已久的情绪都释放出来了，感觉轻松了很多。' },
+  { tag: '希望', content: '虽然很累，但我还是要继续前进，为了更好的自己。' },
+  { tag: '恐惧', content: '害怕未知的事情会发生，但我知道我需要勇敢面对。' },
+  { tag: '感恩', content: '感谢生命中所有的遇见，让我成为更好的自己。' },
+  { tag: '愤怒', content: '有些事情真的让我很生气，但我在学着控制情绪。' },
+  { tag: '兴奋', content: '对明天充满期待，感觉有很多美好的事情在等着我。' },
+  { tag: '平静', content: '今天做了冥想，感觉内心平静了很多，思绪也清晰了。' },
+  { tag: '焦虑', content: '总是担心会出错，这种不安的感觉让我很疲惫。' },
+  { tag: '孤独', content: '深夜里特别想念有人陪伴的感觉，这种孤独真的很难受。' },
+  { tag: '感恩', content: '今天有人主动关心我，让我感到特别温暖和感激。' },
+  { tag: '平静', content: '终于完成了一个大项目，心情特别好！' },
+  { tag: '快乐', content: '和朋友一起玩得很开心，今天过得很充实！' },
+];
+
 // 帖子内容模板（根据不同情绪类型）
 const contentTemplates = {
   兴奋: [
@@ -100,6 +130,45 @@ const contentTemplates = {
     '没有特别的感觉，就是普通的一天。',
     '心情很平静，没什么波动。',
     '今天过得还可以，没什么特别的事情。',
+  ],
+  // 添加与 EMOTION_TAGS_CN 对应的标签
+  快乐: [
+    '今天终于把压抑已久的情绪都释放出来了，感觉轻松了很多。',
+    '和朋友一起玩得很开心，今天过得很充实！',
+    '收到好消息，整个人都兴奋起来了！',
+  ],
+  悲伤: [
+    '有些话憋在心里太久了，真想找个人好好聊聊，把这些情绪都说出来。',
+    '总是在怀疑自己，觉得自己不够好，不够优秀。',
+    '今天真的很难过，需要一些温暖的话语来治愈我的心。',
+  ],
+  愤怒: [
+    '有些事情真的让我很生气，但我在学着控制情绪。',
+  ],
+  疲惫: [
+    '不知道为什么，就是感觉很累，什么都不想做，只想静静待着。',
+  ],
+  困惑: [
+    '感觉自己像迷失在森林里，找不到出路，希望有人能给我一些指引。',
+    '心里有很多矛盾的感受，不知道该如何处理这些复杂的情绪。',
+  ],
+  感恩: [
+    '感谢生命中所有的遇见，让我成为更好的自己。',
+    '今天有人主动关心我，让我感到特别温暖和感激。',
+  ],
+  孤独: [
+    '总觉得没人能真正理解我的感受，这种孤独感让我很难受。',
+    '有时候真的很需要有人在身边，哪怕什么都不说，只是陪着也好。',
+    '周围有很多人，但还是感觉很孤单，好像没人真正懂我。',
+    '深夜里特别想念有人陪伴的感觉，这种孤独真的很难受。',
+  ],
+  希望: [
+    '虽然现在很难，但我相信这些经历会让我变得更强大。',
+    '不想再这样下去了，想要做出一些改变，让生活变得更好。',
+    '虽然很累，但我还是要继续前进，为了更好的自己。',
+  ],
+  恐惧: [
+    '害怕未知的事情会发生，但我知道我需要勇敢面对。',
   ],
 };
 
@@ -181,26 +250,76 @@ function generatePost(index) {
   };
 }
 
+// 标签到情绪值的映射
+const emotionToValenceArousal = {
+  '快乐': { valence: 8, arousal: 7 },
+  '悲伤': { valence: 2, arousal: 4 },
+  '焦虑': { valence: 3, arousal: 8 },
+  '愤怒': { valence: 2, arousal: 9 },
+  '平静': { valence: 7, arousal: 2 },
+  '兴奋': { valence: 9, arousal: 9 },
+  '疲惫': { valence: 3, arousal: 2 },
+  '困惑': { valence: 4, arousal: 5 },
+  '感恩': { valence: 8, arousal: 4 },
+  '孤独': { valence: 2, arousal: 3 },
+  '希望': { valence: 7, arousal: 6 },
+  '恐惧': { valence: 2, arousal: 8 },
+};
+
 // 生成模拟数据列表（至少100条）
 function generateMockData(count = 120) {
   const posts = [];
   
-  // 确保覆盖不同的情绪类型和范围
-  // 前30条：覆盖极端值
-  for (let i = 0; i < 30; i++) {
+  // 前26条：使用来自 Yeyu_ui_design 的真实用户数据
+  for (let i = 0; i < Math.min(realUserData.length, count); i++) {
+    const realData = realUserData[i];
+    const emotionValues = emotionToValenceArousal[realData.tag] || { valence: 5, arousal: 5 };
+    
+    const userId = generateMockUserId(i);
+    const username = generateMockUsername(i);
+    const hoursAgo = i * 2 + Math.floor(Math.random() * 5); // 逐渐增加时间间隔
+    const timestamp = Date.now() - hoursAgo * 60 * 60 * 1000;
+    const likeCount = Math.floor(Math.random() * 30) + 5; // 5-34
+    const commentCount = Math.floor(Math.random() * 4); // 0-3
+    const comments = generateComments(`post_${i}`, commentCount);
+    
+    posts.push({
+      postId: `post_${i}`,
+      userId: userId,
+      username: username,
+      content: realData.content,
+      emotion: realData.tag,
+      emotionValue: emotionValues.valence,
+      arousalValue: emotionValues.arousal,
+      valence: emotionValues.valence,
+      arousal: emotionValues.arousal,
+      timestamp: timestamp,
+      likeCount: likeCount,
+      commentCount: commentCount,
+      comments: comments,
+      isRealUserData: true, // 标记为真实用户数据
+    });
+  }
+  
+  // 剩余部分：使用原有的生成逻辑
+  const startIndex = realUserData.length;
+  
+  // 接下来30条：覆盖极端值
+  for (let i = startIndex; i < Math.min(startIndex + 30, count); i++) {
     let valence, arousal;
-    if (i < 10) {
+    const idx = i - startIndex;
+    if (idx < 10) {
       // 高价度 + 不同唤醒度
       valence = 8 + Math.floor(Math.random() * 3); // 8-10
       arousal = Math.floor(Math.random() * 11); // 0-10
-    } else if (i < 20) {
+    } else if (idx < 20) {
       // 低价度 + 不同唤醒度
       valence = Math.floor(Math.random() * 3); // 0-2
       arousal = Math.floor(Math.random() * 11); // 0-10
     } else {
       // 中价度 + 极端唤醒度
       valence = 4 + Math.floor(Math.random() * 3); // 4-6
-      arousal = i % 2 === 0 ? Math.floor(Math.random() * 3) : 8 + Math.floor(Math.random() * 3); // 0-2 or 8-10
+      arousal = idx % 2 === 0 ? Math.floor(Math.random() * 3) : 8 + Math.floor(Math.random() * 3); // 0-2 or 8-10
     }
     
     const emotion = getEmotionLabel(valence, arousal);
@@ -233,7 +352,7 @@ function generateMockData(count = 120) {
   }
   
   // 剩余随机生成
-  for (let i = 30; i < count; i++) {
+  for (let i = startIndex + 30; i < count; i++) {
     posts.push(generatePost(i));
   }
   
@@ -249,5 +368,7 @@ const mockPosts = generateMockData(120);
 module.exports = {
   mockPosts: mockPosts,
   generateMockData: generateMockData,
+  realUserData: realUserData,
+  emotionToValenceArousal: emotionToValenceArousal,
 };
 

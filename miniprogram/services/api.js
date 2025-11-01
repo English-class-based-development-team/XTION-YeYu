@@ -3,6 +3,9 @@
  * 封装后端 API 调用，统一错误处理
  */
 
+// 导入 mockApi 作为后备方案
+const mockApi = require('./mockApi.js');
+
 // 后端 API 基础地址
 // 注意：微信小程序无法直接访问 localhost，必须使用本机 IP 地址
 // 
@@ -21,6 +24,9 @@ const API_BASE = `http://${LOCAL_IP}:8000`;
 
 // 如果需要使用 localhost（仅在某些环境下可用）
 // const API_BASE = 'http://localhost:8000';
+
+// Mock 模式配置：当后端不可用时是否自动使用 Mock 数据
+const USE_MOCK_FALLBACK = true;
 
 /**
  * 构建 URL 查询字符串
@@ -311,6 +317,48 @@ function getProfileStats(userId) {
   });
 }
 
+// ==================== 搜索相关 API ====================
+
+/**
+ * 搜索漂流瓶内容（带 Mock 回退功能）
+ * @param {String} query - 搜索关键词
+ * @param {Number} limit - 返回数量限制（默认 20）
+ * @param {Number} offset - 偏移量（默认 0）
+ * @returns {Promise} Promise 对象，返回 {posts: [], total: number}
+ */
+async function searchPosts(query, limit = 20, offset = 0) {
+  // 如果启用了 Mock 回退，先尝试后端 API
+  if (USE_MOCK_FALLBACK) {
+    try {
+      const queryString = buildQueryString({ q: query, limit, offset });
+      const result = await request(`/search?${queryString}`, {
+        method: 'GET',
+        timeout: 5000 // 搜索使用较短超时
+      });
+      console.log('使用后端搜索 API');
+      return result;
+    } catch (error) {
+      console.warn('后端搜索 API 不可用，使用 Mock 数据:', error.message);
+      
+      // 使用 mockApi 搜索
+      const mockResult = await mockApi.searchPosts(query, limit, offset);
+      
+      if (mockResult.success) {
+        console.log(`Mock 搜索成功，找到 ${mockResult.data.total} 条结果`);
+        return mockResult.data;
+      } else {
+        throw new Error(mockResult.message || '搜索失败');
+      }
+    }
+  } else {
+    // 不使用 Mock 回退，直接调用后端 API
+    const queryString = buildQueryString({ q: query, limit, offset });
+    return request(`/search?${queryString}`, {
+      method: 'GET'
+    });
+  }
+}
+
 module.exports = {
   // 核心工具
   request,
@@ -330,6 +378,8 @@ module.exports = {
   getUserResonances,
   getSavedConversations,
   getEmotionStats,
-  getProfileStats
+  getProfileStats,
+  // 搜索相关
+  searchPosts
 };
 

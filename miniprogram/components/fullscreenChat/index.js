@@ -411,7 +411,11 @@ Component({
      */
     onEmotionCardShare() {
       const { userId, username } = this.properties;
-      const currentUserId = userId || anonymousId.getAnonymousId();
+      // 确保用户ID格式与个人中心一致（添加 user_ 前缀）
+      let currentUserId = userId || anonymousId.getAnonymousId();
+      if (!currentUserId.startsWith('user_')) {
+        currentUserId = `user_${currentUserId}`;
+      }
       const currentUsername = username || anonymousId.getUserInfo().username || '朋友';
       
       // 获取对话消息

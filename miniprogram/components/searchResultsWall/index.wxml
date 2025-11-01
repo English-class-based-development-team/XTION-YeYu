@@ -1,0 +1,89 @@
+<!--components/searchResultsWall/index.wxml-->
+<view class="wall-container" wx:if="{{show}}" animation="{{animation}}">
+  <!-- Header -->
+  <view class="header-section">
+    <view class="header-content">
+      <!-- 返回按钮 -->
+      <view class="back-btn" bindtap="onBackTap">
+        <image class="back-icon" src="/images/icons/arrow-left.svg" mode="aspectFit"></image>
+      </view>
+
+      <!-- 标题区域 -->
+      <view class="title-area">
+        <text class="title">搜索结果</text>
+        <text class="subtitle">找到 {{results.length}} 个相关共鸣</text>
+      </view>
+
+      <!-- 占位符（用于对齐） -->
+      <view class="spacer"></view>
+    </view>
+  </view>
+
+  <!-- 搜索结果列表 - 双列布局 -->
+  <scroll-view class="results-scroll" scroll-y enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="results-container">
+      <!-- 左列 -->
+      <view class="column left-column">
+        <view 
+          wx:for="{{leftColumn}}" 
+          wx:key="id"
+          class="resonance-card card-enter {{item.animationClass}}"
+          animation="{{item.animation}}"
+          data-item="{{item}}"
+          bindtap="onCardTap"
+        >
+          <!-- 标签和时间 -->
+          <view class="card-header">
+            <view class="tag-bubble">
+              <text class="tag-text">{{item.tag}}</text>
+            </view>
+            <view class="time-info">
+              <image class="clock-icon" src="/images/icons/clock.svg" mode="aspectFit"></image>
+              <text class="time-text">{{item.timeAgo}}</text>
+            </view>
+          </view>
+
+          <!-- 内容 -->
+          <text class="card-content">{{item.content}}</text>
+        </view>
+      </view>
+
+      <!-- 右列 -->
+      <view class="column right-column">
+        <view 
+          wx:for="{{rightColumn}}" 
+          wx:key="id"
+          class="resonance-card card-enter {{item.animationClass}}"
+          animation="{{item.animation}}"
+          data-item="{{item}}"
+          bindtap="onCardTap"
+        >
+          <!-- 标签和时间 -->
+          <view class="card-header">
+            <view class="tag-bubble">
+              <text class="tag-text">{{item.tag}}</text>
+            </view>
+            <view class="time-info">
+              <image class="clock-icon" src="/images/icons/clock.svg" mode="aspectFit"></image>
+              <text class="time-text">{{item.timeAgo}}</text>
+            </view>
+          </view>
+
+          <!-- 内容 -->
+          <text class="card-content">{{item.content}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- Resonance Detail Modal -->
+  <resonance-detail
+    wx:if="{{showDetail}}"
+    show="{{showDetail}}"
+    tag="{{selectedResonance.tag}}"
+    content="{{selectedResonance.content}}"
+    timeAgo="{{selectedResonance.timeAgo}}"
+    bindclose="onDetailClose"
+  ></resonance-detail>
+</view>
+

@@ -204,8 +204,11 @@ Page({
       }
       
       // 处理我的漂流瓶
+      console.log('[DEBUG] 个人中心查询漂流瓶 - userId:', userId);
+      console.log('[DEBUG] 个人中心查询漂流瓶 - bottlesResult:', bottlesResult);
       if (bottlesResult.status === 'fulfilled') {
         const bottlesData = bottlesResult.value;
+        console.log('[DEBUG] 个人中心查询漂流瓶 - bottlesData:', bottlesData);
         if (bottlesData && bottlesData.bottles) {
           // 格式化日期和情绪标签
           const formattedBottles = bottlesData.bottles.map(bottle => ({

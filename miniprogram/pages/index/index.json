@@ -6,6 +6,8 @@
     "create-message-card": "../../components/createMessageCard/index",
     "fullscreen-chat": "../../components/fullscreenChat/index",
     "resonance-wall": "../../components/resonanceWall/index",
-    "proactive-care": "../../components/proactiveCare/index"
+    "proactive-care": "../../components/proactiveCare/index",
+    "search-modal": "../../components/searchModal/index",
+    "search-results-wall": "../../components/searchResultsWall/index"
   }
 }

@@ -6,7 +6,7 @@ CRUD 操作
 from typing import List, Optional
 from datetime import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import desc, text
+from sqlalchemy import desc, text, inspect
 
 try:
     from .models import Post
@@ -93,6 +93,7 @@ class PostCRUD:
         
         # 获取清理后的表名（已通过 _sanitize_user_id 验证，防止 SQL 注入）
         table_name = db_manager.get_user_table_name(user_id)
+        print(f"[DEBUG] create_post_in_user_table: user_id={user_id}, table_name={table_name}")
         
         # 使用原生 SQL 插入（因为是动态表）
         # 注意：table_name 已在 get_user_table_name 中经过清理，只包含安全字符
@@ -175,9 +176,16 @@ class PostCRUD:
         db_manager = get_db_manager()
         # 获取清理后的表名（已通过 _sanitize_user_id 验证，防止 SQL 注入）
         table_name = db_manager.get_user_table_name(user_id)
+        print(f"[DEBUG] get_user_posts_from_private_table: user_id={user_id}, table_name={table_name}")
         
         # 检查表是否存在
         if not db_manager.table_exists(table_name):
+            print(f"[DEBUG] 表不存在: {table_name}")
+            # 列出所有表名以便调试
+            inspector = inspect(db_manager.engine)
+            all_tables = inspector.get_table_names()
+            user_tables = [t for t in all_tables if t.startswith('user_') and t.endswith('_posts')]
+            print(f"[DEBUG] 现有的用户表: {user_tables}")
             return []
         
         db = db_manager.get_session()

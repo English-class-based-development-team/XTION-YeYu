@@ -257,7 +257,11 @@ Component({
 
         // 获取用户信息
         const { userId, username } = this.properties;
-        const currentUserId = userId || anonymousId.getAnonymousId();
+        // 确保用户ID格式与个人中心一致（添加 user_ 前缀）
+        let currentUserId = userId || anonymousId.getAnonymousId();
+        if (!currentUserId.startsWith('user_')) {
+          currentUserId = `user_${currentUserId}`;
+        }
         const currentUsername = username || anonymousId.getUserInfo().username || '朋友';
 
         // 显示加载提示
@@ -267,19 +271,37 @@ Component({
         });
 
         const self = this;
-        const emotionTag = tagEN || 'calm'; // 使用英文标签，默认为 calm
-        const emotionIntensity = Math.round((Math.abs(valence - 5) + Math.abs(arousal - 5)) / 2); // 根据 valence 和 arousal 计算强度
+        
+        // 验证情绪标签是否有效
+        const validEmotionTags = this.data.emotionTags || [];
+        let emotionTag = tagEN && tagEN.trim() ? tagEN.trim() : null;
+        
+        // 如果提供的标签不在有效列表中，设置为 null 让后端自动分析
+        if (emotionTag && !validEmotionTags.includes(emotionTag)) {
+          console.warn('无效的情绪标签:', emotionTag, '将让后端自动分析');
+          emotionTag = null;
+        }
+        
+        // 计算情绪强度，确保至少为 1（后端要求 ge=1, le=10）
+        let emotionIntensity = Math.round((Math.abs(valence - 5) + Math.abs(arousal - 5)) / 2);
+        emotionIntensity = Math.max(1, Math.min(10, emotionIntensity)); // 确保在 1-10 范围内
 
         // 将内容直接发布为帖子保存到数据库
         const postData = {
           user_id: currentUserId,
           username: currentUsername,
           content: content.trim(),
-          emotion_tag: emotionTag,
-          emotion_intensity: emotionIntensity
+          emotion_intensity: emotionIntensity // 确保在 1-10 范围内
         };
+        
+        // 只在有有效标签时添加，如果无效或为空则让后端自动分析
+        if (emotionTag) {
+          postData.emotion_tag = emotionTag;
+        }
 
-        console.log('发送到漂流瓶，保存帖子:', postData);
+        console.log('[DEBUG] 发送到漂流瓶，保存帖子:', postData);
+        console.log('[DEBUG] user_id:', currentUserId);
+        console.log('[DEBUG] username:', currentUsername);
 
         apiService.publishPost(postData)
           .then((publishResult) => {
