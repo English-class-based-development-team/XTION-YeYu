@@ -1,0 +1,83 @@
+[
+  {
+    "id": 0,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T16:40:50.867418",
+    "emotion_tag": "happy",
+    "emotion_intensity": 3,
+    "content": "来玩，很开心"
+  },
+  {
+    "id": 1,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T16:41:09.528112",
+    "emotion_tag": "happy",
+    "emotion_intensity": 3,
+    "content": "开心"
+  },
+  {
+    "id": 2,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T16:43:07.519769",
+    "emotion_tag": "grateful",
+    "emotion_intensity": 6,
+    "content": "伙伴: undefined\n我: 士大夫撒\n伙伴: 看起来你好像随意打了一串字，是心情有些波动吗？我在这里，随时愿意倾听。\n我: 真的嘛，我欣赏你喔"
+  },
+  {
+    "id": 3,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T16:43:08.667490",
+    "emotion_tag": "grateful",
+    "emotion_intensity": 7,
+    "content": "伙伴: undefined\n我: 士大夫撒\n伙伴: 看起来你好像随意打了一串字，是心情有些波动吗？我在这里，随时愿意倾听。\n我: 真的嘛，我欣赏你喔"
+  },
+  {
+    "id": 4,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T16:45:27.190539",
+    "emotion_tag": "excited",
+    "emotion_intensity": 8,
+    "content": "哥哥哥哥哥哥"
+  },
+  {
+    "id": 5,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T16:53:28.820486",
+    "emotion_tag": "excited",
+    "emotion_intensity": 7,
+    "content": "伙伴: undefined\n我: 我特别喜欢黑客松，下次带你一起打黑客松\n伙伴: 哈哈，能感受到你对黑客松的热爱！这种带着伙伴一起投入创作的感觉一定很棒，我期待听你多分享些参赛时的趣事~\n我: 谢谢"
+  },
+  {
+    "id": 6,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T16:53:29.904764",
+    "emotion_tag": "excited",
+    "emotion_intensity": 8,
+    "content": "伙伴: undefined\n我: 我特别喜欢黑客松，下次带你一起打黑客松\n伙伴: 哈哈，能感受到你对黑客松的热爱！这种带着伙伴一起投入创作的感觉一定很棒，我期待听你多分享些参赛时的趣事~\n我: 谢谢"
+  },
+  {
+    "id": 7,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T17:14:38.258549",
+    "emotion_tag": "happy",
+    "emotion_intensity": 6,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 我今天吃了很好的晚饭\n伙伴: 真好呀，一顿美味的晚饭能点亮整个夜晚呢~是尝到了特别惊艳的菜，还是和喜欢的人一起分享的？"
+  },
+  {
+    "id": 8,
+    "user_id": "user_000000005f378ff0",
+    "username": "用户6848",
+    "timestamp": "2025-11-01T17:14:53.743479",
+    "emotion_tag": "happy",
+    "emotion_intensity": 6,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 我今天吃了很好的晚饭\n伙伴: 真好呀，一顿美味的晚饭能点亮整个夜晚呢~是尝到了特别惊艳的菜，还是和喜欢的人一起分享的？"
+  }
+]

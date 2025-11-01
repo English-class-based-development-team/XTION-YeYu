@@ -11,6 +11,9 @@
   align-items: center;
   justify-content: center;
   padding: 0 48rpx; /* 增加左右padding，确保不会被截断 */
+  overflow-x: hidden; /* 禁止左右滑动 */
+  width: 100%;
+  max-width: 100vw;
 }
 
 .backdrop {
