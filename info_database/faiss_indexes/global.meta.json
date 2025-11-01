@@ -6,7 +6,7 @@
     "timestamp": "2025-11-01T09:55:20.737524",
     "emotion_tag": "sad",
     "emotion_intensity": 5,
-    "content": "昨天发烧了，今天好多了"
+    "content": "我: 昨天发烧了，烧到39度，一个人在宿舍躺了一整天\n伙伴: 天啊，39度很严重了！现在感觉好些了吗？\n我: 今天退烧了，但还是头晕。最难受的是没人照顾，连水都是强撑着起来倒的\n伙伴: 一个人生病确实特别难熬。有没有去看医生？\n我: 吃了药，室友也不在。那时候特别想家，想起小时候生病妈妈守着我\n伙伴: 身体不舒服的时候情绪也会特别脆弱。现在好些了就好，记得多休息多喝水"
   },
   {
     "id": 1,
@@ -15,7 +15,7 @@
     "timestamp": "2025-11-01T10:05:26.763305",
     "emotion_tag": "confused",
     "emotion_intensity": 6,
-    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 我昨天打篮球了\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+    "content": "我: 昨天打篮球的时候，队友突然对我发脾气了，我也不知道做错了什么\n伙伴: 这确实让人困惑。当时发生了什么具体的事情吗？\n我: 就是我传球慢了一点，他就说我拖后腿。我已经很努力了，但还是被批评\n伙伴: 听起来你已经尽力了。有时候队友的压力也会影响他们的情绪。你现在感觉怎么样？\n我: 不知道下次还要不要去打球了，感觉自己好像不太适合团队运动\n伙伴: 别急着下结论。一次误会不代表你不适合。要不要试着和队友聊聊，了解他的想法？"
   },
   {
     "id": 2,
@@ -24,7 +24,7 @@
     "timestamp": "2025-11-01T10:05:27.476382",
     "emotion_tag": "confused",
     "emotion_intensity": 6,
-    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 我昨天打篮球了\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+    "content": "我: 打完篮球回来，一直在想今天的失误\n伙伴: 今天打球遇到什么问题了吗？\n我: 有个关键球我没投进，输了整场比赛。队友虽然没说什么，但我能感觉到他们的失望\n伙伴: 输球确实让人难受，但这不是你一个人的责任。篮球是团队运动\n我: 可我觉得如果那个球进了，结果就不一样了。现在一闭眼就是那个瞬间\n伙伴: 这种关键时刻的遗憾确实需要时间消化。你要不要休息一下，明天可能会有不同的感受"
   },
   {
     "id": 3,
@@ -33,7 +33,7 @@
     "timestamp": "2025-11-01T10:16:14.714220",
     "emotion_tag": "lonely",
     "emotion_intensity": 7,
-    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 想听听你的安慰\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+    "content": "我: 今天是我的生日，但好像没什么人记得\n伙伴: 生日快乐！虽然来晚了，但祝福依然真诚。\n我: 谢谢...其实我也没告诉别人，但还是会想，如果有人主动想起来该多好\n伙伴: 这种期待被记住的心情很正常。有没有想过主动和朋友分享这个特殊的日子？\n我: 感觉主动说出来就失去意义了，像是在乞求关注一样\n伙伴: 我理解你的感受。但有时候，让别人知道你的期待，也是一种沟通。你值得被祝福"
   },
   {
     "id": 4,
@@ -42,7 +42,7 @@
     "timestamp": "2025-11-01T10:16:15.486158",
     "emotion_tag": "lonely",
     "emotion_intensity": 7,
-    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 想听听你的安慰\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+    "content": "我: 宿舍里其他人都出去玩了，就我一个人在\n伙伴: 一个人的周末，有时候也是挺不错的放松时光\n我: 可他们都没叫我...我也不知道是不是我做错了什么\n伙伴: 他们没叫你让你觉得被排除在外了吗？\n我: 对，感觉自己好像不属于这个圈子。平时聊天我也插不上话\n伙伴: 融入新环境需要时间。要不要试着找找自己感兴趣的社团或活动？可能会遇到更合拍的朋友"
   },
   {
     "id": 5,
@@ -51,7 +51,7 @@
     "timestamp": "2025-11-01T10:30:27.150169",
     "emotion_tag": "confused",
     "emotion_intensity": 7,
-    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 怎么办呢\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+    "content": "我: 马上就要期末考了，但我完全不知道该怎么复习\n伙伴: 考试压力确实很大。有什么具体让你困扰的吗？\n我: 每科都感觉没学好，不知道从哪里开始。看到室友都复习得井井有条，我更慌了\n伙伴: 一次只专注一件事。不如先列个清单，把需要复习的内容写下来？\n我: 试过了，但写着写着就觉得太多了，根本做不完\n伙伴: 那就先从最重要或最担心的科目开始。一步一步来，不要想着一次解决所有问题"
   },
   {
     "id": 6,
@@ -60,6 +60,60 @@
     "timestamp": "2025-11-01T10:30:37.072652",
     "emotion_tag": "confused",
     "emotion_intensity": 7,
-    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 怎么办呢\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+    "content": "我: 最好的朋友好像跟别人更亲近了\n伙伴: 感觉被冷落了吗？这种感觉确实不好受\n我: 最近看她总是和新来的那个女生一起，午饭也不叫我了\n伙伴: 你有试着和她聊聊这件事吗？\n我: 不敢问，怕她觉得我小气或者太依赖她。但心里就是不舒服\n伙伴: 你的感受是真实的，也值得被表达。友谊需要沟通，也许她并没意识到你的感受"
+  },
+  {
+    "id": 7,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T12:19:14.355186",
+    "emotion_tag": "confused",
+    "emotion_intensity": 7,
+    "content": "我: 看到别人都在实习找工作，我连自己想做什么都不知道\n伙伴: 对未来感到迷茫是很正常的。你有什么感兴趣的方向吗？\n我: 感兴趣的好像都不能当饭吃，现实的又提不起兴趣。感觉怎么选都是错的\n伙伴: 这种两难确实让人焦虑。但人生不是只有一条路，也不需要现在就做完美的决定\n我: 可是时间不等人啊，身边的人都好像有目标，就我在原地打转\n伙伴: 每个人的节奏都不一样。要不要先尝试一些小的探索，看看哪些是真正让你感兴趣的？"
+  },
+  {
+    "id": 8,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T12:19:32.337705",
+    "emotion_tag": "confused",
+    "emotion_intensity": 8,
+    "content": "我: 我好像喜欢上了一个人，但又不确定这是不是喜欢\n伙伴: 能说说是什么让你有这种感觉吗？\n我: 就是会想看到对方，看到对方和别人说话会有点在意。但又怕只是自己想太多\n伙伴: 这些都是很自然的情感信号。你担心什么呢？\n我: 怕表白了被拒绝，连朋友都做不成。但不说出来又憋得难受\n伙伴: 感情确实需要勇气。但无论结果如何，至少你对自己的感受诚实了。要不要再观察一下，确认自己的心意？"
+  },
+  {
+    "id": 9,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T12:42:07.943873",
+    "emotion_tag": "confused",
+    "emotion_intensity": 6,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 你好\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  },
+  {
+    "id": 10,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T12:42:08.583717",
+    "emotion_tag": "confused",
+    "emotion_intensity": 7,
+    "content": "伙伴: undefined\n伙伴: undefined\n伙伴: undefined\n我: 你好\n伙伴: I understand. Let me help you with that. How are you feeling about this situation?"
+  },
+  {
+    "id": 11,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T12:46:27.444519",
+    "emotion_tag": "happy",
+    "emotion_intensity": 6,
+    "content": "上周参加黑客松，整个过程体验很棒，感觉很有收获。这种沉浸式的创造氛围让我充满动力，也从中获得了不少成就感。"
+  },
+  {
+    "id": 12,
+    "user_id": "000000002e983254",
+    "username": "用户6292",
+    "timestamp": "2025-11-01T12:46:28.698316",
+    "emotion_tag": "happy",
+    "emotion_intensity": 6,
+    "content": "上周参加了黑客松，整个过程体验很棒，让我感到充实又开心。虽然现在具体细节还没完全理清，但这种投入创造的状态让我很有成就感。"
   }
 ]
