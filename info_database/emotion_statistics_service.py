@@ -90,10 +90,16 @@ class EmotionStatisticsService:
                 if isinstance(post['timestamp'], str):
                     try:
                         post_date = datetime.fromisoformat(post['timestamp'].replace('Z', '+00:00'))
+                        # 将带时区的datetime转换为naive datetime（去掉时区信息）
+                        if post_date.tzinfo is not None:
+                            post_date = post_date.replace(tzinfo=None)
                     except:
                         continue
                 else:
                     post_date = post['timestamp']
+                    # 确保post_date也是naive datetime
+                    if hasattr(post_date, 'tzinfo') and post_date.tzinfo is not None:
+                        post_date = post_date.replace(tzinfo=None)
                 
                 # 只统计指定时间范围内的数据
                 if post_date < start_date or post_date > end_date:
@@ -143,6 +149,24 @@ class EmotionStatisticsService:
                 
                 week_data.append(day_data)
             
+            # 计算总帖子数（确保datetime比较的一致性）
+            def parse_and_normalize_timestamp(timestamp_str):
+                """解析并标准化时间戳为naive datetime"""
+                try:
+                    dt = datetime.fromisoformat(str(timestamp_str).replace('Z', '+00:00'))
+                    # 去掉时区信息
+                    if dt.tzinfo is not None:
+                        dt = dt.replace(tzinfo=None)
+                    return dt
+                except:
+                    return None
+            
+            total_posts_in_range = sum(
+                1 for p in posts 
+                if (parsed_dt := parse_and_normalize_timestamp(p['timestamp'])) is not None 
+                and start_date <= parsed_dt <= end_date
+            )
+            
             return {
                 'success': True,
                 'user_id': user_id,
@@ -150,7 +174,7 @@ class EmotionStatisticsService:
                 'end_date': end_date.strftime('%Y-%m-%d'),
                 'days': days,
                 'week_data': week_data,
-                'total_posts': len([p for p in posts if start_date <= datetime.fromisoformat(str(p['timestamp']).replace('Z', '+00:00')) <= end_date])
+                'total_posts': total_posts_in_range
             }
             
         except Exception as e:
