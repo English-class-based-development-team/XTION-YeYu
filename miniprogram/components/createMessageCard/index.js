@@ -1,19 +1,38 @@
 // components/createMessageCard/index.js
 const emotionTagMapper = require('../../utils/emotionTagMapper');
 const validator = require('../../utils/validator');
+const { EMOTION_TAGS, EMOTION_TAGS_CN } = require('../../constants/index');
+const apiService = require('../../services/api');
+const anonymousId = require('../../utils/anonymousId');
 
 Component({
   properties: {
     show: {
       type: Boolean,
       value: false
+    },
+    userId: {
+      type: String,
+      value: ''
+    },
+    username: {
+      type: String,
+      value: ''
     }
   },
 
   data: {
     // 情绪标签
     tag: '我的心情',
+    tagEN: '', // 存储英文标签
     isEditingTag: false,
+    isTagSelectorExpanded: false, // 标签选择器是否展开
+    
+    // 情绪标签选择器
+    emotionTags: EMOTION_TAGS,
+    emotionTagsCN: EMOTION_TAGS_CN,
+    emotionTagsArray: EMOTION_TAGS.map(tag => EMOTION_TAGS_CN[tag]),
+    selectedTagIndex: -1,
     
     // 情绪值
     valence: 5,
@@ -72,58 +91,48 @@ Component({
     },
 
     /**
-     * 点击标签进入编辑模式
+     * 点击标签气泡，展开/收起选择器
      */
-    onTagClick() {
+    onTagBubbleClick() {
       this.setData({
-        isEditingTag: true
+        isTagSelectorExpanded: !this.data.isTagSelectorExpanded
       });
     },
 
     /**
-     * 标签输入
+     * 选择某个情绪标签
      */
-    onTagInput(e) {
-      const tag = e.detail.value;
+    onSelectTag(e) {
+      const index = e.currentTarget.dataset.index;
+      const tagEN = this.data.emotionTags[index];
+      const tagCN = this.data.emotionTagsCN[tagEN];
+      
+      console.log('选择情绪标签:', { index, tagEN, tagCN });
       
       // 更新情绪值
-      const { valence, arousal } = emotionTagMapper.mapTagToEmotion(tag);
+      const { valence, arousal } = emotionTagMapper.mapTagToEmotion(tagCN);
       
       this.setData({
-        tag,
-        valence,
-        arousal
-      });
-      
-      this.validateCanSubmit();
-    },
-
-    /**
-     * 标签失焦
-     */
-    onTagBlur() {
-      this.setData({
-        isEditingTag: false
-      });
-    },
-
-    /**
-     * 标签输入确认（Enter键）
-     */
-    onTagConfirm(e) {
-      const tag = e.detail.value;
-      
-      // 更新情绪值
-      const { valence, arousal } = emotionTagMapper.mapTagToEmotion(tag);
-      
-      this.setData({
-        tag,
+        tag: tagCN,
+        tagEN: tagEN,
+        selectedTagIndex: index,
         valence,
         arousal,
-        isEditingTag: false
+        isTagSelectorExpanded: false // 选择后收起
       });
       
       this.validateCanSubmit();
+    },
+
+    /**
+     * 点击标签选择器外部区域，收起选择器
+     */
+    onTagSelectorBackdropClick() {
+      if (this.data.isTagSelectorExpanded) {
+        this.setData({
+          isTagSelectorExpanded: false
+        });
+      }
     },
 
     /**
@@ -200,7 +209,7 @@ Component({
     /**
      * 提交表单
      */
-    async onSubmit() {
+    onSubmit() {
       try {
         // 防止重复提交
         if (this.data.isSubmitting) {
@@ -218,7 +227,7 @@ Component({
         }
 
         // 收集数据
-        const { tag, content, valence, arousal } = this.data;
+        const { tag, content, valence, arousal, tagEN } = this.data;
 
         // 验证数据
         const contentValidation = validator.validateContent(content);
@@ -246,18 +255,82 @@ Component({
           isSubmitting: true
         });
 
-        // 触发发送事件
-        this.triggerEvent('send', {
-          tag: tag.trim(),
-          valence,
-          arousal,
-          content: content.trim()
+        // 获取用户信息
+        const { userId, username } = this.properties;
+        const currentUserId = userId || anonymousId.getAnonymousId();
+        const currentUsername = username || anonymousId.getUserInfo().username || '朋友';
+
+        // 显示加载提示
+        wx.showLoading({
+          title: '正在保存...',
+          mask: true
         });
 
-        // 重置表单
-        setTimeout(() => {
-          this.resetForm();
-        }, 300);
+        const self = this;
+        const emotionTag = tagEN || 'calm'; // 使用英文标签，默认为 calm
+        const emotionIntensity = Math.round((Math.abs(valence - 5) + Math.abs(arousal - 5)) / 2); // 根据 valence 和 arousal 计算强度
+
+        // 将内容直接发布为帖子保存到数据库
+        const postData = {
+          user_id: currentUserId,
+          username: currentUsername,
+          content: content.trim(),
+          emotion_tag: emotionTag,
+          emotion_intensity: emotionIntensity
+        };
+
+        console.log('发送到漂流瓶，保存帖子:', postData);
+
+        apiService.publishPost(postData)
+          .then((publishResult) => {
+            wx.hideLoading();
+
+            if (publishResult && publishResult.post_id) {
+              // 发布成功
+              wx.showToast({
+                title: '已保存为历史记录',
+                icon: 'success',
+                duration: 2000
+              });
+
+              // 触发 postpublished 事件，通知父组件刷新 ProactiveCare
+              self.triggerEvent('postpublished', {
+                postId: publishResult.post_id,
+                summary: content.trim(),
+                emotionTag: emotionTag
+              });
+
+              // 触发发送事件（用于显示共鸣墙）
+              self.triggerEvent('send', {
+                tag: emotionTag,
+                valence,
+                arousal,
+                content: content.trim()
+              });
+
+              // 重置表单
+              setTimeout(() => {
+                self.resetForm();
+              }, 300);
+            } else {
+              throw new Error('保存失败');
+            }
+          })
+          .catch((error) => {
+            console.error('发送到漂流瓶失败:', error);
+            wx.hideLoading();
+            wx.showToast({
+              title: error.message || '操作失败，请重试',
+              icon: 'none',
+              duration: 3000
+            });
+          })
+          .finally(() => {
+            // 重置提交状态
+            self.setData({
+              isSubmitting: false
+            });
+          });
 
       } catch (error) {
         console.error('提交失败：', error);
@@ -267,8 +340,7 @@ Component({
           icon: 'none',
           duration: 2000
         });
-      } finally {
-        // 重置提交状态
+        
         this.setData({
           isSubmitting: false
         });
@@ -281,12 +353,15 @@ Component({
     resetForm() {
       this.setData({
         tag: '我的心情',
+        tagEN: '',
+        selectedTagIndex: -1,
         content: '',
         contentLength: 0,
         valence: 5,
         arousal: 5,
         isEditingTag: false,
         isEditingContent: false,
+        isTagSelectorExpanded: false,
         canSubmit: false
       });
     }

@@ -13,7 +13,7 @@
   margin-bottom: 32rpx;
   max-height: 384rpx;
   overflow: hidden;
-  padding: 0 8rpx;
+  padding: 0 24rpx; /* 增加左右padding，确保气泡不会被截断 */
 }
 
 .message-item {
@@ -31,9 +31,11 @@
 }
 
 .message-bubble {
-  max-width: 80%;
+  max-width: 75%; /* 减小最大宽度，确保不会超出屏幕 */
   padding: 32rpx 40rpx; /* px-5 py-4 = 20px 16px × 2 = 40rpx 32rpx */
   border-radius: 40rpx; /* rounded-[20px] = 20px × 2 = 40rpx */
+  word-wrap: break-word; /* 确保长文本换行 */
+  word-break: break-word;
 }
 
 .message-user .message-bubble {

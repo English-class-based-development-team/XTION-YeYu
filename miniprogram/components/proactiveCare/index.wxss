@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 1000rpx;
   margin: 0 auto;
-  padding: 0 40rpx;
+  padding: 0 48rpx; /* 增加左右padding，确保不会被截断 */
   margin-bottom: 32rpx;
 }
 
@@ -12,7 +12,7 @@
   position: relative;
   display: flex;
   justify-content: flex-start;
-  padding: 0 8rpx;
+  padding: 0;
 }
 
 /* 小红心图标 */
@@ -33,12 +33,21 @@
 
 /* 消息气泡 */
 .message-bubble {
-  max-width: 85%;
+  max-width: 80%; /* 减小最大宽度，确保不会超出屏幕 */
   padding: 32rpx 40rpx;
   background: linear-gradient(135deg, #ffe8d9 0%, #ffd4c0 100%);
   border-radius: 40rpx 40rpx 40rpx 8rpx;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
   position: relative;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  word-wrap: break-word; /* 确保长文本换行 */
+  word-break: break-word;
+}
+
+.message-bubble:active {
+  transform: scale(0.96);
+  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.08);
 }
 
 .message-text {

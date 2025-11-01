@@ -26,6 +26,8 @@ const EMOTION_TAG_MAP = {
   // 高价度 + 中唤醒度
   '高兴': { valence: 7, arousal: 5 },
   '满意': { valence: 7, arousal: 4 },
+  '感恩': { valence: 8, arousal: 4 },
+  '希望': { valence: 7, arousal: 5 },
   
   // 低价度 + 高唤醒度
   '焦虑': { valence: 2, arousal: 9 },
@@ -33,6 +35,7 @@ const EMOTION_TAG_MAP = {
   '紧张': { valence: 3, arousal: 8 },
   '不安': { valence: 2, arousal: 8 },
   '烦躁': { valence: 2, arousal: 7 },
+  '恐惧': { valence: 1, arousal: 8 },
   
   // 低价度 + 低唤醒度
   '沮丧': { valence: 2, arousal: 2 },
@@ -53,6 +56,7 @@ const EMOTION_TAG_MAP = {
   '平淡': { valence: 5, arousal: 2 },
   '无聊': { valence: 4, arousal: 1 },
   '疲倦': { valence: 4, arousal: 2 },
+  '疲惫': { valence: 3, arousal: 2 },
   
   // 默认（中性）
   '中性': { valence: 5, arousal: 5 },

@@ -89,16 +89,15 @@
 .messages-container {
   flex: 1;
   overflow-y: auto;
-  padding: 48rpx 40rpx;
+  padding: 48rpx 48rpx; /* 增加左右padding，确保气泡不会被截断 */
   display: flex;
   justify-content: center;
 }
 
 .messages-wrapper {
-  max-width: 1344rpx; /* max-w-2xl = 672px × 2 = 1344rpx */
+  max-width: 1200rpx; /* 减小最大宽度，为边缘留出更多空间 */
   width: 100%;
   position: relative;
-  left: -30rpx; /* 稍微往左移，视觉上更居中对称 */
 }
 
 .message-item {
@@ -116,9 +115,11 @@
 }
 
 .message-bubble {
-  max-width: 75%;
+  max-width: 70%; /* 减小最大宽度，确保不会超出屏幕 */
   padding: 32rpx 48rpx; /* px-6 py-4 = 24px 16px × 2 = 48rpx 32rpx */
   border-radius: 48rpx; /* rounded-[24px] = 24px × 2 = 48rpx */
+  word-wrap: break-word; /* 确保长文本换行 */
+  word-break: break-word;
 }
 
 .message-user .message-bubble {
@@ -154,7 +155,7 @@
 
 /* 输入区域 */
 .input-area {
-  padding: 48rpx 40rpx;
+  padding: 48rpx 48rpx; /* 增加左右padding，与消息区域保持一致 */
   border-top: 1px solid rgba(42, 26, 77, 0.1);
   background: rgba(255, 255, 255, 0.5);
   display: flex;
@@ -162,13 +163,12 @@
 }
 
 .input-wrapper {
-  max-width: 1344rpx; /* max-w-2xl = 672px × 2 = 1344rpx */
+  max-width: 1200rpx; /* 与消息区域保持一致 */
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 32rpx;
   position: relative;
-  left: -30rpx; /* 稍微往左移，与消息区域对齐 */
 }
 
 .share-prompt-wrapper {
@@ -185,7 +185,7 @@
   padding: 32rpx 48rpx; /* py-4 px-6 = 16px 24px × 2 = 32rpx 48rpx */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
   border: 1px solid rgba(229, 231, 235, 1); /* border-gray-100 */
-  max-width: 900rpx; /* 限制输入框最大宽度，使其更紧凑 */
+  width: 100%; /* 改为100%宽度，让wrapper控制最大宽度 */
   margin: 0 auto; /* 居中显示 */
 }
 
