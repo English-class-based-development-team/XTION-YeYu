@@ -27,7 +27,7 @@ llm/*.pyc
 llm/.pytest_cache/
 
 # FAISS 索引文件
-llm/data/faiss_indexes/
+data/faiss_indexes/
 
 # test 文件
 llm/test
