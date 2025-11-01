@@ -71,8 +71,8 @@ class LLMService:
         payload = {
             "model": self.model,
             "messages": messages,
-            # "temperature": temperature,
-            # "max_tokens": max_tokens
+            "temperature": temperature,
+            "max_tokens": max_tokens
         }
         
         headers = {

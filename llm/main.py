@@ -146,7 +146,7 @@ async def analyze_emotion(request: EmotionAnalyzeRequest):
         return EmotionAnalyzeResponse(
             emotion_tag=result["emotion_tag"],
             emotion_intensity=result["emotion_intensity"],
-            analysis=result.get("analysis")
+            analysis=result.get("reason")
         )
     
     except HTTPException:
