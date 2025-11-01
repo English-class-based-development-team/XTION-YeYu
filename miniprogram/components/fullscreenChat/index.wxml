@@ -1,5 +1,5 @@
 <!--components/fullscreenChat/index.wxml-->
-<view class="fullscreen-chat-container" wx:if="{{show}}" catchtouchmove="true">
+<view class="fullscreen-chat-container" wx:if="{{show}}" catchtouchmove="preventDefault">
   <!-- 背景遮罩 -->
   <view class="backdrop" bindtap="onClose"></view>
   
@@ -26,6 +26,7 @@
       scroll-top="{{scrollTop}}"
       scroll-with-animation="true"
       scroll-into-view="{{scrollToView}}"
+      enable-flex="{{true}}"
     >
       <view class="messages-wrapper">
         <view 
@@ -34,7 +35,7 @@
           wx:key="id"
         >
           <view class="message-bubble">
-            <text class="message-text">{{item.text}}</text>
+            <text class="message-text">{{item.text || item.content}}</text>
           </view>
         </view>
         <view class="messages-end" id="messages-end"></view>
@@ -61,13 +62,16 @@
             bindinput="onInput"
             bindconfirm="onConfirm"
             focus="{{show && messages.length > 0}}"
+            disabled="{{isLoading}}"
           />
           <view 
-            class="send-btn {{input ? '' : 'disabled'}}"
+            class="send-btn {{input && !isLoading ? '' : 'disabled'}}"
             bindtap="onSend"
           >
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="m22 2-7 20-4-9-9-4 20-7z" fill="white"/>
+            <!-- 加载状态显示 -->
+            <view wx:if="{{isLoading}}" class="loading-spinner"></view>
+            <!-- 发送图标 w-5 h-5 = 20px × 2 = 40rpx，使用 lucide-react Send 图标样式 -->
+            <svg wx:else width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="m22 2-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </view>

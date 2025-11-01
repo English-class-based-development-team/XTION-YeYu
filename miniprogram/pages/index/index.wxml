@@ -38,7 +38,10 @@
   <view class="chat-container">
     <chat-interface 
       messages="{{chatMessages}}"
+      showMessages="{{true}}"
       bindsend="onChatSend"
+      bindmessageupdate="onChatMessageUpdate"
+      bindopenfullscreen="onOpenFullscreenChat"
     ></chat-interface>
   </view>
 
@@ -57,6 +60,7 @@
     initialMessages="{{chatMessages}}"
     bindclose="onCloseFullscreenChat"
     bindmessagesupdate="onChatMessagesUpdate"
+    bindstartresonance="onStartResonance"
   ></fullscreen-chat>
 
   <!-- ResonanceWall 模态框 -->

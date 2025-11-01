@@ -27,10 +27,10 @@ Page({
   },
 
   onLoad() {
-    // 获取系统信息
-    const systemInfo = wx.getSystemInfoSync();
+    // 获取窗口信息
+    const windowInfo = wx.getWindowInfo();
     this.setData({
-      statusBarHeight: systemInfo.statusBarHeight || 0
+      statusBarHeight: windowInfo.statusBarHeight || 0
     });
   },
 
@@ -94,13 +94,12 @@ Page({
    * ChatInterface 发送消息
    */
   onChatSend(e) {
-    const { message } = e.detail;
+    const { message, userMessage } = e.detail;
     
-    // 添加用户消息
-    const newMessages = [...this.data.chatMessages, {
-      role: 'user',
-      content: message
-    }];
+    console.log('用户发送消息:', message);
+    
+    // 添加用户消息到消息列表
+    const newMessages = [...this.data.chatMessages, userMessage];
 
     this.setData({
       chatMessages: newMessages
@@ -110,18 +109,29 @@ Page({
     this.setData({
       showFullscreenChat: true
     });
+  },
 
-    // 模拟 AI 回复
-    setTimeout(() => {
-      const aiMessage = {
-        role: 'ai',
-        content: 'I understand. Let me help you with that. How are you feeling about this situation?'
-      };
-      
-      this.setData({
-        chatMessages: [...this.data.chatMessages, aiMessage]
-      });
-    }, 1500);
+  /**
+   * ChatInterface 消息更新（包含 AI 回复）
+   */
+  onChatMessageUpdate(e) {
+    const { messages, newMessage } = e.detail;
+    
+    console.log('消息更新:', newMessage);
+    
+    this.setData({
+      chatMessages: messages
+    });
+  },
+
+  /**
+   * 打开 FullscreenChat（从消息预览点击）
+   */
+  onOpenFullscreenChat() {
+    console.log('打开全屏聊天');
+    this.setData({
+      showFullscreenChat: true
+    });
   },
 
   /**
@@ -141,6 +151,34 @@ Page({
     this.setData({
       chatMessages: messages
     });
+  },
+
+  /**
+   * FullscreenChat 开始共鸣流（从"传播你的共鸣"或"传播这份情感"触发）
+   */
+  onStartResonance(e) {
+    const { tag, content } = e.detail;
+    
+    console.log('Start resonance from conversation:', { tag, content });
+
+    // 保存用户情绪数据
+    // 如果只有tag和content，使用默认的情绪值
+    this.setData({
+      userEmotion: {
+        tag: tag || '我的心情',
+        valence: 5, // 默认中性价度
+        arousal: 5, // 默认中性唤醒度
+        content: content || ''
+      },
+      showFullscreenChat: false // 关闭全屏聊天
+    });
+
+    // 延迟打开 ResonanceWall（与CreateMessageCard逻辑保持一致）
+    setTimeout(() => {
+      this.setData({
+        showResonanceWall: true
+      });
+    }, 300);
   },
 
   /**

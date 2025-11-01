@@ -2,9 +2,9 @@
 
 .chat-interface {
   width: 100%;
-  max-width: 1000rpx;
+  max-width: 1344rpx; /* max-w-2xl = 672px × 2 = 1344rpx */
   margin: 0 auto;
-  padding: 0 40rpx;
+  padding: 0;
   padding-bottom: calc(64rpx + env(safe-area-inset-bottom));
 }
 
@@ -32,18 +32,20 @@
 
 .message-bubble {
   max-width: 80%;
-  padding: 32rpx 40rpx;
-  border-radius: 40rpx;
+  padding: 32rpx 40rpx; /* px-5 py-4 = 20px 16px × 2 = 40rpx 32rpx */
+  border-radius: 40rpx; /* rounded-[20px] = 20px × 2 = 40rpx */
 }
 
 .message-user .message-bubble {
   background: #ff9966;
-  border-radius: 40rpx 40rpx 8rpx 40rpx;
+  color: white; /* text-white */
+  border-radius: 40rpx 40rpx 16rpx 40rpx; /* rounded-[20px] rounded-br-md */
 }
 
 .message-ai .message-bubble {
-  background: #ffe8d9;
-  border-radius: 40rpx 40rpx 40rpx 8rpx;
+  background: #ffe8d9; /* bg-[#ffe8d9] */
+  color: #2a1a4d; /* text-[#2a1a4d] */
+  border-radius: 40rpx 40rpx 40rpx 16rpx; /* rounded-[20px] rounded-bl-md */
 }
 
 .message-text {
@@ -62,17 +64,22 @@
 /* 输入区域 */
 .input-area {
   margin-top: 0;
+  padding: 0 40rpx; /* 保持左右padding */
+  display: flex;
+  justify-content: center; /* 确保输入框居中 */
 }
 
 .input-box {
   display: flex;
   align-items: center;
-  gap: 24rpx;
+  gap: 24rpx; /* gap-3 = 12px × 2 = 24rpx */
   background: white;
-  border-radius: 48rpx;
-  padding: 40rpx 32rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 48rpx; /* rounded-[24px] = 24px × 2 = 48rpx */
+  padding: 32rpx 40rpx; /* py-4 px-5 = 16px 20px × 2 = 32rpx 40rpx */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+  border: 1px solid rgba(229, 231, 235, 1); /* border-gray-100 */
+  max-width: 600rpx; /* 进一步缩小输入框宽度，使其更紧凑 */
+  width: 100%;
 }
 
 .input-field {
@@ -85,27 +92,28 @@
 }
 
 .input-placeholder {
-  color: rgba(42, 26, 77, 0.3);
+  color: rgba(42, 26, 77, 0.3); /* placeholder:text-[#2a1a4d]/30 */
 }
 
 .send-btn {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 40rpx;
+  width: 80rpx; /* w-10 = 40px × 2 = 80rpx */
+  height: 80rpx; /* h-10 = 40px × 2 = 80rpx */
+  border-radius: 40rpx; /* rounded-full = 50% */
   background: #ff9966;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s, opacity 0.2s;
+  transition: background-color 0.2s, opacity 0.2s, transform 0.2s;
 }
 
 .send-btn:active {
-  background: #ff8855;
-  transform: scale(0.95);
+  background: #ff8855; /* hover:bg-[#ff8855] */
+  transform: scale(0.95); /* active:scale-95 */
 }
 
 .send-btn.disabled {
   opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .send-icon {
@@ -113,6 +121,21 @@
   font-size: 40rpx;
   font-weight: 300;
   line-height: 1;
+}
+
+/* 加载动画 */
+.loading-spinner {
+  width: 40rpx;
+  height: 40rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  border-top: 4rpx solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* 动画 */
