@@ -99,15 +99,23 @@
   font-size: 32rpx; /* text-base = 16px × 2 */
 }
 
-/* 滚动容器 */
+/* 滚动容器 - 改为固定高度的可滚动区域 */
 .scroll-container {
   position: absolute;
   left: 0;
   right: 0;
-  top: 100vh;
+  top: 180rpx; /* 标题下方开始 */
+  bottom: 150rpx; /* 底部提示上方结束 */
+  z-index: 30; /* 添加 z-index */
+  opacity: 0; /* 初始隐藏 */
+}
+
+/* 滚动内容包裹器 */
+.scroll-content {
   display: flex;
   gap: 32rpx; /* gap-4 = 16px × 2 */
   padding: 0 32rpx; /* px-4 = 16px × 2 */
+  min-height: 100%; /* 确保可以滚动 */
 }
 
 /* 列布局 */

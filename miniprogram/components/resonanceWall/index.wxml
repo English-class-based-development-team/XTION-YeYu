@@ -25,16 +25,23 @@
   </view>
 
   <!-- 双列滚动列表 -->
-  <view class="scroll-container" animation="{{animationStates.scrollList}}">
-    <!-- 左列 -->
-    <view class="column left-column">
+  <scroll-view 
+    class="scroll-container" 
+    scroll-y="true"
+    enhanced="true"
+    show-scrollbar="{{false}}"
+    animation="{{animationStates.scrollList}}"
+  >
+    <view class="scroll-content">
+      <!-- 左列 -->
+      <view class="column left-column">
       <view 
         class="resonance-card" 
         wx:for="{{leftColumn}}" 
         wx:key="id"
         wx:for-item="item"
         wx:for-index="index"
-        bindtap="onResonanceClick"
+        catchtap="onResonanceClick"
         data-item="{{item}}"
       >
         <!-- 标签和时间 -->
@@ -67,7 +74,7 @@
         wx:key="id"
         wx:for-item="item"
         wx:for-index="index"
-        bindtap="onResonanceClick"
+        catchtap="onResonanceClick"
         data-item="{{item}}"
       >
         <!-- 标签和时间 -->
@@ -91,7 +98,8 @@
         <text class="card-content">{{item.content}}</text>
       </view>
     </view>
-  </view>
+    </view>
+  </scroll-view>
 
   <!-- 底部提示 -->
   <view class="close-hint" animation="{{animationStates.closeHint}}">

@@ -49,6 +49,8 @@ Component({
 
   observers: {
     'show': function(show) {
+      console.log('resonanceDetail show 状态变化:', show);
+      console.log('接收到的数据:', this.properties);
       if (show) {
         this.initData();
         this.startAnimations();
