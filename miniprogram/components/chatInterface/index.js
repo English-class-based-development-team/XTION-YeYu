@@ -1,14 +1,36 @@
 // components/chatInterface/index.js
+const { getAnonymousId } = require('../../utils/anonymousId.js');
+
 Component({
   properties: {
     messages: {
       type: Array,
       value: []
+    },
+    showMessages: {
+      type: Boolean,
+      value: true
     }
   },
 
   data: {
-    input: ''
+    input: '',
+    isLoading: false,
+    userId: null // 缓存用户ID
+  },
+
+  lifetimes: {
+    attached() {
+      // 组件加载时获取用户ID
+      try {
+        const anonymousId = getAnonymousId();
+        this.setData({
+          userId: `user_${anonymousId}`
+        });
+      } catch (e) {
+        console.warn('获取用户ID失败:', e);
+      }
+    }
   },
 
   computed: {
@@ -16,6 +38,12 @@ Component({
     displayMessages() {
       const messages = this.data.messages || [];
       return messages.slice(-2);
+    },
+    
+    // 检查是否有用户消息
+    hasUserMessages() {
+      const messages = this.data.messages || [];
+      return messages.some(msg => msg.role === 'user');
     }
   },
 
@@ -34,16 +62,26 @@ Component({
      */
     onSend() {
       const input = this.data.input.trim();
-      if (!input) return;
+      if (!input || this.data.isLoading) return;
+
+      // 创建用户消息
+      const userMessage = {
+        role: 'user',
+        content: input,
+        text: input, // 兼容fullscreenChat的显示格式
+        id: Date.now().toString(),
+        isUser: true // 兼容fullscreenChat的格式
+      };
 
       // 清空输入框
       this.setData({
         input: ''
       });
 
-      // 触发发送事件
+      // 立即触发发送事件，传递用户消息（跳转到FullscreenChat）
       this.triggerEvent('send', {
-        message: input
+        message: input,
+        userMessage: userMessage
       });
     },
 
@@ -55,11 +93,12 @@ Component({
     },
 
     /**
-     * 点击消息区域（可选：打开全屏聊天）
+     * 点击消息区域（打开全屏聊天）
      */
     onMessagesClick() {
-      // 预留：可以用来打开 FullscreenChat
-      // this.triggerEvent('openfullscreen');
+      if (this.data.messages.length > 0) {
+        this.triggerEvent('openfullscreen');
+      }
     }
   }
 });

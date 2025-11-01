@@ -1,11 +1,16 @@
 <!--components/chatInterface/index.wxml-->
 <view class="chat-interface">
-  <!-- 消息预览区域 - 只显示最后 2 条消息 -->
-  <view class="messages-preview" bindtap="onMessagesClick">
+  <!-- 消息预览区域 - 只在有用户消息且 showMessages 为 true 时显示 -->
+  <view 
+    class="messages-preview" 
+    wx:if="{{showMessages && messages.length > 0}}"
+    bindtap="onMessagesClick"
+  >
     <view 
       class="message-item message-{{item.role}}"
       wx:for="{{messages.slice(-2)}}" 
       wx:key="index"
+      wx:for-item="item"
     >
       <view class="message-bubble">
         <text class="message-text">{{item.content}}</text>
@@ -24,15 +29,16 @@
         placeholder-class="input-placeholder"
         bindinput="onInput"
         bindconfirm="onConfirm"
+        disabled="{{isLoading}}"
       />
       <view 
-        class="send-btn {{input ? '' : 'disabled'}}"
+        class="send-btn {{input && !isLoading ? '' : 'disabled'}}"
         bindtap="onSend"
       >
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="m22 2-7 20-4-9-9-4 20-7z" fill="white"/>
-          <path d="m22 2-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <!-- 加载状态显示 -->
+        <view wx:if="{{isLoading}}" class="loading-spinner"></view>
+        <!-- 发送图标：折纸飞机图标 -->
+        <image wx:else class="send-icon" src="/images/icons/send.svg" mode="aspectFit"></image>
       </view>
     </view>
   </view>

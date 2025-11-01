@@ -1,5 +1,5 @@
 <!--components/fullscreenChat/index.wxml-->
-<view class="fullscreen-chat-container" wx:if="{{show}}" catchtouchmove="true">
+<view class="fullscreen-chat-container" wx:if="{{show}}" catchtouchmove="preventDefault">
   <!-- 背景遮罩 -->
   <view class="backdrop" bindtap="onClose"></view>
   
@@ -7,15 +7,16 @@
   <view class="content">
     <!-- 头部 -->
     <view class="header">
-      <view class="header-left">
-        <text class="header-title">Conversation</text>
-        <text class="header-subtitle">Psychology Agent</text>
-      </view>
-      <view class="close-btn" bindtap="onClose">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6 6 18" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="m6 6 12 12" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+      <view class="header-content">
+        <!-- 返回按钮 -->
+        <view class="back-btn" bindtap="onClose">
+          <image class="back-icon" src="/images/icons/arrow-left.svg" mode="aspectFit"></image>
+        </view>
+        <!-- 标题区域 -->
+        <view class="header-text">
+          <text class="header-title">Conversation</text>
+          <text class="header-subtitle">Psychology Agent</text>
+        </view>
       </view>
     </view>
 
@@ -26,6 +27,7 @@
       scroll-top="{{scrollTop}}"
       scroll-with-animation="true"
       scroll-into-view="{{scrollToView}}"
+      enable-flex="{{true}}"
     >
       <view class="messages-wrapper">
         <view 
@@ -34,7 +36,7 @@
           wx:key="id"
         >
           <view class="message-bubble">
-            <text class="message-text">{{item.text}}</text>
+            <text class="message-text">{{item.text || item.content}}</text>
           </view>
         </view>
         <view class="messages-end" id="messages-end"></view>
@@ -61,15 +63,16 @@
             bindinput="onInput"
             bindconfirm="onConfirm"
             focus="{{show && messages.length > 0}}"
+            disabled="{{isLoading}}"
           />
           <view 
-            class="send-btn {{input ? '' : 'disabled'}}"
+            class="send-btn {{input && !isLoading ? '' : 'disabled'}}"
             bindtap="onSend"
           >
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="m22 2-7 20-4-9-9-4 20-7z" fill="white"/>
-              <path d="m22 2-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <!-- 加载状态显示 -->
+            <view wx:if="{{isLoading}}" class="loading-spinner"></view>
+            <!-- 发送图标：折纸飞机图标 -->
+            <image wx:else class="send-icon" src="/images/icons/send.svg" mode="aspectFit"></image>
           </view>
         </view>
       </view>
