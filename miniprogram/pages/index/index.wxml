@@ -5,20 +5,14 @@
     <!-- 左上角 Profile 按钮 -->
     <view class="nav-button" bindtap="onProfileClick">
       <view class="nav-icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="12" cy="7" r="4" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <image class="nav-icon-image" src="/images/icons/user.svg" mode="aspectFit"></image>
       </view>
     </view>
 
     <!-- 右上角 Search 按钮 -->
     <view class="nav-button" bindtap="onSearchClick">
       <view class="nav-icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="11" cy="11" r="8" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="m21 21-4.35-4.35" stroke="#2a1a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <image class="nav-icon-image" src="/images/icons/search.svg" mode="aspectFit"></image>
       </view>
     </view>
   </view>

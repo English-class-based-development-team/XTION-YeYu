@@ -25,15 +25,24 @@
   </view>
 
   <!-- 双列滚动列表 -->
-  <view class="scroll-container" animation="{{animationStates.scrollList}}">
-    <!-- 左列 -->
-    <view class="column left-column">
+  <scroll-view 
+    class="scroll-container" 
+    scroll-y="true"
+    enhanced="true"
+    show-scrollbar="{{false}}"
+    animation="{{animationStates.scrollList}}"
+  >
+    <view class="scroll-content">
+      <!-- 左列 -->
+      <view class="column left-column">
       <view 
         class="resonance-card" 
         wx:for="{{leftColumn}}" 
         wx:key="id"
         wx:for-item="item"
         wx:for-index="index"
+        catchtap="onResonanceClick"
+        data-item="{{item}}"
       >
         <!-- 标签和时间 -->
         <view class="card-header">
@@ -65,6 +74,8 @@
         wx:key="id"
         wx:for-item="item"
         wx:for-index="index"
+        catchtap="onResonanceClick"
+        data-item="{{item}}"
       >
         <!-- 标签和时间 -->
         <view class="card-header">
@@ -87,10 +98,20 @@
         <text class="card-content">{{item.content}}</text>
       </view>
     </view>
-  </view>
+    </view>
+  </scroll-view>
 
   <!-- 底部提示 -->
   <view class="close-hint" animation="{{animationStates.closeHint}}">
     <text class="hint-text">轻触任意位置返回</text>
   </view>
+
+  <!-- 帖子详情页 -->
+  <resonance-detail
+    show="{{showDetail}}"
+    tag="{{selectedResonance.tag}}"
+    content="{{selectedResonance.content}}"
+    timeAgo="{{selectedResonance.timeAgo}}"
+    bind:close="onDetailClose"
+  />
 </view>

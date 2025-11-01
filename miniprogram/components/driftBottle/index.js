@@ -1,10 +1,7 @@
 // components/driftBottle/index.js
 Component({
   properties: {
-    onClick: {
-      type: Function,
-      value: null
-    }
+    // 移除了 onClick 属性，使用事件机制代替
   },
 
   data: {
