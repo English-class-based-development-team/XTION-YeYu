@@ -32,4 +32,3 @@ data/faiss_indexes/
 # test 文件
 llm/test
 test_data
-info_database/test
